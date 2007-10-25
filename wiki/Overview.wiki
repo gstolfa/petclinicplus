@@ -1,0 +1,19 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+This project aims to serve as a template for J2EE web applications. Several open source frameworks that address common problems/requirements of Java based web development are integrated:
+  * Spring MVC
+  * Spring Webflow
+  * Freemarker
+  * Hibernate/JPA
+  * Acegi
+  * Sitemesh
+
+
+
+= Links =
+
+The following links provide valuable information on this subject:
+  * [http://freemarker.org/docs/pgui_misc_servlet.html]
+  * [http://www.acegisecurity.org/petclinic-tutorial.html]
