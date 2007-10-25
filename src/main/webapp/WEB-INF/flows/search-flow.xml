@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
+
+	<start-state idref="enterCriteria" />
+
+
+	<!-- 
+		Controller controls Action and View.
+		The view is resolved by InternalResourceViewResolver to .../searchCriteria.jsp .
+		The action is a Spring bean named formAction. 
+		formAction in turn is a class of the Spring Framework that referencences
+		a form object (SearchCriteria.java) and a validator (SearchCriteriaValidator.java).
+		The form object corresponds to a JSF backing bean and is populated by the formAction.
+	-->
+	<view-state id="enterCriteria" view="searchCriteria">
+		<render-actions>
+			<action bean="formAction" method="setupForm" />
+		</render-actions>
+		<transition on="search" to="displayResults">
+			<action bean="formAction" method="bindAndValidate" />
+		</transition>
+	</view-state>
+
+	<!-- 
+		Now that we've filled our SearchCriteria object with user submitted values, 
+		we need to pass it to our Phonebook service to actually execute the search. 
+		We could write a custom action to do this, but Spring Web Flow allows us to 
+		directly call methods on any Spring managed bean from inside a Web Flow.
+	-->
+	<view-state id="displayResults" view="searchResults">
+		<render-actions>
+
+			<!-- Business domain object phonebook is defined in service-config.xml -->
+			<bean-action bean="phonebook" method="search">
+
+				<!-- 
+					We pass the "searchCriteria" object found in flow scope as an argument 
+					to the "search" method. It was the form action that put the "searchCriteria" 
+					object into flow scope during the "bindAndValidate" action. 
+				-->
+				<method-arguments>
+					<argument expression="flowScope.searchCriteria" />
+				</method-arguments>
+
+				<!-- 
+					The search results 
+					are put into request scope (the default) under the name "results". 
+					The "searchResults" view will have access to this result list.
+				-->
+				<method-result name="results" />
+			</bean-action>
+		</render-actions>
+		<transition on="newSearch" to="enterCriteria" />
+		<transition on="select" to="browseDetails" />
+	</view-state>
+
+	<!-- 
+		The detail flow "detail-flow" as defined in detail-flow.xml is spawned.
+	-->
+	<subflow-state id="browseDetails" flow="detail-flow">
+
+		<!-- 
+			Mapping data to the subflow happens before the subflow session is started. 
+			Mapping data from the subflow back to the parent flow is done when the subflow 
+			completes and the parent flow session resumes. A model mapper is optional in a subflow state. 
+			If no mapper is specified, no mapping will be done. Input and output mappers effectively 
+			allow you to define an input-output contract for a Web Flow. 
+			Our search flow uses an attribute mapper to map the "id" request 
+			parameter to an "id" input attribute for the subflow. 
+			The String request parameter will also be converted to a long during the mapping process.
+		-->
+		<attribute-mapper>
+			<input-mapper>
+				<mapping source="requestParameters.id" target="id"
+					from="string" to="long" />
+			</input-mapper>
+		</attribute-mapper>
+
+		<!-- 
+			The event signaled from the subflow to continue the parent flow is the id of the end state that 
+			was reached in the subflow.
+		-->
+		<transition on="finish" to="displayResults" />
+	</subflow-state>
+
+	<!-- 
+		Form objects (backing beans) etc. are defined here.
+	-->
+	<import resource="search-flow-beans.xml" />
+
+</flow>
