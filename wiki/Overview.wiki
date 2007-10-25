@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#Petclinic Overview
 
 = Introduction =
 
@@ -10,7 +10,8 @@ This project aims to serve as a template for J2EE web applications. Several open
   * Acegi
   * Sitemesh
 
-
+Petclinic plus is based on the petclinic sample application that is shipped with the
+Spring Framework.
 
 = Links =
 
