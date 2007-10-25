@@ -9,11 +9,19 @@ This ongoing project aims to serve as a template for J2EE web applications. Seve
   * Sitemesh
 
 Petclinic plus is based on the petclinic sample application that is shipped with the
-Spring Framework.
+Spring Framework. To a large extend the project was inspired by Matt Raibles Equinox project which is available at [https://equinox.dev.java.net/].
 
 = Links =
 
 The following links provided valuable information about the above frameworks and integration issues:
+  * [http://www.springframework.org/documentation]
+  * [http://www.hibernate.org/5.html]
   * [http://freemarker.org/docs/pgui_misc_servlet.html]
+  * [http://www.acegisecurity.org/reference.html]
   * [http://www.acegisecurity.org/petclinic-tutorial.html]
+  * [http://fisheye5.cenqua.com/qsearch/equinox/extras?q=*.ftl]
+  * [http://fisheye5.cenqua.com/browse/equinox/pom.xml?r=1.38]
+  * [http://www.opensymphony.com/sitemesh/]
+
+On my way through the framework jungle I stumbled across some known issues:
   * [http://jira.codehaus.org/browse/MECLIPSE-264]
