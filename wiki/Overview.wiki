@@ -1,6 +1,6 @@
 = Introduction =
 
-This project aims to serve as a template for J2EE web applications. Several open source frameworks that address common problems/requirements of Java based web development are integrated:
+This ongoing project aims to serve as a template for J2EE web applications. Several open source frameworks that address common problems/requirements of Java based web development are integrated:
   * Spring MVC
   * Spring Webflow
   * Freemarker
@@ -13,7 +13,7 @@ Spring Framework.
 
 = Links =
 
-The following links provide valuable information on this subject:
+The following links provided valuable information about the above frameworks and integration issues:
   * [http://freemarker.org/docs/pgui_misc_servlet.html]
   * [http://www.acegisecurity.org/petclinic-tutorial.html]
   * [http://jira.codehaus.org/browse/MECLIPSE-264]
