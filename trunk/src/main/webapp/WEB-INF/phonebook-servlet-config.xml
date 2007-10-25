@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 
+		We leave all other dispatcher servlet configuration at its default values. 
+		This implies we will be using a simple BeanNameUrlHandlerMapping to locate 
+		the controller that will handle a request. Consult the Spring Framework reference 
+		documentation for further details on how to configure the dispatcher servlet
+	-->
+
+	<!-- 
+		Exposes web flows for execution at a single request URL.
+		The id of a flow to launch should be passed in by clients using
+		the "_flowId" request parameter:
+		e.g. /phonebook.htm?_flowId=search
+	-->
+	<bean name="/phonebook.htm"
+		class="org.springframework.webflow.executor.mvc.FlowController">
+
+		<!-- 
+			As you can see, the Web Flow controller references a flow executor. 
+			All flow execution management responsabilities will be delegated to that flow executor. 
+			The flow executor is defined in the phonebook-webflow-config.xml application context.
+		-->
+		<property name="flowExecutor" ref="flowExecutor" />
+	</bean>
+
+	<!-- freemarker config -->
+	<bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath"
+			value="/WEB-INF/freemarker/" />
+	</bean>
+	
+	<!--
+		View resolvers can also be configured with ResourceBundles or XML files. If you need
+		different view resolving based on Locale, you have to use the resource bundle resolver.
+	-->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="cache" value="true" />
+		<!-- <property name="prefix" value="/" />-->
+		<property name="suffix" value=".ftl" />
+		<!-- if you want to use the Spring FreeMarker macros, set this property to true -->
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="requestContextAttribute" value="rc"/>
+	</bean>
+	
+	<!-- The file messages.properties resides in classpath. -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages"/>
+    </bean>
+
+</beans>
