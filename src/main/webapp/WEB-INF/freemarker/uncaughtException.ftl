@@ -12,17 +12,22 @@
 	</head>
 
 	<body>
-		<div id="top">&nbsp;</div><br clear="all"><p>&nbsp;</p>
-		
+	
+<H2>Internal error</H2>
+<P>
 
-<H2><@spring.message "welcome"/></H2>
-<P>
-<A href="<c:url value="/findOwners.htm"/>">Find owner</A>
-<P>
-<A href="<c:url value="/vets.htm"/>">Display all veterinarians</A>
-<P>
-<A href="<c:url value="/html/petclinic.html"/>">Tutorial</A>
-<P>
-<A href="<c:url value="/docs/index.html"/>">Documentation</A>
+TODO: Expose bean that exposes details.
 
-<%@ include file="/WEB-INF/jsp/footer.jsp" %>
+<P>
+<BR>
+
+
+
+		<hr>
+		<table style="width:100%"><tr>
+			<td><A href="<@spring.url '/welcome.htm'/>">Home</A></td>
+			<td style="text-align:right;color:silver">PetClinic :: a Spring Framework demonstration</td>
+		</tr></table>
+	
+	</body>
+</html>
