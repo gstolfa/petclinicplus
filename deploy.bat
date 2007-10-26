@@ -1,5 +1,5 @@
 @echo off
-set CATALINA_HOME=c:\Users\Lars\Tools\apache-tomcat-6.0
+set CATALINA_HOME=c:\Users\Lars\Tools\apache-tomcat-5.5
 set PATH=%CATALINA_HOME%\bin;%PATH%
 call mvnjdk5 clean install
 copy /Y target\pcp.war %CATALINA_HOME%\webapps
