@@ -41,7 +41,7 @@
 		    <p>
 		    <b>Type:</b>
 			<BR>
-		    <@bind 'pet.type'/>
+		    <@spring.bind 'pet.type'/>
 	        <select name="${spring.status.expression}">
 		    	<#list types as type>
 		    		<#if type.id == pet.type.id>
