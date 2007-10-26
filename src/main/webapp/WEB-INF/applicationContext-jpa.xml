@@ -46,10 +46,10 @@
 			<bean
 				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 
-				<!-- For Hypersonic DB the value would be HSQL -->
-				<property name="database" value="POSTGRESQL" />
+				<!-- For Hypersonic DB the value would be HSQL, for Postgres POSTGRESQL -->
+				<property name="database" value="MYSQL" />
 				<property name="databasePlatform"
-					value="org.hibernate.dialect.PostgreSQLDialect" />
+					value="org.hibernate.dialect.MySQLInnoDBDialect" />
 				<property name="showSql" value="true" />
 				<property name="generateDdl" value="true" />
 			</bean>

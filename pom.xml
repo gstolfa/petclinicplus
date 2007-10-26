@@ -206,8 +206,12 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
-			<version>3.2.1.ga</version>
+			<version>3.2.5.ga</version>
 			<exclusions>
+				<exclusion>
+					<artifactId>cglib</artifactId>
+					<groupId>cglib</groupId>
+				</exclusion>
 				<exclusion>
 					<artifactId>asm</artifactId>
 					<groupId>asm</groupId>
@@ -216,21 +220,27 @@
 					<artifactId>asm-attrs</artifactId>
 					<groupId>asm</groupId>
 				</exclusion>
-				<exclusion>
-					<artifactId>cglib</artifactId>
-					<groupId>cglib</groupId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
-			<version>3.2.1.ga</version>
+			<version>3.3.0.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>3.3.0.ga</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>3.0.0.ga</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.2.1.ga</version>
+			<version>3.3.1.ga</version>
 		</dependency>
 		<dependency>
 			<groupId>aspectj</groupId>
@@ -295,27 +305,36 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>asm</groupId>
-			<artifactId>asm-all</artifactId>
-			<version>2.2.3</version>
-		</dependency>
+
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>
 			<version>2.1_3</version>
 		</dependency>
+
+		<dependency>
+			<groupId>asm</groupId>
+			<artifactId>asm-all</artifactId>
+			<version>2.2.3</version>
+		</dependency>
 	</dependencies>
+	
+	
 	<properties>
-		<jdbc.url>jdbc.url=jdbc:postgresql://localhost/pcp</jdbc.url>
-		<jdbc.username>postgres</jdbc.username>
-		<jdbc.version>8.2-504.jdbc3</jdbc.version>
-		<jdbc.password>postgres</jdbc.password>
-		<jdbc.groupId>postgresql</jdbc.groupId>
+		<jdbc.url>
+			jdbc:mysql://localhost/pcp?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8
+		</jdbc.url>
+		<jdbc.username>root</jdbc.username>
+		<hibernate.dialect>
+			org.hibernate.dialect.MySQLInnoDBDialect
+		</hibernate.dialect>
+		<jdbc.version>5.0.5</jdbc.version>
+		<jdbc.groupId>mysql</jdbc.groupId>
+		<jdbc.password>root</jdbc.password>
 		<jdbc.driverClassName>
-			org.postgresql.Driver
+			com.mysql.jdbc.Driver
 		</jdbc.driverClassName>
-		<jdbc.artifactId>postgresql</jdbc.artifactId>
+		<jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
 	</properties>
 </project>
 
