@@ -22,6 +22,7 @@ The following links provided valuable information about the above frameworks and
   * [http://fisheye5.cenqua.com/qsearch/equinox/extras?q=*.ftl]
   * [http://fisheye5.cenqua.com/browse/equinox/pom.xml?r=1.38]
   * [http://www.opensymphony.com/sitemesh/]
+  * http://groups.google.com/group/de.comp.lang.java/browse_thread/thread/3988b540b9f5823a/bb614e4782ca1544
 
 On my way through the framework jungle I stumbled across a couple of issues some of which are already known:
   * [http://jira.codehaus.org/browse/MECLIPSE-264]
