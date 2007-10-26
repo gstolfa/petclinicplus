@@ -39,4 +39,4 @@ On my way through the framework jungle I stumbled across a couple of issues some
   
   * http://forum.springframework.org/showthread.php?p=78619
   * http://opensource.atlassian.com/projects/spring/browse/SPR-2596
-  * http://opensource.atlassian.com/projects/spring/browse/SPR-2596
+  * http://forum.springframework.org/archive/index.php/t-36112.html
