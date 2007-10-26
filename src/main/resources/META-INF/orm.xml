@@ -11,7 +11,7 @@
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
 
-	<package>org.springframework.samples.petclinic</package>
+	<package>net.larsbehnke.petclinicplus</package>
 
 	<mapped-superclass class="BaseEntity">
 		<attributes>

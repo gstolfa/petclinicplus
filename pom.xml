@@ -50,7 +50,9 @@
 				<artifactId>maven-jetty-plugin</artifactId>
 				<version>6.1.5</version>
 				<configuration>
-					<contextPath>/pcp</contextPath>
+					<contextPath>
+						/${project.build.finalName}
+					</contextPath>
 					<scanIntervalSeconds>3</scanIntervalSeconds>
 				</configuration>
 			</plugin>
@@ -74,7 +76,7 @@
 					</additionalBuildcommands>
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
-					<wtpversion>2.0</wtpversion>
+					<wtpversion>1.5</wtpversion>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -91,6 +93,11 @@
 		</plugins>
 	</build>
 	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Maven1 Central Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
 		<repository>
 			<id>scriptlandia-repo</id>
 			<name>Scriptlandia Maven2 repository</name>
@@ -172,7 +179,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring</artifactId>
-			<version>2.0.6</version>
+			<version>2.0.7</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>avalon-framework</artifactId>
@@ -199,22 +206,31 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
-			<version>3.2.0.ga</version>
+			<version>3.2.1.ga</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>asm</artifactId>
+					<groupId>asm</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>asm-attrs</artifactId>
+					<groupId>asm</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>cglib</artifactId>
+					<groupId>cglib</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
-			<version>3.2.0.ga</version>
+			<version>3.2.1.ga</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.2.0.ga</version>
-		</dependency>
-		<dependency>
-			<groupId>c3p0</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>0.9.1</version>
+			<version>3.2.1.ga</version>
 		</dependency>
 		<dependency>
 			<groupId>aspectj</groupId>
@@ -222,14 +238,19 @@
 			<version>1.5.3</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-mock</artifactId>
-			<version>2.0.6</version>
+			<groupId>aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.5.3</version>
 		</dependency>
 		<dependency>
-			<groupId>hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.7</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-mock</artifactId>
+			<version>2.0.7</version>
+		</dependency>
+		<dependency>
+			<groupId>${jdbc.groupId}</groupId>
+			<artifactId>${jdbc.artifactId}</artifactId>
+			<version>${jdbc.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.acegisecurity</groupId>
@@ -274,7 +295,27 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
+		<dependency>
+			<groupId>asm</groupId>
+			<artifactId>asm-all</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.1_3</version>
+		</dependency>
 	</dependencies>
+	<properties>
+		<jdbc.url>jdbc.url=jdbc:postgresql://localhost/pcp</jdbc.url>
+		<jdbc.username>postgres</jdbc.username>
+		<jdbc.version>8.2-504.jdbc3</jdbc.version>
+		<jdbc.password>postgres</jdbc.password>
+		<jdbc.groupId>postgresql</jdbc.groupId>
+		<jdbc.driverClassName>
+			org.postgresql.Driver
+		</jdbc.driverClassName>
+		<jdbc.artifactId>postgresql</jdbc.artifactId>
+	</properties>
 </project>
 

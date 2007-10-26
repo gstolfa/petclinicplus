@@ -2,6 +2,8 @@
 
 <project name="setupDB" basedir="." default="all">
 
+  <property file="build.properties"/>
+
   <target name="dropHSQLTables">
 
 		<echo message="DROP TABLES USING: ${db.driver} ${db.url}"/>
@@ -10,11 +12,11 @@
          url="${db.url}"
          userid="${db.user}"
          password="${db.pw}"
-         onerror="continue">  
+         onerror="continue">
 
 			<classpath>
-				<fileset dir="${spring.root}/lib">
-					<include name="hsqldb/hsqldb.jar"/>
+				<fileset dir="${db.driver.location}">
+					<include name="*.jar"/>
 				</fileset>
 			</classpath>
 
@@ -39,11 +41,11 @@
          url="${db.url}"
          userid="${db.user}"
          password="${db.pw}"
-         onerror="continue">  
+         onerror="continue">
 
 			<classpath>
-				<fileset dir="${spring.root}/lib">
-					<include name="hsqldb/hsqldb.jar"/>
+				<fileset dir="${db.driver.location}">
+					<include name="*.jar"/>
 				</fileset>
 			</classpath>
 
@@ -115,11 +117,12 @@
     <sql driver="${db.driver}"
          url="${db.url}"
          userid="${db.user}"
-         password="${db.pw}">  
+         password="${db.pw}">
+
 
 			<classpath>
-				<fileset dir="${spring.root}/lib">
-					<include name="hsqldb/hsqldb.jar"/>
+				<fileset dir="${db.driver.location}">
+					<include name="*.jar"/>
 				</fileset>
 			</classpath>
 
@@ -145,9 +148,10 @@
          userid="${db.user}"
          password="${db.pw}"  >
 
+
 			<classpath>
-				<fileset dir="${spring.root}/lib">
-					<include name="hsqldb/hsqldb.jar"/>
+				<fileset dir="${db.driver.location}">
+					<include name="*.jar"/>
 				</fileset>
 			</classpath>
 
@@ -211,5 +215,5 @@
 
 
   <target name="all" depends="dropHSQLTables,createHSQLTables,emptyTables,populateTables"/>
-    
+
 </project>
