@@ -22,7 +22,7 @@
 	<!-- ========================= MAPPING DEFINITIONS ========================= -->
 
 	<!--
-		This bean is an explicit URL mapper that is used by the "petclinic" DispatcherServlet
+		This bean is an explicit URL mapper that is used by the "petclinicplus" DispatcherServlet
 		It is used instead of the default BeanNameUrlHandlerMapping.
 	-->
 	<bean id="urlMapping"

@@ -16,7 +16,8 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 /**
  * JavaBean abstract base class for petclinic-aware form controllers.
- * Provides convenience methods for subclasses.
+ * Provides convenience methods and common functionality for subclasses.
+ * Furthermore, custom editors are set up.
  *
  * @author Ken Krebs
  */

@@ -109,7 +109,7 @@
 		of all DispatcherServlet contexts.
 	-->
 	<servlet>
-		<servlet-name>petclinic</servlet-name>
+		<servlet-name>dipatcher</servlet-name>
 		<servlet-class>
 			org.springframework.web.servlet.DispatcherServlet
 		</servlet-class>
@@ -125,7 +125,7 @@
 		NOTE: A single dispatcher can be mapped to multiple paths, like any servlet.
 	-->
 	<servlet-mapping>
-		<servlet-name>petclinic</servlet-name>
+		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.htm</url-pattern>
 	</servlet-mapping>
 

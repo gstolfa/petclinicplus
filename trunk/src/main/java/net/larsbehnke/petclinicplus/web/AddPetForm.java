@@ -21,9 +21,15 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class AddPetForm extends AbstractClinicForm {
 
+	/**
+	 * Creates and initializes the form. The command name is set. This name must
+	 * be used in the form (JSP, Freemarker page etc.) when binding the command
+	 * object.
+	 */
 	public AddPetForm() {
 		setCommandName("pet");
-		// need a session to hold the formBackingObject
+		
+		/* need a session to hold the formBackingObject */
 		setSessionForm(true);
 	}
 
@@ -33,6 +39,13 @@ public class AddPetForm extends AbstractClinicForm {
 		return refData;
 	}
 
+	/**
+	 * This method returns the command object that is populated with request parameters / input field values.
+	 * An alternative (yet less flexible) way to register an command is calling <code>setCommandClass()</code> 
+	 * from the controller's constructor.
+	 * 
+	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+	 */
 	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
 		Owner owner = getClinic().loadOwner(ServletRequestUtils.getRequiredIntParameter(request, "ownerId"));
 		Pet pet = new Pet();
