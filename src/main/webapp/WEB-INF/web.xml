@@ -109,7 +109,7 @@
 		of all DispatcherServlet contexts.
 	-->
 	<servlet>
-		<servlet-name>dipatcher</servlet-name>
+		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>
 			org.springframework.web.servlet.DispatcherServlet
 		</servlet-class>
