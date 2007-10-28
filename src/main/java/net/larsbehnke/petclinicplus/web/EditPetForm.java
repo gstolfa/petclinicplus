@@ -14,34 +14,56 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * JavaBean Form controller that is used to edit an existing <code>Pet</code>.
- *
+ * 
  * @author Ken Krebs
  */
 public class EditPetForm extends AbstractClinicForm {
 
+	/**
+	 * Creates and initializes the form controller. The command name is set.
+	 * This name must be used in the form (JSP, Freemarker page etc.) when
+	 * binding the command object. The command is created in the
+	 * <code>formBackingObject()</code> method.
+	 */
 	public EditPetForm() {
 		setCommandName("pet");
-		// need a session to hold the formBackingObject
+		
+		/* need a session to hold the formBackingObject */
 		setSessionForm(true);
-		// initialize the form from the formBackingObject
+		
+		/* initialize the form from the formBackingObject */
 		setBindOnNewForm(true);
 	}
 
-	protected Map referenceData(HttpServletRequest request) throws ServletException {
+	protected Map referenceData(HttpServletRequest request)
+			throws ServletException {
 		Map refData = new HashMap();
 		refData.put("types", getClinic().getPetTypes());
 		return refData;
 	}
 
-	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+	/**
+	 * This method returns the command object that is populated with request
+	 * parameters / input field values. An alternative (yet less flexible) way
+	 * to register an command is calling <code>setCommandClass()</code> from
+	 * the controller's constructor.
+	 * 
+	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+	 */
+	protected Object formBackingObject(HttpServletRequest request)
+			throws ServletException {
 		// get the Pet referred to by id in the request
-		return getClinic().loadPet(ServletRequestUtils.getRequiredIntParameter(request, "petId"));
+		return getClinic().loadPet(
+				ServletRequestUtils.getRequiredIntParameter(request, "petId"));
 	}
 
-	protected void onBind(HttpServletRequest request, Object command) throws ServletException {
+	protected void onBind(HttpServletRequest request, Object command)
+			throws ServletException {
 		Pet pet = (Pet) command;
-		int typeId = ServletRequestUtils.getRequiredIntParameter(request, "typeId");
-		pet.setType((PetType) EntityUtils.getById(getClinic().getPetTypes(), PetType.class, typeId));
+		int typeId = ServletRequestUtils.getRequiredIntParameter(request,
+				"typeId");
+		pet.setType((PetType) EntityUtils.getById(getClinic().getPetTypes(),
+				PetType.class, typeId));
 	}
 
 	/** Method updates an existing Pet */
@@ -49,7 +71,8 @@ public class EditPetForm extends AbstractClinicForm {
 		Pet pet = (Pet) command;
 		// delegate the update to the business layer
 		getClinic().storePet(pet);
-		return new ModelAndView(getSuccessView(), "ownerId", pet.getOwner().getId());
+		return new ModelAndView(getSuccessView(), "ownerId", pet.getOwner()
+				.getId());
 	}
 
 }
