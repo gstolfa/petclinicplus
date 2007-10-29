@@ -1,3 +1,4 @@
+#labels Phase-Design
 = Introduction =
 
 This ongoing project aims to serve as a template for J2EE web applications. Several open source frameworks that address common problems/requirements of Java based web development are integrated:
@@ -31,7 +32,7 @@ On my way through the framework jungle I stumbled across a couple of issues some
 
   * http://jira.codehaus.org/browse/MECLIPSE-264
 
-== Security
+== Security ==
 
   * http://opensource.atlassian.com/projects/spring/browse/SEC-556
 
