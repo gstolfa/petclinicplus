@@ -11,7 +11,7 @@ Eclipse Integration
 Test-Umgebungen
 ---------------
 - Tomcat 5.5.29 + Eclipse 3.3 + Europa + JDK 1.5  -> Tests erfolgreich (siehe unten)
-- Tomcat 6.0.14 + Eclipse 3.3 + Europa + JDK 1.5  -> Tests erfolgreich
+- Tomcat 6.0.14 + Eclipse 3.3 + Europa + JDK 1.5  -> Tests nicht erfolgreich (Probleme mit EL)
 
 Integration von Jetty über Maven-Plugin funktioniert mit Einschränkungen.
 Der Server lässt nicht nicht wieder beenden. Abhilfe kann TCPView schaffen.
