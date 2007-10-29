@@ -101,7 +101,7 @@
       <groupId>javax.servlet</groupId>
       <artifactId>jsp-api</artifactId>
       <version>2.0</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -112,7 +112,7 @@
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.4</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>taglibs</groupId>
@@ -282,7 +282,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-
     <dependency>
       <groupId>cglib</groupId>
       <artifactId>cglib-nodep</artifactId>
@@ -293,7 +292,16 @@
       <artifactId>asm-all</artifactId>
       <version>2.2.3</version>
     </dependency>
-
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2</version>
+    </dependency>
   </dependencies>
   <properties>
     <jdbc.url>jdbc:mysql://localhost/pcp?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8</jdbc.url>
