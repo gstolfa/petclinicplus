@@ -26,7 +26,7 @@
 				<tr>
 					<td>
 						<form method="POST" action="<@spring.url '/owner.htm'/>">
-							<@spring.formHiddenInput 'owner.id' />
+							<input type="hidden" name="ownerId" value="${owner.id}"/>
 							<input type="submit" value="${owner.firstName} ${owner.lastName}"/>
         				</form>
 					</td>
@@ -34,7 +34,7 @@
 					<td>${owner.city}</td>
 					<td>${owner.telephone}</td>
 					<td>
-						<#list owner.pets>
+						<#list owner.pets as pet>
 							${pet.name} <br>
 						</#list>
 					</td>

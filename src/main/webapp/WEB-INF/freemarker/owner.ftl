@@ -26,7 +26,7 @@
 	        <TD></TD>
 	        <TD>
 	            <FORM method=GET action="<@spring.url '/editOwner.htm'/>">
-	                <@spring.formHiddenInput 'owner.id'/>
+	                <input type="hidden" name="ownerId" value="${owner.id}"/>
 	                <input type="submit" value="Edit Owner"/>
 	            </FORM>
 	        </TD>
@@ -81,7 +81,7 @@
 		<p>
     	<br>
     	<form method="GET" action="<@spring.url '/addPet.htm'/>" name="formAddPet">
-        	<@spring.formHiddenInput 'owner.id'/>
+        	<input type="hidden" name="ownerId" value="${owner.id}" />
         	<input type="submit" value="Add New Pet"/>
     	</form>
     	<br>
