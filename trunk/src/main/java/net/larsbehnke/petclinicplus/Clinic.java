@@ -20,19 +20,19 @@ public interface Clinic {
 	 * Retrieve all <code>Vet</code>s from the datastore.
 	 * @return a <code>Collection</code> of <code>Vet</code>s
 	 */
-	Collection getVets() throws DataAccessException;
+	Collection<Vet> getVets() throws DataAccessException;
 
 	/**
 	 * Retrieve all <code>PetType</code>s from the datastore.
 	 * @return a <code>Collection</code> of <code>PetType</code>s
 	 */
-	Collection getPetTypes() throws DataAccessException;
+	Collection<PetType> getPetTypes() throws DataAccessException;
 
 	/**
 	 * Retrieve all <code>Specialties</code>s from the datastore.
 	 * @return a <code>Collection</code> of <code>Specialty</code>s
 	 */
-	Collection getSpecialties() throws DataAccessException;
+	Collection<Specialty> getSpecialties() throws DataAccessException;
 	
 	/**
 	 * Retrieve <code>Owner</code>s from the datastore by last name,
@@ -41,7 +41,7 @@ public interface Clinic {
 	 * @return a <code>Collection</code> of matching <code>Owner</code>s
 	 * (or an empty <code>Collection</code> if none found)
 	 */
-	Collection findOwners(String lastName) throws DataAccessException;
+	Collection<Owner> findOwners(String lastName) throws DataAccessException;
 
 	/**
 	 * Retrieve an <code>Owner</code> from the datastore by id.

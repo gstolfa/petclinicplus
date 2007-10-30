@@ -13,6 +13,7 @@ import net.larsbehnke.petclinicplus.Owner;
 import net.larsbehnke.petclinicplus.Pet;
 import net.larsbehnke.petclinicplus.PetType;
 import net.larsbehnke.petclinicplus.Specialty;
+import net.larsbehnke.petclinicplus.Vet;
 import net.larsbehnke.petclinicplus.Visit;
 
 import org.apache.commons.logging.Log;
@@ -34,22 +35,22 @@ public class JpaTemplateClinic extends JpaDaoSupport implements Clinic {
 	
 	private static Log log = LogFactory.getLog(JpaTemplateClinic.class);
 
-	public Collection getVets() throws DataAccessException {
+	public Collection<Vet> getVets() throws DataAccessException {
 		return getJpaTemplate().find(
 				"SELECT vet FROM Vet vet ORDER BY vet.lastName, vet.firstName");
 	}
 
-	public Collection getPetTypes() throws DataAccessException {
+	public Collection<PetType> getPetTypes() throws DataAccessException {
 		return getJpaTemplate().find(
 				"SELECT ptype FROM PetType ptype ORDER BY ptype.name");
 	}
 	
-	public Collection getSpecialties() throws DataAccessException {
+	public Collection<Specialty> getSpecialties() throws DataAccessException {
 		return getJpaTemplate().find(
 				"SELECT s FROM Specialty s");
 	}
 
-	public Collection findOwners(String lastName) throws DataAccessException {
+	public Collection<Owner> findOwners(String lastName) throws DataAccessException {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("lastName", lastName + "%");
 		return getJpaTemplate()

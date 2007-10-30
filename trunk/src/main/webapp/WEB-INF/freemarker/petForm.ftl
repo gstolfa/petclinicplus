@@ -41,17 +41,7 @@
 		    <p>
 		    <b>Type:</b>
 			<BR>
-		    <@spring.bind 'pet.type'/>
-	        <select name="${spring.status.expression}">
-		    	<#list types as type>
-		    		<#if type.id == pet.type.id>
-						<option selected="${pet.type.id}" value="${type.id}">${type.name}"</OPTION>
-		    		</#if>
-		    		<#if type.id != pet.type.id>
-						<option value="${type.id}">${type.name}"</OPTION>
-		    		</#if>
-		    	</#list>	
-		    </select> (yyyy-mm-dd)
+			<@spring.formSingleSelect 'pet.type', types, ''/> 
 		    <@spring.showErrors '<br>', 'fieldError' />
 		
 		<p>
