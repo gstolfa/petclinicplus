@@ -37,7 +37,7 @@
 			LTW should not be used with Hibernate as it doesn't require any type of instrumentation. 
 			See http://opensource.atlassian.com/projects/spring/browse/SPR-2596. 
 			<property name="loadTimeWeaver">
-				<bean class="org.springframework.instrument.classloading.SimpleLoadTimeWeaver" />
+			<bean class="org.springframework.instrument.classloading.SimpleLoadTimeWeaver" />
 			</property>
 		-->
 
@@ -108,6 +108,25 @@
 	-->
 	<bean id="clinic"
 		class="net.larsbehnke.petclinicplus.jpa.EntityManagerClinic" />
+
+	<!-- 
+		Manages the named vocabulary. The default implementation makes use of the ResourceBundle
+		to reads its content from a resource file.
+	-->
+	<bean id="namedVocabularyManager"
+		class="net.larsbehnke.petclinicplus.util.namedvocabulary.DefaultNamedVocabularyManager">
+	</bean>
+
+	<!-- 
+		Populates database with initial values. That is: named vocabulary entries etc.
+	-->
+	<bean id="dbPopulator"
+		class="net.larsbehnke.petclinicplus.jpa.ClinicDbPopulator">
+		<property name="namedVocabularyManager" ref="namedVocabularyManager"/>
+		<property name="clinic" ref="clinic"/>
+		<property name="mode" value="CLEAN_INSERT"/>
+	</bean>
+
 
 
 </beans>

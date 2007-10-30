@@ -12,6 +12,7 @@ import org.springframework.dao.DataAccessException;
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
+ * @author Lars Behnke
  */
 public interface Clinic {
 
@@ -27,6 +28,12 @@ public interface Clinic {
 	 */
 	Collection getPetTypes() throws DataAccessException;
 
+	/**
+	 * Retrieve all <code>Specialties</code>s from the datastore.
+	 * @return a <code>Collection</code> of <code>Specialty</code>s
+	 */
+	Collection getSpecialties() throws DataAccessException;
+	
 	/**
 	 * Retrieve <code>Owner</code>s from the datastore by last name,
 	 * returning all owners whose last name <i>starts</i> with the given name.
@@ -75,5 +82,32 @@ public interface Clinic {
 	 * @see BaseEntity#isNew
 	 */
 	void storeVisit(Visit visit) throws DataAccessException;
+
+	/**
+	 * Stores a pet type. Called on populating the database.
+	 * @param petType The pet type to store
+	 * @throws DataAccessException
+	 */
+	void storePetType(PetType petType) throws DataAccessException ;
+	
+	/**
+	 * Stores a specialty. Called on populating the database.
+	 * @param specialtiy The vet specialty to store.
+	 * @throws DataAccessException
+	 */
+	void storeSpecialty(Specialty specialtiy) throws DataAccessException ;
+	
+	/**
+	 * Clears all vet specialties.
+	 * @throws DataAccessException
+	 */
+	void clearSpecialties() throws DataAccessException;
+	
+	/**
+	 * Clears all pet types.
+	 * @throws DataAccessException
+	 */
+	void clearPetTypes() throws DataAccessException;
+
 
 }

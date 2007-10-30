@@ -6,13 +6,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.springframework.dao.DataAccessException;
 import net.larsbehnke.petclinicplus.Clinic;
 import net.larsbehnke.petclinicplus.Owner;
 import net.larsbehnke.petclinicplus.Pet;
 import net.larsbehnke.petclinicplus.PetType;
+import net.larsbehnke.petclinicplus.Specialty;
 import net.larsbehnke.petclinicplus.Vet;
 import net.larsbehnke.petclinicplus.Visit;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +43,10 @@ public class EntityManagerClinic implements Clinic {
 		return em.createQuery("SELECT ptype FROM PetType ptype ORDER BY ptype.name").getResultList();
 	}
 
+	public Collection<Specialty> getSpecialties() throws DataAccessException {
+		return em.createQuery("SELECT s FROM Specialty s").getResultList();
+	}
+	
 	public Collection<Owner> findOwners(String lastName) throws DataAccessException {
 		Query query = em.createQuery("SELECT owner FROM Owner owner WHERE owner.lastName LIKE :lastName");
 		query.setParameter("lastName", lastName + "%");
@@ -72,5 +78,25 @@ public class EntityManagerClinic implements Clinic {
 		// a newly assigned id using any persistence provider...
 		em.merge(visit);
 	}
+	
+	public void storePetType(PetType petType) throws DataAccessException {
+		em.merge(petType);
+	}
+	
+	public void storeSpecialty(Specialty specialtiy) throws DataAccessException {
+		em.merge(specialtiy);
+	}
 
+	
+	public void clearSpecialties() throws DataAccessException {
+		//Query query = em.createQuery("DELETE spec FROM Specialty spec");
+		Query query = em.createQuery("DELETE Specialty spec");
+		query.executeUpdate();
+	}
+
+	public void clearPetTypes() throws DataAccessException {
+		//Query query = em.createQuery("DELETE typ FROM PetType typ");
+		Query query = em.createQuery("DELETE PetType typ");
+		query.executeUpdate();
+	}
 }

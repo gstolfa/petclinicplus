@@ -21,7 +21,7 @@
 		<P>
 		<A href="<@spring.url '/vets.htm'/>">Display all veterinarians</A>
 		<P>
-		<A href="<@spring.url '/html/petclinic.html'/>"/>">Tutorial</A>
+		<A href="<@spring.url '/html/petclinic.html'/>">Tutorial</A>
 		<P>
 		<A href="<@spring.url '/docs/index.html'/>">Documentation</A>
 		<hr>

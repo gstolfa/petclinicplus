@@ -98,6 +98,13 @@
 			org.springframework.web.context.ContextLoaderListener
 		</listener-class>
 	</listener>
+	
+	
+	<listener>
+		<listener-class>
+			net.larsbehnke.petclinicplus.web.listener.PopulateDbListener
+		</listener-class>
+	</listener>
 
 	<!--
 		Servlet that dispatches request to registered handlers (Controller implementations).
