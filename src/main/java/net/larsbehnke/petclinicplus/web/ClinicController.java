@@ -60,6 +60,7 @@ public class ClinicController extends MultiActionController implements Initializ
 	 * @param response current HTTP response
 	 * @return a ModelAndView to render the response
 	 */
+	@SuppressWarnings("unchecked")
 	public Map vetsHandler(HttpServletRequest request, HttpServletResponse response) {
 		return new ModelMap(this.clinic.getVets());
 	}
@@ -78,7 +79,7 @@ public class ClinicController extends MultiActionController implements Initializ
 	public ModelAndView ownerHandler(HttpServletRequest request, HttpServletResponse response) {
 		Owner owner = this.clinic.loadOwner(ServletRequestUtils.getIntParameter(request, "ownerId", 0));
 		if (owner == null) {
-			return new ModelAndView("findOwnersRedirect");
+			return new ModelAndView("redirect:findOwners.htm");
 		}
 		return new ModelAndView().addObject(owner);
 	}

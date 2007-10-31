@@ -13,6 +13,7 @@ import org.springframework.validation.Validator;
  */
 public class VisitValidator implements Validator {
 
+	@SuppressWarnings("unchecked")
 	public boolean supports(Class clazz) {
 		return Visit.class.isAssignableFrom(clazz);
 	}

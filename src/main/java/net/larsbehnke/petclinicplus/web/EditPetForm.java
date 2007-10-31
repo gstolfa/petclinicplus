@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.larsbehnke.petclinicplus.Pet;
 import net.larsbehnke.petclinicplus.PetType;
-import net.larsbehnke.petclinicplus.util.EntityUtils;
+import net.larsbehnke.petclinicplus.web.editors.PetTypeEditor;
+
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,7 +36,16 @@ public class EditPetForm extends AbstractClinicForm {
 		/* initialize the form from the formBackingObject */
 		setBindOnNewForm(true);
 	}
+	
+    @Override
+    protected void initBinder(HttpServletRequest request,
+    		ServletRequestDataBinder binder) {
+    	super.initBinder(request, binder);
+		binder.registerCustomEditor(PetType.class, new PetTypeEditor(getClinic(), false) );
 
+    }
+
+    @SuppressWarnings("unchecked")
 	protected Map referenceData(HttpServletRequest request)
 			throws ServletException {
 		Map refData = new HashMap();
@@ -59,11 +70,11 @@ public class EditPetForm extends AbstractClinicForm {
 
 	protected void onBind(HttpServletRequest request, Object command)
 			throws ServletException {
-		Pet pet = (Pet) command;
-		int typeId = ServletRequestUtils.getRequiredIntParameter(request,
-				"typeId");
-		pet.setType((PetType) EntityUtils.getById(getClinic().getPetTypes(),
-				PetType.class, typeId));
+//		Pet pet = (Pet) command;
+//		int typeId = ServletRequestUtils.getRequiredIntParameter(request,
+//				"typeId");
+//		pet.setType((PetType) EntityUtils.getById(getClinic().getPetTypes(),
+//				PetType.class, typeId));
 	}
 
 	/** Method updates an existing Pet */

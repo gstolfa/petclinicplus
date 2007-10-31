@@ -35,21 +35,25 @@ public class JpaTemplateClinic extends JpaDaoSupport implements Clinic {
 	
 	private static Log log = LogFactory.getLog(JpaTemplateClinic.class);
 
+	@SuppressWarnings("unchecked")
 	public Collection<Vet> getVets() throws DataAccessException {
 		return getJpaTemplate().find(
 				"SELECT vet FROM Vet vet ORDER BY vet.lastName, vet.firstName");
 	}
 
+	@SuppressWarnings("unchecked")
 	public Collection<PetType> getPetTypes() throws DataAccessException {
 		return getJpaTemplate().find(
 				"SELECT ptype FROM PetType ptype ORDER BY ptype.name");
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Collection<Specialty> getSpecialties() throws DataAccessException {
 		return getJpaTemplate().find(
 				"SELECT s FROM Specialty s");
 	}
 
+	@SuppressWarnings("unchecked")
 	public Collection<Owner> findOwners(String lastName) throws DataAccessException {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("lastName", lastName + "%");

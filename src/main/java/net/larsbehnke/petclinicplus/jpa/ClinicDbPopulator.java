@@ -10,7 +10,7 @@ import net.larsbehnke.petclinicplus.util.namedvocabulary.NVEntry;
 
 /**
  * @author Lars Behnke
- *
+ * 
  */
 public class ClinicDbPopulator extends AbstractDbPopulator {
 
@@ -24,27 +24,31 @@ public class ClinicDbPopulator extends AbstractDbPopulator {
 		this.clinic = clinic;
 	}
 
+	/*
+	 * Note that repopulating the database may fail, if there are references to
+	 * the database table already.
+	 */
 	@Override
 	protected void doInsertClean() {
 		clinic.clearPetTypes();
 		populatePetTypes();
 		clinic.clearSpecialties();
 		populateSpecialties();
-		
+
 	}
-	
 
 	@Override
 	protected void doInsertIfEmpty() {
-		Collection list = clinic.getPetTypes();
-		if (list.size() ==0) {
+		Collection<?> list;
+		list = clinic.getPetTypes();
+		if (list.size() == 0) {
 			populatePetTypes();
 		}
 		list = clinic.getSpecialties();
-		if (list.size() ==0) {
+		if (list.size() == 0) {
 			populateSpecialties();
 		}
-		
+
 	}
 
 	private void populateSpecialties() {

@@ -24,7 +24,7 @@ public class Pet extends NamedEntity {
 
 	private Owner owner;
 
-	private Set visits;
+	private Set<Visit> visits;
 
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
@@ -50,19 +50,19 @@ public class Pet extends NamedEntity {
 		return owner;
 	}
 
-	protected void setVisitsInternal(Set visits) {
+	protected void setVisitsInternal(Set<Visit> visits) {
 		this.visits = visits;
 	}
 
-	protected Set getVisitsInternal() {
+	protected Set<Visit> getVisitsInternal() {
 		if (this.visits == null) {
-			this.visits = new HashSet();
+			this.visits = new HashSet<Visit>();
 		}
 		return this.visits;
 	}
 
-	public List getVisits() {
-		List sortedVisits = new ArrayList(getVisitsInternal());
+	public List<Visit> getVisits() {
+		List<Visit> sortedVisits = new ArrayList<Visit>(getVisitsInternal());
 		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
 		return Collections.unmodifiableList(sortedVisits);
 	}

@@ -49,7 +49,7 @@ public abstract class AbstractClinicTests extends AbstractTransactionalDataSourc
 
 
 	public void testGetVets() {
-		Collection vets = this.clinic.getVets();
+		Collection<Vet> vets = this.clinic.getVets();
 		
 		// Use the inherited JdbcTemplate (from AbstractTransactionalDataSourceSpringContextTests) 
 		// to verify the results of the query
@@ -68,7 +68,7 @@ public abstract class AbstractClinicTests extends AbstractTransactionalDataSourc
 	}
 
 	public void testGetPetTypes() {
-		Collection petTypes = this.clinic.getPetTypes();
+		Collection<PetType> petTypes = this.clinic.getPetTypes();
 		assertEquals("JDBC query must show the same number of pet typess",
 				jdbcTemplate.queryForInt("SELECT COUNT(0) FROM TYPES"), 
 				petTypes.size());
@@ -79,7 +79,7 @@ public abstract class AbstractClinicTests extends AbstractTransactionalDataSourc
 	}
 
 	public void testFindOwners() {
-		Collection owners = this.clinic.findOwners("Davis");
+		Collection<Owner> owners = this.clinic.findOwners("Davis");
 		assertEquals(2, owners.size());
 		owners = this.clinic.findOwners("Daviss");
 		assertEquals(0, owners.size());
@@ -100,7 +100,7 @@ public abstract class AbstractClinicTests extends AbstractTransactionalDataSourc
 	}
 
 	public void testInsertOwner() {
-		Collection owners = this.clinic.findOwners("Schultz");
+		Collection<Owner> owners = this.clinic.findOwners("Schultz");
 		int found = owners.size();
 		Owner owner = new Owner();
 		owner.setLastName("Schultz");
@@ -120,7 +120,7 @@ public abstract class AbstractClinicTests extends AbstractTransactionalDataSourc
 	}
 
 	public void testLoadPet() {
-		Collection types = this.clinic.getPetTypes();
+		Collection<PetType> types = this.clinic.getPetTypes();
 		Pet p7 = this.clinic.loadPet(7);
 		assertTrue(p7.getName().startsWith("Samantha"));
 		assertEquals(EntityUtils.getById(types, PetType.class, 1).getId(), p7.getType().getId());
@@ -136,7 +136,7 @@ public abstract class AbstractClinicTests extends AbstractTransactionalDataSourc
 		int found = o6.getPets().size();
 		Pet pet = new Pet();
 		pet.setName("bowser");
-		Collection types = this.clinic.getPetTypes();
+		Collection<PetType> types = this.clinic.getPetTypes();
 		pet.setType((PetType) EntityUtils.getById(types, PetType.class, 2));
 		pet.setBirthDate(new Date());
 		o6.addPet(pet);

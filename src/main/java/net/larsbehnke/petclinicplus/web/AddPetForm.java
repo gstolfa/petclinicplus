@@ -1,6 +1,5 @@
 package net.larsbehnke.petclinicplus.web;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +11,9 @@ import net.larsbehnke.petclinicplus.Owner;
 import net.larsbehnke.petclinicplus.Pet;
 import net.larsbehnke.petclinicplus.PetType;
 import net.larsbehnke.petclinicplus.util.EntityUtils;
+import net.larsbehnke.petclinicplus.web.editors.PetTypeEditor;
+
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,20 +35,22 @@ public class AddPetForm extends AbstractClinicForm {
         setSessionForm(true);
     }
 
+    @Override
+    protected void initBinder(HttpServletRequest request,
+    		ServletRequestDataBinder binder) {
+    	super.initBinder(request, binder);
+		binder.registerCustomEditor(PetType.class, new PetTypeEditor(getClinic(), false) );
+
+    }
+    
     @SuppressWarnings("unchecked")
     protected Map referenceData(HttpServletRequest request) throws ServletException {
         Map refData = new HashMap();
-        refData.put("types", createMap(getClinic().getPetTypes()));
+        refData.put("types", EntityUtils.createMap(getClinic().getPetTypes()));
         return refData;
     }
 
-    private Map<String, String> createMap(Collection<PetType> petTypes) {
-        Map<String, String> map = new HashMap<String, String>();
-        for (PetType petType : petTypes) {
-            map.put(petType.getId() + "", petType.getName());
-        }
-        return map;
-    }
+
 
     /**
      * This method returns the command object that is populated with request parameters / input
@@ -63,10 +67,14 @@ public class AddPetForm extends AbstractClinicForm {
     }
 
     protected void onBind(HttpServletRequest request, Object command) {
-        Pet pet = (Pet) command;
-        int typeId = Integer.parseInt(request.getParameter("type"));
-        pet.setType((PetType) EntityUtils.getById(getClinic().getPetTypes(), PetType.class, typeId));
-    }
+//        Pet pet = (Pet) command;
+//        String param = request.getParameter("type.id");
+//        if (param == null) {
+//        	throw new IllegalArgumentException("No pet type selected");
+//        }
+//        int typeId = Integer.parseInt(param);
+//        pet.setType((PetType) EntityUtils.getById(getClinic().getPetTypes(), PetType.class, typeId));
+   }
 
     /** Method inserts a new Pet */
     protected ModelAndView onSubmit(Object command) throws ServletException {

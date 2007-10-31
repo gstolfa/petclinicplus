@@ -14,6 +14,7 @@ import org.springframework.validation.Validator;
  */
 public class OwnerValidator implements Validator {
 
+	@SuppressWarnings("unchecked")
 	public boolean supports(Class clazz) {
 		return Owner.class.isAssignableFrom(clazz);
 	}
