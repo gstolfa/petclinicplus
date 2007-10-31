@@ -84,6 +84,15 @@ public interface Clinic {
 	void storeVisit(Visit visit) throws DataAccessException;
 
 	/**
+	 * Save a <code>Vet</code> to the datastore,
+	 * either inserting or updating it.
+	 * @param vet the <code>Vet</code> to save
+	 * @see BaseEntity#isNew
+	 */
+	void storeVet(Vet vet) throws DataAccessException;
+
+
+	/**
 	 * Stores a pet type. Called on populating the database.
 	 * @param petType The pet type to store
 	 * @throws DataAccessException
@@ -108,6 +117,13 @@ public interface Clinic {
 	 * @throws DataAccessException
 	 */
 	void clearPetTypes() throws DataAccessException;
+
+	/**
+	 * Clears  all vets.
+	 * @throws DataAccessException
+	 */
+	void clearVets() throws DataAccessException;
+
 
 
 }

@@ -86,6 +86,11 @@ public class JpaTemplateClinic extends JpaDaoSupport implements Clinic {
 		getJpaTemplate().persist(visit);
 	}
 
+	public void storeVet(Vet vet) throws DataAccessException {
+		// consider using merge with returning the persistent object here
+		getJpaTemplate().persist(vet);
+	}
+	
 	public void storePetType(PetType petType) throws DataAccessException {
 		getJpaTemplate().persist(petType);
 
@@ -101,7 +106,7 @@ public class JpaTemplateClinic extends JpaDaoSupport implements Clinic {
 		getJpaTemplate().execute(new JpaCallback() {
 
 			public Object doInJpa(EntityManager em) throws PersistenceException {
-				Query query = em.createQuery("DELETE s FROM Specialty s");
+				Query query = em.createQuery("DELETE Specialty s");
 				int count = query.executeUpdate();
 				log.debug("Deleted " + count + " specialties.");
 				return null;
@@ -113,7 +118,19 @@ public class JpaTemplateClinic extends JpaDaoSupport implements Clinic {
 		getJpaTemplate().execute(new JpaCallback() {
 
 			public Object doInJpa(EntityManager em) throws PersistenceException {
-				Query query = em.createQuery("DELETE t FROM PetType t");
+				Query query = em.createQuery("DELETE PetType t");
+				int count = query.executeUpdate();
+				log.debug("Deleted " + count + " vet types.");
+				return null;
+			}
+		});
+	}
+
+	public void clearVets() throws DataAccessException {
+		getJpaTemplate().execute(new JpaCallback() {
+
+			public Object doInJpa(EntityManager em) throws PersistenceException {
+				Query query = em.createQuery("DELETE Vet v");
 				int count = query.executeUpdate();
 				log.debug("Deleted " + count + " vet types.");
 				return null;
