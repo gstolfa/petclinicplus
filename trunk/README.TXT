@@ -10,8 +10,9 @@ Eclipse Integration
 
 Test-Umgebungen
 ---------------
-- Tomcat 5.5.29 + Eclipse 3.3 + Europa + JDK 1.5  -> Tests erfolgreich (siehe unten)
-- Tomcat 6.0.14 + Eclipse 3.3 + Europa + JDK 1.5  -> Tests nicht erfolgreich (Probleme mit EL)
+Tomcat 5.5.29 + Eclipse 3.3 + Europa + JDK 1.5  -> Tests erfolgreich (siehe unten)
+
+Probleme mit EL unter Tomcat 6.0.14.
 
 Integration von Jetty über Maven-Plugin funktioniert mit Einschränkungen.
 Der Server lässt nicht nicht wieder beenden. Abhilfe kann TCPView schaffen.
@@ -41,6 +42,23 @@ deployt werden muss.
 5. Project > Properties > Web Project Settings: Gewünschten Kontext-Namen einstellen.
 6. Servers View öffnen und prüfen, ob Anwendung deployt wird.
 7. Projekt markieren + rechte Maustaste > Debug As > Debug on Server
+
+
+Geplante Erweiterungen
+----------------------
+
+Abfrage: Haustierhalter, die Haustiertyp A besitzen, haben ebenfalls ein Haustier vom Typ B:
+
+  create table tokens (custid integer, token varchar2(30);
+
+  select t.token, count(t.token) num
+  from pcp.tokens t 
+  where token <> 'Lizard' and custid in (
+    select distinct custid 
+    from pcp.tokens 
+    where token = 'Lizard' and custid <> 1)
+  group by t.token order by num desc;
+
 
 
 
