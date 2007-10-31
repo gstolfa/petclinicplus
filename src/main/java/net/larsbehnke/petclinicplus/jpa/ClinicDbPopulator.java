@@ -6,6 +6,7 @@ import java.util.List;
 import net.larsbehnke.petclinicplus.Clinic;
 import net.larsbehnke.petclinicplus.PetType;
 import net.larsbehnke.petclinicplus.Specialty;
+import net.larsbehnke.petclinicplus.Vet;
 import net.larsbehnke.petclinicplus.util.namedvocabulary.NVEntry;
 
 /**
@@ -30,10 +31,12 @@ public class ClinicDbPopulator extends AbstractDbPopulator {
 	 */
 	@Override
 	protected void doInsertClean() {
+		clinic.clearVets();
 		clinic.clearPetTypes();
-		populatePetTypes();
 		clinic.clearSpecialties();
 		populateSpecialties();
+		populatePetTypes();
+		populateVets();
 
 	}
 
@@ -47,6 +50,10 @@ public class ClinicDbPopulator extends AbstractDbPopulator {
 		list = clinic.getSpecialties();
 		if (list.size() == 0) {
 			populateSpecialties();
+		}
+		list = clinic.getVets();
+		if (list.size() == 0) {
+			populateVets();
 		}
 
 	}
@@ -67,6 +74,23 @@ public class ClinicDbPopulator extends AbstractDbPopulator {
 			petType.setName(entry.getValue());
 			clinic.storePetType(petType);
 		}
+	}
+	
+	private void populateVets() {
+		Specialty[] specs = clinic.getSpecialties().toArray(new Specialty[0]);
+		Vet vet;
+		vet = new Vet();
+		vet.setFirstName("David");
+		vet.setLastName("Dalton");
+		vet.addSpecialty(specs[0]);
+		clinic.storeVet(vet);
+		vet = new Vet();
+		vet.setFirstName("Carry");
+		vet.setLastName("Cameron");
+		vet.addSpecialty(specs[1]);
+		vet.addSpecialty(specs[2]);
+		clinic.storeVet(vet);
+
 	}
 
 }

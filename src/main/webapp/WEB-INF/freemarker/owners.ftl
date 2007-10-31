@@ -30,13 +30,14 @@
 							<input type="submit" value="${owner.firstName} ${owner.lastName}"/>
         				</form>
 					</td>
-					<td>${owner.address}</td>
-					<td>${owner.city}</td>
-					<td>${owner.telephone}</td>
+					<td>${owner.address}&nbsp;</td>
+					<td>${owner.city}&nbsp;</td>
+					<td>${owner.telephone}&nbsp;</td>
 					<td>
 						<#list owner.pets as pet>
 							${pet.name} <br>
 						</#list>
+						&nbsp;
 					</td>
 				</tr>
 			</#list>

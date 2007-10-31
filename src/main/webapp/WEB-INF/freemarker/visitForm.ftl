@@ -45,6 +45,7 @@
 		
 		    <P>
 		    <B>Description:</B>
+		    <BR>
 		    <@spring.formTextarea 'visit.description', 'rows="10" cols="25" name="visit.description"' />
 		    <@spring.showErrors '<br>', 'fieldError' />
 		    
@@ -64,7 +65,7 @@
 		  <#list visit.pet.visits as visit>
 		    <#if !visit.new>
 		        <TR>
-		           <TD>${visit.date?string='yyyy-MM-dd'}</TD>
+		           <TD>${visit.date?string('yyyy-MM-dd')}</TD>
 		           <TD>${visit.description}</TD>
 		        </TR>
 		    </#if>

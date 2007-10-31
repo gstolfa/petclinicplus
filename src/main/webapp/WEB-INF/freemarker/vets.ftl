@@ -20,7 +20,7 @@
 		<TABLE border="1">
 		  <TH>Name</TH><TH>Specialties</TH>
 		  
-		  <#list vetList as vet>
+		  <#list vets as vet>
 			  <tr>
 			    <td>${vet.firstName} ${vet.lastName}</td>
 			    <td>

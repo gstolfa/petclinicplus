@@ -23,7 +23,6 @@
 	      <TR><TD>City</TD><TD>${owner.city}</TD></tr>
 	      <TR><TD>Telephone</TD><TD>${owner.telephone}</TD></TR>
 	      <TR>
-	        <TD></TD>
 	        <TD>
 	            <FORM method=GET action="<@spring.url '/editOwner.htm'/>">
 	                <input type="hidden" name="ownerId" value="${owner.id}"/>
@@ -45,12 +44,9 @@
 							<tr><td>Name</td><td>${pet.name}</td></tr>
 							<tr><td>Birth Date</td><td>${pet.birthDate}</td></tr>
 							<tr><td>Type</td><td>${pet.type.name}</td></tr>
-							<tr><td></td>
+							<tr>
 								<td>
 								    <a href="<@spring.url '/editPet.htm?petId=${pet.id}'/>">Edit Pet</a>
-                    				<@authz.authorize ifAllGranted='ROLE_SUPERVISOR'>
-	                    				<a href="<@spring.url '/addVisit.htm?petId=${pet.id}'/>">Add Visit</a>
-                    				</@authz.authorize>
 								</td>
 							</tr>
 						</table>
@@ -67,6 +63,12 @@
             					</tr>
             				</#list>
 	       				</table>
+	       				<a href="<@spring.url '/addVisit.htm?petId=${pet.id}'/>">Add Visit</a>
+                    	<@authz.authorize ifAllGranted='ROLE_SUPERVISOR'>
+	                    	<a href="<@spring.url '/addVisit.htm?petId=${pet.id}'/>">Add Visit</a>
+                    	</@authz.authorize>
+            			
+	       				
         			</td>				
 				</tr>
 			</table>

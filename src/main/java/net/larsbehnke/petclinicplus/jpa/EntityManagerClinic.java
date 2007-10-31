@@ -84,6 +84,13 @@ public class EntityManagerClinic implements Clinic {
 		em.merge(visit);
 	}
 	
+
+	public void storeVet(Vet vet) throws DataAccessException {
+		// Consider returning the persistent object here, for exposing
+		// a newly assigned id using any persistence provider...
+		em.merge(vet);
+	}
+	
 	public void storePetType(PetType petType) throws DataAccessException {
 		em.merge(petType);
 	}
@@ -102,4 +109,10 @@ public class EntityManagerClinic implements Clinic {
 		Query query = em.createQuery("DELETE PetType typ");
 		query.executeUpdate();
 	}
+
+	public void clearVets() throws DataAccessException {
+		Query query = em.createQuery("DELETE Vet vet");
+		query.executeUpdate();
+	}
+
 }

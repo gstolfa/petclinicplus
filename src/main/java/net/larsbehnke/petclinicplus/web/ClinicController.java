@@ -1,13 +1,12 @@
 package net.larsbehnke.petclinicplus.web;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.InitializingBean;
 import net.larsbehnke.petclinicplus.Clinic;
 import net.larsbehnke.petclinicplus.Owner;
+
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,18 +50,14 @@ public class ClinicController extends MultiActionController implements Initializ
 
 	/**
 	 * Custom handler for vets display.
-	 * <p>Note that this handler returns a plain ModelMap object instead of
-	 * a ModelAndView, also leveraging convention-based model attribute names.
-	 * It relies on the RequestToViewNameTranslator to come up with
-	 * a view name based on the request URL: "/vets.html" -> "vets",
-	 * plus configured "View" suffix -> "vetsView".
+	 * 
 	 * @param request current HTTP request
 	 * @param response current HTTP response
 	 * @return a ModelAndView to render the response
 	 */
 	@SuppressWarnings("unchecked")
-	public Map vetsHandler(HttpServletRequest request, HttpServletResponse response) {
-		return new ModelMap(this.clinic.getVets());
+	public ModelAndView vetsHandler(HttpServletRequest request, HttpServletResponse response) {
+		return new ModelAndView("vets", new ModelMap("vets", this.clinic.getVets()));
 	}
 
 	/**
