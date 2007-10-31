@@ -124,7 +124,7 @@
 		class="net.larsbehnke.petclinicplus.jpa.ClinicDbPopulator">
 		<property name="namedVocabularyManager" ref="namedVocabularyManager"/>
 		<property name="clinic" ref="clinic"/>
-		<property name="mode" value="CLEAN_INSERT"/>
+		<property name="mode" value="INSERT_IF_EMPTY"/>
 	</bean>
 
 

@@ -3,7 +3,6 @@ package net.larsbehnke.petclinicplus;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +23,7 @@ public class Owner extends Person {
 
 	private String telephone;
 
-	private Set pets;
+	private Set<Pet> pets;
 
 	public String getAddress() {
 		return this.address;
@@ -50,19 +49,19 @@ public class Owner extends Person {
 		this.telephone = telephone;
 	}
 
-	protected void setPetsInternal(Set pets) {
+	protected void setPetsInternal(Set<Pet> pets) {
 		this.pets = pets;
 	}
 
-	protected Set getPetsInternal() {
+	protected Set<Pet> getPetsInternal() {
 		if (this.pets == null) {
-			this.pets = new HashSet();
+			this.pets = new HashSet<Pet>();
 		}
 		return this.pets;
 	}
 
-	public List getPets() {
-		List sortedPets = new ArrayList(getPetsInternal());
+	public List<Pet> getPets() {
+		List<Pet> sortedPets = new ArrayList<Pet>(getPetsInternal());
 		PropertyComparator.sort(sortedPets, new MutableSortDefinition("name", true, true));
 		return Collections.unmodifiableList(sortedPets);
 	}
@@ -90,8 +89,7 @@ public class Owner extends Person {
 	 */
 	public Pet getPet(String name, boolean ignoreNew) {
 		name = name.toLowerCase();
-		for (Iterator it = getPetsInternal().iterator(); it.hasNext();) {
-			Pet pet = (Pet) it.next();
+		for (Pet pet : getPetsInternal()) {
 			if (!ignoreNew || !pet.isNew()) {
 				String compName = pet.getName();
 				compName = compName.toLowerCase();
@@ -100,6 +98,7 @@ public class Owner extends Person {
 				}
 			}
 		}
+
 		return null;
 	}
 

@@ -60,7 +60,7 @@ public class FindOwnersForm extends AbstractClinicForm {
 		Owner owner = (Owner) command;
 
 		// find owners by last name
-		Collection results = getClinic().findOwners(owner.getLastName());
+		Collection<Owner> results = getClinic().findOwners(owner.getLastName());
 
 		if (results.size() < 1) {
 			// no owners found

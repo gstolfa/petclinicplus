@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Mike Keith
  * @author Rod Johnson
+ * @author Lars Behnke
  * @since 22.4.2006
  */
 @Repository
@@ -35,18 +36,22 @@ public class EntityManagerClinic implements Clinic {
 	@PersistenceContext
 	private EntityManager em;
 
+	@SuppressWarnings("unchecked")
 	public Collection<Vet> getVets() throws DataAccessException {
 		return em.createQuery("SELECT vet FROM Vet vet ORDER BY vet.lastName, vet.firstName").getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Collection<PetType> getPetTypes() throws DataAccessException {
 		return em.createQuery("SELECT ptype FROM PetType ptype ORDER BY ptype.name").getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Collection<Specialty> getSpecialties() throws DataAccessException {
 		return em.createQuery("SELECT s FROM Specialty s").getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Collection<Owner> findOwners(String lastName) throws DataAccessException {
 		Query query = em.createQuery("SELECT owner FROM Owner owner WHERE owner.lastName LIKE :lastName");
 		query.setParameter("lastName", lastName + "%");
@@ -89,13 +94,11 @@ public class EntityManagerClinic implements Clinic {
 
 	
 	public void clearSpecialties() throws DataAccessException {
-		//Query query = em.createQuery("DELETE spec FROM Specialty spec");
 		Query query = em.createQuery("DELETE Specialty spec");
 		query.executeUpdate();
 	}
 
 	public void clearPetTypes() throws DataAccessException {
-		//Query query = em.createQuery("DELETE typ FROM PetType typ");
 		Query query = em.createQuery("DELETE PetType typ");
 		query.executeUpdate();
 	}

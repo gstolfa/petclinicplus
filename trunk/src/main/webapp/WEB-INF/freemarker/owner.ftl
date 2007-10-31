@@ -43,19 +43,13 @@
 					<td valign="top">
 						<table border="0">
 							<tr><td>Name</td><td>${pet.name}</td></tr>
-							<tr><td>Birth Date</td><td>${pet.birthDate?string='yyyy-MM-dd'}</td></tr>
+							<tr><td>Birth Date</td><td>${pet.birthDate}</td></tr>
 							<tr><td>Type</td><td>${pet.type.name}</td></tr>
 							<tr><td></td>
 								<td>
-							    	<form method=GET action="<@spring.url '/editPet.htm'/>" name="formEditPet${pet.id}"/>">
-                        				<@spring.formHiddenInput 'pet.id'/> 
-                        				<input type="submit" value="Edit Pet"/>
-                    				</form>
+								    <a href="<@spring.url '/editPet.htm?petId=${pet.id}'/>">Edit Pet</a>
                     				<@authz.authorize ifAllGranted='ROLE_SUPERVISOR'>
-	                    				<form method=GET action="<@spring.url '/addVisit.htm'/>" name="formVisitPet${pet.id}"/>">
-	                        				<@spring.formHiddenInput 'pet.id'/> 
-	                        				<input type="submit" value="Add Visit"/>
-	                    				</form>
+	                    				<a href="<@spring.url '/addVisit.htm?petId=${pet.id}'/>">Add Visit</a>
                     				</@authz.authorize>
 								</td>
 							</tr>
@@ -68,7 +62,7 @@
             				<th>Description</th>
             				<#list pet.visits as visit>
             					<tr>
-                					<td>${visit.date?string='yyyy-MM-dd'}</td>
+                					<td>${visit.date}</td>
                 					<td>${visit.description}</td>
             					</tr>
             				</#list>
