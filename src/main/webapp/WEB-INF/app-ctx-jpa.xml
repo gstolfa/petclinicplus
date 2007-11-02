@@ -50,7 +50,7 @@
 			<bean
 				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="database"
-					value="{hibernate.jpa.db}" />
+					value="${hibernate.jpa.db}" />
 				<property name="databasePlatform"
 					value="${hibernate.dialect}" />
 				<property name="showSql" value="true" />
