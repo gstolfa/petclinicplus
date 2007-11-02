@@ -1,0 +1,85 @@
+/* Make sure all browsers define parent width */
+html {
+	width: 100%
+}
+
+body {
+	background-color: #FFF;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}
+
+td {
+	padding: 4px;
+}
+
+div#all {
+	padding-top: 50px;
+	width: 100%;
+}
+
+div#content {
+	width: 720px;
+	padding: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	background: #FCFCFC;
+	border: 1px solid #E4EFF3;
+}
+
+div#logo {
+	width: 720px;
+	height: 73px;
+	background: #E4EFF3;
+}
+
+div#navigation {
+	width: 720px;
+	height: 15px;
+	background: #E2F3B8;
+	text-align: right;
+}
+
+
+
+div#insert {
+	width: 120;
+	float: right;
+	text-align: right;
+}
+
+.buttonBar {
+	height: 1.5em;
+	text-align: right;
+}
+
+div#copyright {
+	width: 720px;
+}
+
+div#copyright p {
+	color: #0C0C0C;
+	text-align: center;
+	font-family: Tahoma, sans-serif;
+	font-size: 75%;
+	margin-left: 5px;
+	font-weight: bold;
+	clear: both;
+}
+
+.readOnly {
+	color: rgb(192, 192, 192);
+}
+
+.message {
+	color: blue;
+	font-weight: bold;
+	font-family: Arial, sans-serif;
+}
+
+.error {
+	color: red;
+	font-weight: bold;
+	font-family: Arial, sans-serif;
+}

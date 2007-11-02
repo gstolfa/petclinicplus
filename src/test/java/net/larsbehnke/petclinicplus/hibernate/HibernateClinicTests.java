@@ -1,5 +1,7 @@
 package net.larsbehnke.petclinicplus.hibernate;
 
+import com.opensymphony.module.sitemesh.filter.PageFilter;
+
 import net.larsbehnke.petclinicplus.AbstractClinicTests;
 
 /**
@@ -10,7 +12,7 @@ import net.larsbehnke.petclinicplus.AbstractClinicTests;
  */
 public class HibernateClinicTests extends AbstractClinicTests {
 
-	protected String getConfigPath() {
+	protected String getConfigPath() { 
 		return "applicationContext-hibernate.xml";
 	}
 

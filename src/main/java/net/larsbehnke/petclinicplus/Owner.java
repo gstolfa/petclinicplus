@@ -1,5 +1,6 @@
 package net.larsbehnke.petclinicplus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,8 +15,11 @@ import org.springframework.beans.support.PropertyComparator;
  * 
  * @author Ken Krebs
  * @author Juergen Hoeller
+ * @author Lars Behnke
  */
-public class Owner extends Person {
+public class Owner extends Person implements Serializable {
+
+	private static final long serialVersionUID = 488926730692029206L;
 
 	private String address;
 

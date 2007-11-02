@@ -1,13 +1,17 @@
 package net.larsbehnke.petclinicplus;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Simple JavaBean domain object representing a visit.
  *
  * @author Ken Krebs
+ * @author Lars Behnke
  */
-public class Visit extends BaseEntity {
+public class Visit extends BaseEntity implements Serializable {
+
+	private static final long serialVersionUID = -8355837672830445948L;
 
 	/** Holds value of property date. */
 	private Date date;
