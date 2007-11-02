@@ -1,5 +1,6 @@
 package net.larsbehnke.petclinicplus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -12,11 +13,14 @@ import org.springframework.beans.support.PropertyComparator;
 
 /**
  * Simple JavaBean business object representing a pet.
- *
- * @author  Ken Krebs
+ * 
+ * @author Ken Krebs
  * @author Juergen Hoeller
+ * @author Lars Behnke
  */
-public class Pet extends NamedEntity {
+public class Pet extends NamedEntity implements Serializable {
+
+	private static final long serialVersionUID = 4923609485226116823L;
 
 	private Date birthDate;
 
@@ -63,7 +67,8 @@ public class Pet extends NamedEntity {
 
 	public List<Visit> getVisits() {
 		List<Visit> sortedVisits = new ArrayList<Visit>(getVisitsInternal());
-		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
+		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date",
+				false, false));
 		return Collections.unmodifiableList(sortedVisits);
 	}
 

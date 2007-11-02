@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-<!DOCTYPE web-app PUBLIC
-	"-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-	"http://java.sun.com/dtd/web-app_2_3.dtd">
+	<display-name>PetClinicPlus</display-name>
+	<description>A J2EE sample application</description>
 
-<web-app>
-
-	<display-name>Spring PetClinic</display-name>
-
-	<description>Spring PetClinic sample application</description>
+	<!-- 
+		Makes sure that all session attributes are serializable.
+	-->
+	<distributable />
 
 	<!--
 		Key of the system property that should specify the root directory of this
@@ -58,6 +59,30 @@
 		-->
 	</context-param>
 
+	<!-- 
+		Main SiteMesh filter for applying Decorators to entire Pages.
+		See http://www.onjava.com/pub/a/onjava/2004/09/22/sitemesh.html
+	-->
+	<filter>
+		<filter-name>sitemesh</filter-name>
+		<filter-class>
+			com.opensymphony.module.sitemesh.filter.PageFilter
+		</filter-class>
+		<init-param>
+			<param-name>debug.pagewriter</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+
+	<filter-mapping>
+		<filter-name>sitemesh</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
+
 	<!--
 		Configures Log4J for this web app.
 		As this context specifies a context-param "log4jConfigLocation", its file path
@@ -70,9 +95,6 @@
 		directory of this web app, for usage in log file paths.
 		This web app specifies "petclinic.root" (see log4j.properties file).
 	-->
-
-
-	<!-- Leave the listener commented-out if using JBoss -->
 	<listener>
 		<listener-class>
 			org.springframework.web.util.Log4jConfigListener
@@ -98,8 +120,8 @@
 			org.springframework.web.context.ContextLoaderListener
 		</listener-class>
 	</listener>
-	
-	
+
+
 	<listener>
 		<listener-class>
 			net.larsbehnke.petclinicplus.web.listener.PopulateDbListener
@@ -124,6 +146,29 @@
 	</servlet>
 
 	<!--
+		SiteMesh is a web-page layout and decoration framework and web- application integration 
+		framework to aid in creating large sites consisting of many pages for which a 
+		consistent look/feel, navigation and layout scheme is required. It is comparable to
+		Apache Tiles - just simpler.
+		As of SiteMesh 2.0.2 Freemarker (.ftl) decorators are supported. 
+	-->
+	<servlet>
+		<servlet-name>sitemesh-freemarker</servlet-name>
+		<servlet-class>
+			com.opensymphony.module.sitemesh.freemarker.FreemarkerDecoratorServlet
+		</servlet-class>
+		<init-param>
+			<param-name>TemplatePath</param-name>
+			<param-value>/WEB-INF/decorators</param-value>
+		</init-param>
+		<init-param>
+			<param-name>default_encoding</param-name>
+			<param-value>ISO-8859-1</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!--
 		Maps the petclinic dispatcher to *.htm. All handler mappings in
 		petclinic-servlet.xml will by default be applied to this subpath.
 		If a mapping isn't a /* subpath, the handler mappings are considered
@@ -136,14 +181,27 @@
 		<url-pattern>*.htm</url-pattern>
 	</servlet-mapping>
 
+
+	<!-- 
+		Treats files with *.dec extension as Sitemesh decorators.
+	-->
+	<servlet-mapping>
+		<servlet-name>sitemesh-freemarker</servlet-name>
+		<url-pattern>*.dec</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- 
+		After 10 minutes an idle session will be invalidated.
+	-->
 	<session-config>
 		<session-timeout>10</session-timeout>
 	</session-config>
 
 	<welcome-file-list>
-	
+
 		<!-- Redirects to "welcome.htm" for dispatcher handling -->
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
 	<error-page>
