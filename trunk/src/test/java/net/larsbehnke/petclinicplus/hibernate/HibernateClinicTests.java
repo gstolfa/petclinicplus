@@ -1,7 +1,5 @@
 package net.larsbehnke.petclinicplus.hibernate;
 
-import com.opensymphony.module.sitemesh.filter.PageFilter;
-
 import net.larsbehnke.petclinicplus.AbstractClinicTests;
 
 /**
