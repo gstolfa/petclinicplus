@@ -51,12 +51,6 @@
 			<param-value>/WEB-INF/applicationContext-toplink.xml</param-value>
 			<param-value>/WEB-INF/applicationContext-jpa.xml</param-value>
 		-->
-
-		<!--
-			To use the JPA variant above, you will need to enable Spring load-time
-			weaving in your server environment. See PetClinic's readme and/or
-			Spring's JPA documentation for information on how to do this.
-		-->
 	</context-param>
 
 	<!-- 
