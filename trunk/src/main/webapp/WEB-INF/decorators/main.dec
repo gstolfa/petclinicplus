@@ -25,6 +25,10 @@
 
 	<body>
 	
+	    <#-- 
+	      	The corresponding styles of div 'all' and 'content' align the pages
+	      	in the center.
+	    -->
 		<div id="all">
 		<div id="content">
 
