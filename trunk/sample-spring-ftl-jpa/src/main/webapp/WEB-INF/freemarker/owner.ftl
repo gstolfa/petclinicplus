@@ -1,5 +1,4 @@
 <#import "spring.ftl" as spring />
-<#assign authz=JspTaglibs["/WEB-INF/tlds/authz.tld"]>
 
 <html>
 	<head>
@@ -57,10 +56,6 @@
             				</#list>
 	       				</table>
 	       				<a href="<@spring.url '/addVisit.htm?petId=${pet.id}'/>">Add Visit</a>
-                    	<@authz.authorize ifAllGranted='ROLE_SUPERVISOR'>
-	                    	<a href="<@spring.url '/addVisit.htm?petId=${pet.id}'/>">Add Visit</a>
-                    	</@authz.authorize>
-            			
 	       				
         			</td>				
 				</tr>
