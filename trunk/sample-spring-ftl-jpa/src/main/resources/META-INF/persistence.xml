@@ -13,21 +13,6 @@
 
 		<!-- Prevent annotation scanning. In this app we are purely driven by orm.xml -->
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
-<!--  
-		<properties>
-			<property name="hibernate.connection.driver_class"
-				value="com.mysql.jdbc.Driver" />
-			<property name="hibernate.connection.url"
-				value="jdbc:mysql://localhost/pcp?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8" />
-			<property name="hibernate.connection.username" value="root" />
-			<property name="hibernate.connection.password" value="root" />
-			<property name="hibernate.dialect"
-				value="org.hibernate.dialect.MySQLInnoDBDialect" />
-			<property name="hibernate.show_sql" value="false" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
-
-		</properties>
--->
 	</persistence-unit>
 
 </persistence>
