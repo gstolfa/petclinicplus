@@ -1,11 +1,15 @@
 package net.larsbehnke.petclinicplus.web;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.larsbehnke.petclinicplus.Owner;
+import net.larsbehnke.petclinicplus.aspects.UsageLogAspect;
+
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,6 +23,8 @@ public class FindOwnersForm extends AbstractClinicForm {
 
 	private String selectView;
 
+	private UsageLogAspect ownerRequestLogger;
+	
 	/**
 	 * Creates a new instance of FindOwnersForm.
 	 * 
@@ -30,7 +36,7 @@ public class FindOwnersForm extends AbstractClinicForm {
 	 */
 	public FindOwnersForm() {
 		setCommandName("owner");
-		
+
 		/* OK to start with a blank command object */
 		setCommandClass(Owner.class);
 	}
@@ -47,6 +53,17 @@ public class FindOwnersForm extends AbstractClinicForm {
 		if (this.selectView == null) {
 			throw new IllegalArgumentException("selectView isn't set");
 		}
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected Map referenceData(HttpServletRequest request) throws Exception {
+		Map map =  super.referenceData(request);
+		if (map == null) {
+			map = new HashMap();
+		}
+		map.put("requestedNames", getOwnerRequestLogger().getNamesRequested());
+		return map;
 	}
 
 	/**
@@ -76,6 +93,14 @@ public class FindOwnersForm extends AbstractClinicForm {
 		// 1 owner found
 		owner = (Owner) results.iterator().next();
 		return new ModelAndView(getSuccessView(), "ownerId", owner.getId());
+	}
+
+	public UsageLogAspect getOwnerRequestLogger() {
+		return ownerRequestLogger;
+	}
+
+	public void setOwnerRequestLogger(UsageLogAspect ownerRequestLogger) {
+		this.ownerRequestLogger = ownerRequestLogger;
 	}
 
 }
