@@ -155,6 +155,7 @@
 		<property name="selectView" value="owners" />
 		<property name="successView" value="redirect:owner.htm" />
 		<property name="clinic" ref="clinic" />
+		<property name="ownerRequestLogger" ref="ownerRequestLogger" />
 	</bean>
 
 	<!--
@@ -164,7 +165,7 @@
 	<bean id="addOwnerForm"
 		class="net.larsbehnke.petclinicplus.web.AddOwnerForm">
 		<property name="formView" value="ownerForm" />
-		<property name="successView" value="redirect:findOwners.htm" />
+		<property name="successView" value="redirect:owner.htm" />
 		<property name="validator" ref="ownerValidator" />
 		<property name="clinic" ref="clinic" />
 	</bean>
@@ -176,7 +177,7 @@
 	<bean id="editOwnerForm"
 		class="net.larsbehnke.petclinicplus.web.EditOwnerForm">
 		<property name="formView" value="ownerForm" />
-		<property name="successView" value="redirect:findOwners.htm" />
+		<property name="successView" value="redirect:owner.htm" />
 		<property name="validator" ref="ownerValidator" />
 		<property name="clinic" ref="clinic" />
 	</bean>
@@ -196,7 +197,7 @@
 	<bean id="addPetForm"
 		class="net.larsbehnke.petclinicplus.web.AddPetForm">
 		<property name="formView" value="petForm" />
-		<property name="successView" value="redirect:findOwners.htm" />
+		<property name="successView" value="redirect:owner.htm" />
 		<property name="validator" ref="petValidator" />
 		<property name="clinic" ref="clinic" />
 	</bean>
@@ -208,7 +209,7 @@
 	<bean id="editPetForm"
 		class="net.larsbehnke.petclinicplus.web.EditPetForm">
 		<property name="formView" value="petForm" />
-		<property name="successView" value="redirect:findOwners.htm" />
+		<property name="successView" value="redirect:owner.htm" />
 		<property name="validator" ref="petValidator" />
 		<property name="clinic" ref="clinic" />
 	</bean>
@@ -228,7 +229,7 @@
 	<bean id="addVisitForm"
 		class="net.larsbehnke.petclinicplus.web.AddVisitForm">
 		<property name="formView" value="visitForm" />
-		<property name="successView" value="redirect:findOwners.htm" />
+		<property name="successView" value="redirect:owner.htm" />
 		<property name="validator" ref="visitValidator" />
 		<property name="clinic" ref="clinic" />
 	</bean>

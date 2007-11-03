@@ -49,14 +49,15 @@
 		<property name="jpaVendorAdapter">
 			<bean
 				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="database"
-					value="${hibernate.jpa.db}" />
+				<property name="database" value="${hibernate.jpa.db}" />
 				<property name="databasePlatform"
 					value="${hibernate.dialect}" />
 				<property name="showSql" value="true" />
 				<property name="generateDdl" value="true" />
 			</bean>
 		</property>
+
+
 	</bean>
 
 	<!-- 
@@ -70,7 +71,7 @@
 
 
 	<!--
-		Instruct Spring to retrieve and apply @AspectJ aspects which are defined
+		Instruct Spring to retrieve and apply AspectJ aspects (@Aspect) which are defined
 		as beans in this context (such as the UsageLogAspect below).
 	-->
 	<aop:aspectj-autoproxy />
@@ -80,14 +81,14 @@
 		Spring automatically deploys the @Aspect when AspectJ autoproxying is enabled.
 		Note that we can dependency inject this bean like any other bean.
 	-->
-	<bean class="net.larsbehnke.petclinicplus.aspects.UsageLogAspect">
-		<property name="historySize" value="300" />
+	<bean id="ownerRequestLogger" class="net.larsbehnke.petclinicplus.aspects.UsageLogAspect">
+		<property name="historySize" value="5" />
 	</bean>
 
 
 	<!--
 		Instruct Spring to perform declarative transaction management automatically
-		on annotated classes.
+		on @Transactional annotated classes.
 	-->
 	<tx:annotation-driven />
 
@@ -107,13 +108,19 @@
 
 
 	<!--
-		Will automatically be transactional due to @Transactional.
-		EntityManager will be auto-injected due to @PersistenceContext.
-		PersistenceExceptions will be auto-translated due to @Repository.
+		Will automatically be transactional due to @Transactional (Spring annotation).
+		EntityManager will be auto-injected due to @PersistenceContext (JPA annotation).
+		PersistenceExceptions will be auto-translated due to @Repository (Spring annotation).
+		
+		An alternative approach for implementing the service would be extending 
+		JpaDaoSupport. JpaDaoSupport relies on on callbacks (just as JdbcDaoSupport)
+		and translates exceptions (so PersistenceExceptionTranslationPostProcessor
+		would not be necessary). See JpaTemplateClinic in Spring's original PetClinic.
 	-->
 	<bean id="clinic"
 		class="net.larsbehnke.petclinicplus.jpa.EntityManagerClinic" />
 
+  
 	<!-- 
 		Manages the named vocabulary. The default implementation makes use of the ResourceBundle
 		to reads its content from a resource file.

@@ -26,6 +26,15 @@
 		    <input type = "submit" value="Find Owners"  />
 		</form>
 		
+		
+		<p>Recently requested owners (as logged via AspectJ):</p>
+		<ul>
+		<#list requestedNames as o>
+			<li>${o}</li>
+		</#list>
+		</ul>
+		
+		
 		<p>
 		<br>
 		<a href="<@spring.url '/addOwner.htm'/>">Add Owner</a>
