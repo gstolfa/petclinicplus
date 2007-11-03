@@ -8,7 +8,7 @@
 	<packaging>war</packaging>
 	<name>
 		Sample application demonstrating integration of spring mvc +
-		spring webflow + freemarker and some other frameworks.
+		freemarker + aspectj + sitemesh + jpa (orm.xml/hibernate).
 	</name>
 	<version>0.1</version>
 	<build>
@@ -258,57 +258,6 @@
 			<version>${jdbc.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.acegisecurity</groupId>
-			<artifactId>acegi-security-tiger</artifactId>
-			<version>1.0.5</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring-support</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-support</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-dao</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-jdbc</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-context</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-beans</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-aop</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-remoting</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-core</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>commons-logging</artifactId>
-					<groupId>commons-logging</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>log4j</artifactId>
-					<groupId>log4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>
 			<version>2.1_3</version>
@@ -330,19 +279,8 @@
 		</dependency>
 	</dependencies>
 	<properties>
-		<jdbc.url>
-			jdbc:mysql://localhost/pcp?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8
-		</jdbc.url>
-		<jdbc.username>root</jdbc.username>
-		<hibernate.dialect>
-			org.hibernate.dialect.MySQLInnoDBDialect
-		</hibernate.dialect>
 		<jdbc.version>5.0.5</jdbc.version>
 		<jdbc.groupId>mysql</jdbc.groupId>
-		<jdbc.password>root</jdbc.password>
-		<jdbc.driverClassName>
-			com.mysql.jdbc.Driver
-		</jdbc.driverClassName>
 		<jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
 	</properties>
 </project>
