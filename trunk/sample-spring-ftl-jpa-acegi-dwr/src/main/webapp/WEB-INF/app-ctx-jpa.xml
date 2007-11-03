@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+				http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+	<!-- 
+		Configurer that replaces ${...} placeholders with values from a properties file 
+		(in this case, JDBC-related settings for the dataSource definition below) 
+	-->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="/WEB-INF/jdbc.properties" />
+	</bean>
+
+
+	<!-- 
+		Local DataSource that works in any environment.
+		Note that DriverManagerDataSource does not pool; it is not intended for production. 
+		See JPetStore for an example of using Commons DBCP BasicDataSource as alternative. 
+		See Image Database for an example of using C3P0 ComboPooledDataSource as alternative.
+	-->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<!-- 
+		JPA EntityManagerFactory 
+	-->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+
+		<!-- 
+			Loadtime weaving should not be used with Hibernate as it doesn't require any type of instrumentation. 
+			See http://opensource.atlassian.com/projects/spring/browse/SPR-2596. 
+			<property name="loadTimeWeaver">
+			<bean class="org.springframework.instrument.classloading.SimpleLoadTimeWeaver" />
+			</property>
+		-->
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="database" value="${hibernate.jpa.db}" />
+				<property name="databasePlatform"
+					value="${hibernate.dialect}" />
+				<property name="showSql" value="true" />
+				<property name="generateDdl" value="true" />
+			</bean>
+		</property>
+
+
+	</bean>
+
+	<!-- 
+		Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) 
+	-->
+	<bean id="transactionManager"
+		class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory"
+			ref="entityManagerFactory" />
+	</bean>
+
+
+	<!--
+		Instruct Spring to retrieve and apply AspectJ aspects (@Aspect) which are defined
+		as beans in this context (such as the UsageLogAspect below).
+	-->
+	<aop:aspectj-autoproxy />
+
+	<!--
+		Simply defining this bean will cause requests to owner names to be saved.
+		Spring automatically deploys the @Aspect when AspectJ autoproxying is enabled.
+		Note that we can dependency inject this bean like any other bean.
+	-->
+	<bean id="ownerRequestLogger" class="net.larsbehnke.petclinicplus.aspects.UsageLogAspect">
+		<property name="historySize" value="5" />
+	</bean>
+
+
+	<!--
+		Instruct Spring to perform declarative transaction management automatically
+		on @Transactional annotated classes.
+	-->
+	<tx:annotation-driven />
+
+	<!--
+		PostProcessors to perform resource injection according to the JPA specification
+		(@PersistenceContext, @PersistenceUnit).
+	-->
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<!--
+		PostProcessors to perform exception translation on @Repository classes (from native
+		exceptions such as JPA PersistenceExceptions to Spring's DataAccessException hierarchy).
+	-->
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+
+	<!--
+		Will automatically be transactional due to @Transactional (Spring annotation).
+		EntityManager will be auto-injected due to @PersistenceContext (JPA annotation).
+		PersistenceExceptions will be auto-translated due to @Repository (Spring annotation).
+		
+		An alternative approach for implementing the service would be extending 
+		JpaDaoSupport. JpaDaoSupport relies on on callbacks (just as JdbcDaoSupport)
+		and translates exceptions (so PersistenceExceptionTranslationPostProcessor
+		would not be necessary). See JpaTemplateClinic in Spring's original PetClinic.
+	-->
+	<bean id="clinic"
+		class="net.larsbehnke.petclinicplus.jpa.EntityManagerClinic" />
+
+  
+	<!-- 
+		Manages the named vocabulary. The default implementation makes use of the ResourceBundle
+		to reads its content from a resource file.
+	-->
+	<bean id="namedVocabularyManager"
+		class="net.larsbehnke.petclinicplus.util.namedvocabulary.DefaultNamedVocabularyManager">
+	</bean>
+
+	<!-- 
+		Populates database with initial values. That is: named vocabulary entries etc.
+	-->
+	<bean id="dbPopulator"
+		class="net.larsbehnke.petclinicplus.jpa.ClinicDbPopulator">
+		<property name="namedVocabularyManager"
+			ref="namedVocabularyManager" />
+		<property name="clinic" ref="clinic" />
+		<property name="mode" value="INSERT_IF_EMPTY" />
+	</bean>
+
+
+
+</beans>

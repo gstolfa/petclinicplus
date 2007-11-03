@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-1.0.xsd">
+
+	<!-- 
+		The detail flow captures the "id" input attribute passed by the parent flow
+		and places it in flow scope (the default in this case). 
+		The "id" value in flow scope is passed on to the "getPerson" method of 
+		our Phonebook service later on when the "displayDetails" view state renders its view.
+	-->
+	<input-mapper>
+		<input-attribute name="id" />
+	</input-mapper>
+
+	<start-state idref="displayDetails" />
+
+	<view-state id="displayDetails" view="details">
+		<render-actions>
+
+			<!-- 
+				The Business Domain Object "phonebook" is defined in service-config.xml 
+			-->
+			<bean-action bean="phonebook" method="getPerson">
+				<method-arguments>
+
+					<!-- 
+						The id that was put in flow scope by the input mapper above. 
+					-->
+					<argument expression="flowScope.id" />
+				</method-arguments>
+
+				<!-- 
+					Person is accessed in our JSP view via expression language: 
+					For instance by ${person.firstName}.	
+				-->
+				<method-result name="person" />
+			</bean-action>
+		</render-actions>
+		<transition on="back" to="finish" />
+		<transition on="select" to="browseColleagueDetails" />
+	</view-state>
+
+	<!-- 
+		Since we can directly access a person's colleague's details from the detail flow, 
+		the detail flow will also use itself as a subflow! What we have really done now is 
+		package the detail flow as a reusable web application module!
+	-->
+	<subflow-state id="browseColleagueDetails" flow="detail-flow">
+		<attribute-mapper>
+			<input-mapper>
+				<mapping source="requestParameters.id" target="id"
+					from="string" to="long" />
+			</input-mapper>
+		</attribute-mapper>
+		<transition on="finish" to="displayDetails" />
+	</subflow-state>
+
+	<!-- 
+		When the subflow reaches an end state, execution continues in the parent flow. 
+		The event signaled to continue the parent flow is the id of the end state that 
+		was reached in the subflow.
+	-->
+	<end-state id="finish" />
+
+</flow>
