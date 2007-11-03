@@ -49,7 +49,7 @@ Geplante Erweiterungen
 
 Abfrage: Haustierhalter, die Haustiertyp A besitzen, haben ebenfalls ein Haustier vom Typ B:
 
-  create table tokens (custid integer, token varchar2(30);
+  create table tokens (custid integer, token varchar2(30));
 
   select t.token, count(t.token) num
   from pcp.tokens t 
