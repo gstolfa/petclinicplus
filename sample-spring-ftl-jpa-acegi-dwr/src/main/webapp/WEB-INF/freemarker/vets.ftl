@@ -23,5 +23,7 @@
 		  </#list>
 		  
 		</table>
+		<p><small>(<a href="?printable=true">printable version</a>)</small></p>
+		
 	</body>
 </html>
