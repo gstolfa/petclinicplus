@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.larsbehnke</groupId>
-	<artifactId>petclinicplus</artifactId>
+	<artifactId>pcp-simple</artifactId>
 	<packaging>war</packaging>
 	<name>
 		Sample application demonstrating integration of spring mvc +
-		freemarker + aspectj + sitemesh + jpa (orm.xml/hibernate).
+		freemarker + aspectj + sitemesh + jpa (orm.xml/hibernate) + standard security.
 	</name>
 	<version>0.1</version>
 	<build>
@@ -23,7 +23,7 @@
 				</includes>
 			</resource>
 		</resources>
-		<finalName>pcp</finalName>
+		<finalName>pcp-simple</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -32,6 +32,22 @@
 					<source>1.5</source>
 					<target>1.5</target>
 					<compilerVersion>1.5</compilerVersion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>maven-buildnumber-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<doCheck>false</doCheck>
+					<doUpdate>true</doUpdate>
 				</configuration>
 			</plugin>
 			<plugin>

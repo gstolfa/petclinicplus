@@ -52,8 +52,8 @@
 
 		<div id="copyright">
 			<p><a href="${base}/welcome.htm">Home</a></p>
+			<p><a href="${base}/logout.htm">Logout</a></p>
 			<p><#if springMacroRequestContext?exists>${springMacroRequestContext.getMessage("app.title")} - </#if>pimped 2007 by Lars Behnke</p>
-			<p><small>(<a href="?printable=true">printable version</a>)</small></p>
 		</div>
 
         </div>
