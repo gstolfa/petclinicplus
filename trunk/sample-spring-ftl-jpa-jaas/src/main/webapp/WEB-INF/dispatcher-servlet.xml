@@ -38,6 +38,9 @@
 				<prop key="/addPet.htm">addPetForm</prop>
 				<prop key="/editPet.htm">editPetForm</prop>
 				<prop key="/addVisit.htm">addVisitForm</prop>
+				<prop key="/logout.htm">authController</prop>
+				<prop key="/login.htm">authController</prop>
+				<prop key="/loginerror.htm">authController</prop>
 			</props>
 		</property>
 	</bean>
@@ -131,6 +134,24 @@
 	</bean>
 
 	<!--
+		This bean is a MultiActionController that manages security related tasks.
+	-->
+	<bean id="authController"
+		class="net.larsbehnke.petclinicplus.web.AuthController">
+		<property name="methodNameResolver">
+			<bean class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+				<property name="mappings">
+					<props>
+						<prop key="/login.htm">loginHandler</prop>
+						<prop key="/loginerror.htm">loginErrorHandler</prop>
+						<prop key="/logout.htm">logoutHandler</prop>
+					</props>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!--
 		This bean is a MethodNameResolver definition for a MultiActionController.
 		It maps URLs to methods for the "clinicController" bean.
 	-->
@@ -145,6 +166,8 @@
 		</property>
 	</bean>
 
+
+	
 	<!--
 		This bean is a SimpleFormController that manages the findOwner use case.
 		It uses the "findOwnersValidator" and "clinic" beans.
