@@ -25,8 +25,7 @@
 		This bean is an explicit URL mapper that is used by the "petclinicplus" DispatcherServlet
 		It is used instead of the default BeanNameUrlHandlerMapping.
 	-->
-	<bean id="urlMapping"
-		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
 			<props>
 				<prop key="/welcome.htm">clinicController</prop>
@@ -38,6 +37,9 @@
 				<prop key="/addPet.htm">addPetForm</prop>
 				<prop key="/editPet.htm">editPetForm</prop>
 				<prop key="/addVisit.htm">addVisitForm</prop>
+				<prop key="/login.htm">authUrlFilenameViewController</prop>
+				<prop key="/errorAccessDenied.htm">authUrlFilenameViewController</prop>
+				<prop key="/errorDataAccess.htm">urlFilenameViewController</prop>
 			</props>
 		</property>
 	</bean>
@@ -51,29 +53,14 @@
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
-				<prop
-					key="org.springframework.dao.DataAccessException">
-					dataAccessFailure
-				</prop>
-				<prop
-					key="org.springframework.transaction.TransactionException">
-					dataAccessFailure
+				<prop key="org.springframework.dao.DataAccessException">errorDataAccess</prop>
+				<prop key="org.springframework.transaction.TransactionException">
+					errorDataAccess
 				</prop>
 			</props>
 		</property>
 	</bean>
 
-	<!--
-		This bean resolves default view names for controllers that do not explicitly
-		specify a view name in their return ModelAndView (see ClinicController).
-		This translator takes the request URL and extracts a view name from it: e.g.
-		"/welcome.html" -> "welcome", plus configured "View" suffix -> "welcomeView".
-		
-		<bean id="viewNameTranslator"
-		class="org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator">
-		<property name="suffix" value="View" />
-		</bean>
-	-->
 
 	<!--
 		This bean provides explicit View mappings in a resource bundle instead of the
@@ -98,14 +85,11 @@
 
 	<bean id="freemarkerConfig"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-		<property name="templateLoaderPath"
-			value="/WEB-INF/freemarker/" />
+		<property name="templateLoaderPath" value="/WEB-INF/freemarker/" />
 		<property name="freemarkerVariables">
 			<map>
 				<entry key="xml_escape">
-					<bean
-						class="freemarker.template.utility.XmlEscape">
-					</bean>
+					<bean class="freemarker.template.utility.XmlEscape"></bean>
 				</entry>
 			</map>
 		</property>
@@ -119,14 +103,25 @@
 
 	<!-- ========================= CONTROLLER DEFINITIONS ========================= -->
 
+	<!-- 
+		Extracts the view name from the URL. 
+	-->
+	<bean id="urlFilenameViewController"
+		class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
+
+	<!-- 
+		Extracts the view name from the URL and puts the Authentication object
+		into the model (if available).
+	-->
+	<bean id="authUrlFilenameViewController"
+		class="net.larsbehnke.petclinicplus.web.AuthUrlFilenameViewController" />
+
 	<!--
 		This bean is a MultiActionController that manages general View rendering.
 		It uses the "clinicControllerResolver" bean below for method name resolution.
 	-->
-	<bean id="clinicController"
-		class="net.larsbehnke.petclinicplus.web.ClinicController">
-		<property name="methodNameResolver"
-			ref="clinicControllerResolver" />
+	<bean id="clinicController" class="net.larsbehnke.petclinicplus.web.ClinicController">
+		<property name="methodNameResolver" ref="clinicControllerResolver" />
 		<property name="clinic" ref="clinic" />
 	</bean>
 
@@ -149,8 +144,7 @@
 		This bean is a SimpleFormController that manages the findOwner use case.
 		It uses the "findOwnersValidator" and "clinic" beans.
 	-->
-	<bean id="findOwnersForm"
-		class="net.larsbehnke.petclinicplus.web.FindOwnersForm">
+	<bean id="findOwnersForm" class="net.larsbehnke.petclinicplus.web.FindOwnersForm">
 		<property name="formView" value="findOwners" />
 		<property name="selectView" value="owners" />
 		<property name="successView" value="redirect:owner.htm" />
@@ -162,8 +156,7 @@
 		This bean is a SimpleFormController that manages the addOwner use case.
 		It uses the "ownerValidator" and "clinic" beans.
 	-->
-	<bean id="addOwnerForm"
-		class="net.larsbehnke.petclinicplus.web.AddOwnerForm">
+	<bean id="addOwnerForm" class="net.larsbehnke.petclinicplus.web.AddOwnerForm">
 		<property name="formView" value="ownerForm" />
 		<property name="successView" value="redirect:owner.htm" />
 		<property name="validator" ref="ownerValidator" />
@@ -174,8 +167,7 @@
 		This bean is a SimpleFormController that manages the editOwner use case.
 		It uses the "ownerValidator" and "clinic" beans.
 	-->
-	<bean id="editOwnerForm"
-		class="net.larsbehnke.petclinicplus.web.EditOwnerForm">
+	<bean id="editOwnerForm" class="net.larsbehnke.petclinicplus.web.EditOwnerForm">
 		<property name="formView" value="ownerForm" />
 		<property name="successView" value="redirect:owner.htm" />
 		<property name="validator" ref="ownerValidator" />
@@ -187,15 +179,13 @@
 		Could also reside in the root application context, as it is generic,
 		but is currently just used within PetClinic's web tier.
 	-->
-	<bean id="ownerValidator"
-		class="net.larsbehnke.petclinicplus.validation.OwnerValidator" />
+	<bean id="ownerValidator" class="net.larsbehnke.petclinicplus.validation.OwnerValidator" />
 
 	<!--
 		This bean is a SimpleFormController that manages the addPet use case.
 		It uses the "petValidator" and "clinic" beans.
 	-->
-	<bean id="addPetForm"
-		class="net.larsbehnke.petclinicplus.web.AddPetForm">
+	<bean id="addPetForm" class="net.larsbehnke.petclinicplus.web.AddPetForm">
 		<property name="formView" value="petForm" />
 		<property name="successView" value="redirect:owner.htm" />
 		<property name="validator" ref="petValidator" />
@@ -206,8 +196,7 @@
 		This bean is a SimpleFormController that manages the editPet use case.
 		It uses the "petValidator" and "clinic" beans.
 	-->
-	<bean id="editPetForm"
-		class="net.larsbehnke.petclinicplus.web.EditPetForm">
+	<bean id="editPetForm" class="net.larsbehnke.petclinicplus.web.EditPetForm">
 		<property name="formView" value="petForm" />
 		<property name="successView" value="redirect:owner.htm" />
 		<property name="validator" ref="petValidator" />
@@ -219,15 +208,13 @@
 		Could also reside in the root application context, as it is generic,
 		but is currently just used within PetClinic's web tier.
 	-->
-	<bean id="petValidator"
-		class="net.larsbehnke.petclinicplus.validation.PetValidator" />
+	<bean id="petValidator" class="net.larsbehnke.petclinicplus.validation.PetValidator" />
 
 	<!--
 		This bean is a SimpleFormController that manages the addVisit use case.
 		It uses the "visitValidator" and "clinic" beans.
 	-->
-	<bean id="addVisitForm"
-		class="net.larsbehnke.petclinicplus.web.AddVisitForm">
+	<bean id="addVisitForm" class="net.larsbehnke.petclinicplus.web.AddVisitForm">
 		<property name="formView" value="visitForm" />
 		<property name="successView" value="redirect:owner.htm" />
 		<property name="validator" ref="visitValidator" />
@@ -239,7 +226,6 @@
 		Could also reside in the root application context, as it is generic,
 		but is currently just used within PetClinic's web tier.
 	-->
-	<bean id="visitValidator"
-		class="net.larsbehnke.petclinicplus.validation.VisitValidator" />
+	<bean id="visitValidator" class="net.larsbehnke.petclinicplus.validation.VisitValidator" />
 
 </beans>

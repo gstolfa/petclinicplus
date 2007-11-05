@@ -2,6 +2,7 @@ package net.larsbehnke.petclinicplus;
 
 import java.util.Collection;
 
+import org.acegisecurity.annotation.Secured;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -81,6 +82,7 @@ public interface Clinic {
 	 * @param visit the <code>Visit</code> to save
 	 * @see BaseEntity#isNew
 	 */
+	@Secured({"ROLE_SUPERVISOR" })
 	void storeVisit(Visit visit) throws DataAccessException;
 
 	/**
