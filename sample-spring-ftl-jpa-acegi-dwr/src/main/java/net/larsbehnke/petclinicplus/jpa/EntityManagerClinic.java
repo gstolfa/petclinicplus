@@ -14,6 +14,7 @@ import net.larsbehnke.petclinicplus.Specialty;
 import net.larsbehnke.petclinicplus.Vet;
 import net.larsbehnke.petclinicplus.Visit;
 
+import org.acegisecurity.annotation.Secured;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,6 +79,7 @@ public class EntityManagerClinic implements Clinic {
 		em.merge(pet);
 	}
 
+	
 	public void storeVisit(Visit visit) throws DataAccessException {
 		// Consider returning the persistent object here, for exposing
 		// a newly assigned id using any persistence provider...

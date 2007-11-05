@@ -41,15 +41,42 @@
 	-->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/app-ctx-jpa.xml</param-value>
+		<param-value>
+			/WEB-INF/app-ctx-jpa.xml /WEB-INF/app-ctx-acegi.xml
+		</param-value>
 	</context-param>
+
+	<!-- 
+		Notice that the filter in web.xml is actually a FilterToBeanProxy, and not the filter that will actually
+		implement the logic of the filter. What FilterToBeanProxy does is delegate the Filter's methods
+		through to a bean which is obtained from the Spring application context. This enables the bean to
+		benefit from the Spring application context lifecycle support and configuration flexibility. The bean
+		must implement javax.servlet.Filter. 
+		The FilterToBeanProxy only requires a single initialization parameter, targetClass or targetBean. The
+		targetClass parameter locates the first object in the application context of the specified class, whilst
+		targetBean locates the object by bean name.
+	-->
+	<filter>
+		<filter-name>Acegi Filter Chain Proxy</filter-name>
+		<filter-class>
+			org.acegisecurity.util.FilterToBeanProxy
+		</filter-class>
+		<init-param>
+			<param-name>targetClass</param-name>
+			<param-value>
+				org.acegisecurity.util.FilterChainProxy
+			</param-value>
+		</init-param>
+	</filter>
+
+
 
 	<!-- 
 		Main SiteMesh filter for applying Decorators to entire Pages.
 		See http://www.onjava.com/pub/a/onjava/2004/09/22/sitemesh.html
 	-->
 	<filter>
-		<filter-name>sitemesh</filter-name>
+		<filter-name>Sitemesh</filter-name>
 		<filter-class>
 			com.opensymphony.module.sitemesh.filter.PageFilter
 		</filter-class>
@@ -59,9 +86,23 @@
 		</init-param>
 	</filter>
 
-
+	<!-- 
+		If you're using SiteMesh, ensure Acegi Security filters execute before the SiteMesh filters 
+		are called. This enables the SecurityContextHolder to be populated in time for use by 
+		SiteMesh decorators.
+	-->
 	<filter-mapping>
-		<filter-name>sitemesh</filter-name>
+		<filter-name>Acegi Filter Chain Proxy</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
+	<!-- 
+		Sitemesh filter must execute after Acegi filter. See above.
+	-->
+	<filter-mapping>
+		<filter-name>Sitemesh</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
