@@ -149,6 +149,9 @@
 				</property>
 			</bean>
 		</property>
+		<property name="loginView" value="login"/>
+		<property name="loginErrorView" value="loginerror"/>
+		<property name="logoutView" value="welcome"/>
 	</bean>
 
 	<!--
