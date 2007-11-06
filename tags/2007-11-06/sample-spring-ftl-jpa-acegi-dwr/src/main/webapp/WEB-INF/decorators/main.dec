@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<#--
+	Sitemesh context attributes:
+
+	base 	request.getContextPath()
+	title 	Parsed page title (<title>...<title>)
+	head 	Parsed page head
+	body 	Parsed page body
+	page 	SiteMesh's internal Page object
+-->
+
+	<head>
+		<title>
+		<#if springMacroRequestContext?exists>${springMacroRequestContext.getMessage("app.title")}
+		<#else>${title}</#if>
+		</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+		<link rel="stylesheet" href="${base}/styles/default.css" type="text/css"/>
+		${head}
+		
+	</head>
+
+	<body>
+	
+	    <#-- 
+	      	The corresponding styles of div 'all' and 'content' align the pages
+	      	in the center.
+	    -->
+		<div id="all">
+		<div id="content">
+
+	
+		<#if message?exists>
+    		<div class="message">${message}</div>
+		</#if>
+			
+		<div id="logo">
+			<img src="${base}/images/logo.gif" alt="Logo"/> 
+		</div>
+		<br/>
+	
+	    <div id="body">
+	    	${body}
+	    </div>
+	
+	
+	    <br/>
+		<hr/>
+
+		<div id="copyright">
+			<p><a href="${base}/welcome.htm">Home</a></p>
+		    <p><a href="${base}/j_acegi_logout">Logout</a></p>
+			<p><#if springMacroRequestContext?exists>${springMacroRequestContext.getMessage("app.title")} - </#if>pimped 2007 by Lars Behnke</p>
+		</div>
+
+        </div>
+        </div>
+	
+	</body>
+</html>

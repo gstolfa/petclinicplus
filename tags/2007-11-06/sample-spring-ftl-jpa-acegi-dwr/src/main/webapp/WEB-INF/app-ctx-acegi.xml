@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+	Acegi Security configuration. Supported features:
+	- Web request security
+	- Service layer security (annotation driven)
+	- Domain object instance security
+-->
+
+<beans>
+
+	<!-- ============================================================================================== -->
+	<!-- Security Services                                                                              -->
+	<!-- ============================================================================================== -->
+    
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:/org/acegisecurity/messages</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 
+		Both AbstractSecurityInterceptor as well as the authentication mechanisms will use this ProviderManager 
+		to poll a list of AuthenticationProviders.
+		In this case we have three providers. They are tried in the order shown (which is implied by the
+		use of a List instead of a Set), with each provider able to attempt authentication, or skip authentication
+		by simply returning null. If all implementations return null, the ProviderManager will throw a suitable
+		exception. 
+	-->
+	<bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
+		<property name="providers">
+			<list>
+				<ref local="daoAuthenticationProvider" />
+				<bean
+					class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
+					<property name="key" value="changeThis" />
+				</bean>
+				<bean
+					class="org.acegisecurity.providers.rememberme.RememberMeAuthenticationProvider">
+					<property name="key" value="changeThis" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 
+		This authentication provider is compatible with all of the authentication
+		mechanisms that generate a UsernamePasswordAuthenticationToken, and is probably the most commonly
+		used provider in the framework. Like most of the other authentication providers, the
+		DaoAuthenticationProvider leverages a UserDetailsService in order to lookup the username, password
+		and GrantedAuthority[]s. Unlike most of the other authentication providers that leverage
+		UserDetailsService, this authentication provider actually requires the password to be presented, and
+		the provider will actually evaluate the validity or otherwise of the password presented in an
+		authentication request object.
+		See Chapter 7 of Acegi reference.
+	-->
+	<bean id="daoAuthenticationProvider"
+		class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService" />
+	</bean>
+
+	<!-- 
+		Very simple user details servers that reads user credentials and roles from a properties file.
+		For production use this solution is not appropriate.
+	-->
+	<bean id="userDetailsService" class="org.acegisecurity.userdetails.memory.InMemoryDaoImpl">
+		<property name="userProperties">
+			<bean class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+				<property name="location" value="/WEB-INF/users.properties" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 
+		TokenBasedRememberMeServices, uses hashing to achieve
+		a useful remember-me strategy. In essence a cookie is sent to the browser upon successful interactive
+		authentication.
+		As such the remember-me token is valid only for the period specified, and provided that the username,
+		password and key does not change. Notably, this has a potential security issue in that a captured
+		remember-me token will be usable from any user agent until such time as the token expires. This is
+		the same issue as with digest authentication. If a principal is aware a token has been captured, they can
+		easily change their password and immediately invalidate all remember-me tokens on issue. However,
+		if more significant security is needed a rolling token approach should be used (this would require a
+		database) or remember-me services should simply not be used.
+	-->
+	<bean id="rememberMeServices"
+		class="org.acegisecurity.ui.rememberme.TokenBasedRememberMeServices">
+		<property name="userDetailsService" ref="userDetailsService" />
+		<property name="key" value="changeThis" />
+	</bean>
+
+	<!-- 
+		This bean is optional; it isn't used by any other bean as it only listens and logs 
+	-->
+	<bean id="loggerListener" class="org.acegisecurity.event.authentication.LoggerListener" />
+
+	<!-- 
+		Auto proxy creator that identifies beans to proxy via a list of names. 
+		Checks for direct, "xxx*", and "*xxx" matches.
+		Note that AspectJ (for fine grained aspects) and Spring AOP (for coarse grained aspects) 
+		can be used together.
+	-->
+	<bean id="autoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames">
+			<list>
+				<value>methodSecurityInterceptor</value>
+			</list>
+		</property>
+		<property name="beanNames">
+			<list>
+				<value>clinic</value>
+			</list>
+		</property>
+
+		<!-- 
+			The proxy has already been created. We don't want a proxy to the proxy, so 
+			proxyTargetClass is "false".
+		-->
+		<property name="proxyTargetClass" value="false" />
+	</bean>
+
+
+	<!-- ============================================================================================== -->
+	<!-- Web Request Security                                                                           -->
+	<!-- ============================================================================================== -->
+
+	<!-- 
+		The FilterToBeanProxy configured in web.xml delegates to the first object of FilterChainProxy 
+		(which is this one). Note that the filter order important. See Acegi reference.
+	-->
+	<bean id="filterChainProxy" class="org.acegisecurity.util.FilterChainProxy">
+		<property name="filterInvocationDefinitionSource">
+			<value><![CDATA[
+				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+				PATTERN_TYPE_APACHE_ANT
+				/**=httpSessionContextIntegrationFilter,logoutFilter,authenticationProcessingFilter,securityContextHolderAwareRequestFilter,rememberMeProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilter,filterInvocationInterceptor
+			]]></value>
+		</property>
+	</bean>
+
+	<!-- 
+		The HttpSessionContextIntegrationFilter is responsible for storing a SecurityContext between
+		HTTP requests. As suggested by the name of the class, the HttpSession is used to store this
+		information. You should never interact directly with the HttpSession for security purposes. There is
+		simply no justification for doing so - always use the SecurityContextHolder instead.
+	-->
+	<bean id="httpSessionContextIntegrationFilter"
+		class="org.acegisecurity.context.HttpSessionContextIntegrationFilter" />
+
+	<!-- 
+		Logs a principal out.
+		Polls a series of LogoutHandlers. The handlers should be specified in the order they are required. 
+		Generally you will want to call logout handlers TokenBasedRememberMeServices and 
+		SecurityContextLogoutHandler (in that order).
+		After logout, the URL specified by logoutSuccessUrl will be shown. 
+	-->
+	<bean id="logoutFilter" class="org.acegisecurity.ui.logout.LogoutFilter">
+		<constructor-arg value="/welcome.htm" />
+		<!-- URL redirected to after logout -->
+		<constructor-arg>
+			<list>
+				<ref bean="rememberMeServices" />
+				<bean class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- 
+		Provides for form based authentication processing mechanism. Modifies the 
+		SecurityContextHolder to contain a valid Authentication request token.
+		Form based authentication is the most common way that application authenticate end users. 
+		It is entirely compatible with the DAO and JAAS authentication providers.
+		Alternative filters: CasProcessingFilter, BasicProcessingFilter, HttpRequestIntegrationFilter, 
+		JbossIntegrationFilter etc.
+	-->
+	<bean id="authenticationProcessingFilter"
+		class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="authenticationFailureUrl" value="/login.htm?login_error=1" />
+		<property name="defaultTargetUrl" value="/" />
+		<property name="filterProcessesUrl" value="/j_acegi_security_check" />
+		<property name="rememberMeServices" ref="rememberMeServices" />
+	</bean>
+
+	<!-- 
+		A Filter which populates the ServletRequest with a new request wrapper.
+		Necessary if you install an Acegi Security
+		aware HttpServletRequestWrapper in your servlet container.
+	-->
+	<bean id="securityContextHolderAwareRequestFilter"
+		class="org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter" />
+
+	<!-- 
+		If no earlier authentication processing mechanism updated
+		the SecurityContextHolder, and the request presents a cookie that enables remember-me
+		services to take place, a suitable remembered Authentication object will be put there
+	-->
+	<bean id="rememberMeProcessingFilter"
+		class="org.acegisecurity.ui.rememberme.RememberMeProcessingFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="rememberMeServices" ref="rememberMeServices" />
+	</bean>
+
+	<!-- 
+		If no earlier authentication processing mechanism updated
+		the SecurityContextHolder, an anonymous Authentication object will be put there.
+	-->
+	<bean id="anonymousProcessingFilter"
+		class="org.acegisecurity.providers.anonymous.AnonymousProcessingFilter">
+		<property name="key" value="changeThis" />
+		<property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS" />
+	</bean>
+
+	<!-- 
+		Catch any Acegi Security exceptions so that either an HTTP
+		error response can be returned or an appropriate AuthenticationEntryPoint can be launched.
+	-->
+	<bean id="exceptionTranslationFilter" class="org.acegisecurity.ui.ExceptionTranslationFilter">
+		<property name="authenticationEntryPoint">
+			<bean class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilterEntryPoint">
+				<property name="loginFormUrl" value="/login.htm" />
+				<property name="forceHttps" value="false" />
+			</bean>
+		</property>
+		<property name="accessDeniedHandler">
+			<bean class="org.acegisecurity.ui.AccessDeniedHandlerImpl">
+				<property name="errorPage" value="/errorAccessDenied.htm" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- 
+		FilterSecurityInterceptor is responsible for handling the security of HTTP resources. Like any other
+		security interceptor, it requires a reference to an AuthenticationManager and an AccessDecisionManager.
+		The FilterSecurityInterceptor is also configured
+		with configuration attributes that apply to different HTTP URL requests.
+	-->
+	<bean id="filterInvocationInterceptor"
+		class="org.acegisecurity.intercept.web.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManager" />
+
+		<!-- 
+			the security interceptor will ask an
+			AccessDecisionManager "here's the configuration attributes, here's the current Authentication object, and
+			here's details of the current request - is this particular principal allowed to perform this particular
+			operation?".
+		-->
+		<property name="accessDecisionManager">
+			<bean class="org.acegisecurity.vote.AffirmativeBased">
+				<property name="allowIfAllAbstainDecisions" value="false" />
+				<property name="decisionVoters">
+					<list>
+						<bean class="org.acegisecurity.vote.RoleVoter" />
+						<bean class="org.acegisecurity.vote.AuthenticatedVoter" />
+					</list>
+				</property>
+			</bean>
+		</property>
+
+		<!-- 
+			Here, protected URLs are listed, while the MethodSecurityInterceptor
+			makes use of annotations.
+		-->
+		<property name="objectDefinitionSource">
+			<value><![CDATA[
+				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+				PATTERN_TYPE_APACHE_ANT
+				/login.htm=IS_AUTHENTICATED_ANONYMOUSLY
+				/*.htm=IS_AUTHENTICATED_REMEMBERED
+			]]></value>
+		</property>
+	</bean>
+
+	<!-- ============================================================================================== -->
+	<!-- Service Layer Security and Domain Object Instance Security                                     -->
+	<!-- ============================================================================================== -->
+
+
+
+	<!-- 
+		To secure MethodInvocations, one simply adds a properly configured MethodSecurityInterceptor
+		into the application context. Next the beans requiring security are chained into the interceptor. This
+		chaining is accomplished using Spring’s ProxyFactoryBean or BeanNameAutoProxyCreator (see above), as commonly
+		used by many other parts of Spring (refer to the sample application for examples). Alternatively,
+		Acegi Security provides a MethodDefinitionSourceAdvisor which may be used with Spring's
+		DefaultAdvisorAutoProxyCreator to automatically chain the security interceptor in front of any beans
+		defined against the MethodSecurityInterceptor.
+	-->
+	<bean id="methodSecurityInterceptor"
+		class="org.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor">
+
+		<!-- 
+			When set to true (the default), at startup time the MethodSecurityInterceptor will evaluate if
+			the provided configuration attributes are valid. It does this by checking each configuration attribute
+			can be processed by either the AccessDecisionManager or the RunAsManager. If neither of these can
+			process a given configuration attribute, an exception is thrown.
+		-->
+		<property name="validateConfigAttributes">
+			<value>false</value>
+		</property>
+		<property name="authenticationManager">
+			<ref bean="authenticationManager" />
+		</property>
+		<property name="accessDecisionManager">
+			<bean class="org.acegisecurity.vote.AffirmativeBased">
+				<property name="allowIfAllAbstainDecisions" value="true" />
+				<property name="decisionVoters">
+					<list>
+						<bean class="org.acegisecurity.vote.RoleVoter" />
+						<bean class="org.acegisecurity.vote.AuthenticatedVoter" />
+						<ref local="aclVetReadVoter" />
+						<ref local="aclVetWriteVoter" />
+						<ref local="aclVetDeleteVoter" />
+					</list>
+				</property>
+			</bean>
+		</property>
+
+		<!-- 
+			Target methods must be annotated in the interface!
+			Annotating the implementation as no effect. 
+			Example:
+			@Secured({"ROLE_SUPERVISOR" })
+			void storeVisit(Visit visit) throws DataAccessException;
+		-->
+		<property name="objectDefinitionSource">
+			<bean class="org.acegisecurity.intercept.method.MethodDefinitionAttributes">
+				<property name="attributes">
+					<bean class="org.acegisecurity.annotation.SecurityAnnotationAttributes" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+
+	<!-- ============================================================================================== -->
+	<!-- Domain Object Instance Security                                                                -->
+	<!-- ============================================================================================== -->
+
+
+	<bean id="aclVetReadVoter" class="org.acegisecurity.vote.BasicAclEntryVoter">
+		<property name="processConfigAttribute">
+			<value>ACL_VET_READ</value>
+		</property>
+		<property name="processDomainObjectClass">
+			<value>net.larsbehnke.petclinicplus.Vet</value>
+		</property>
+		<property name="aclManager">
+			<ref bean="aclManager" />
+		</property>
+		<property name="requirePermission">
+			<list>
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION" />
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.READ" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="aclVetWriteVoter" class="org.acegisecurity.vote.BasicAclEntryVoter">
+		<property name="processConfigAttribute">
+			<value>ACL_VET_WRITE</value>
+		</property>
+		<property name="processDomainObjectClass">
+			<value>net.larsbehnke.petclinicplus.Vet</value>
+		</property>
+		<property name="aclManager">
+			<ref bean="aclManager" />
+		</property>
+		<property name="requirePermission">
+			<list>
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION" />
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.WRITE" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="aclVetDeleteVoter" class="org.acegisecurity.vote.BasicAclEntryVoter">
+		<property name="processConfigAttribute">
+			<value>ACL_VET_DELETE</value>
+		</property>
+		<property name="processDomainObjectClass">
+			<value>net.larsbehnke.petclinicplus.Vet</value>
+		</property>
+		<property name="aclManager">
+			<ref bean="aclManager" />
+		</property>
+		<property name="requirePermission">
+			<list>
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION" />
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.DELETE" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 
+		ACL permission masks used by this application 
+	-->
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION</value>
+		</property>
+	</bean>
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.READ"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.READ</value>
+		</property>
+	</bean>
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.DELETE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.DELETE</value>
+		</property>
+	</bean>
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.WRITE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.WRITE</value>
+		</property>
+	</bean>
+
+	<bean id="aclManager" class="org.acegisecurity.acl.AclProviderManager">
+		<property name="providers">
+			<list>
+				<ref bean="aclProvider" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 
+		Retrieves access control lists (ACL) entries for domain object instances from 
+		a data access object (DAO).
+	-->
+	<bean id="aclProvider" class="org.acegisecurity.acl.basic.BasicAclProvider">
+		<property name="basicAclDao" ref="aclDao" />
+	</bean>
+
+	<!--
+		Will automatically be transactional due to @Transactional (Spring annotation).
+		EntityManager will be auto-injected due to @PersistenceContext (JPA annotation).
+		PersistenceExceptions will be auto-translated due to @Repository (Spring annotation).
+		
+		An alternative approach for implementing the service would be extending 
+		JpaDaoSupport. JpaDaoSupport relies on on callbacks (just as JdbcDaoSupport)
+		and translates exceptions (so PersistenceExceptionTranslationPostProcessor
+		would not be necessary). See JpaTemplateClinic in Spring's original PetClinic.
+	-->
+	<bean id="aclDao" class="net.larsbehnke.petclinicplus.acl.EntityManagerAcl" />
+
+</beans>
