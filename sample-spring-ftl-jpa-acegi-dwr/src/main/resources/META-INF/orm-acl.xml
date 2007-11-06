@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+	version="1.0">
+
+	<persistence-unit-metadata>
+		<xml-mapping-metadata-complete />
+		<persistence-unit-defaults>
+			<access>PROPERTY</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+
+	<package>net.larsbehnke.petclinicplus.acl</package>
+
+	<entity class="AcegiAclObjectIdentity">
+		<table name="ACL_OBJECT_IDENTITY"/>
+		<attributes>
+			<id name="id">
+				<column name="ID" />
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="objectIdentity">
+				<column name="OBJECT_IDENTITY" nullable="false" unique="true"/>
+			</basic>
+			<basic name="aclClass">
+				<column name="ACL_CLASS" nullable="false"/>
+			</basic>
+			<many-to-one name="parentObject" fetch="EAGER" optional="true">
+				<join-column name="PARENT_OBJECT"/>
+				<cascade>
+					<cascade-all />
+				</cascade>
+			</many-to-one>
+		</attributes>
+	</entity>
+
+	<entity class="AcegiAclPermission">
+		<table name="ACL_PERMISSION"/>
+		<attributes>
+			<id name="id">
+				<column name="ID" />
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="recipient">
+				<column name="RECIPIENT" nullable="false"/>
+			</basic>
+			<basic name="mask">
+				<column name="MASK" nullable="false"/>
+			</basic>
+			<many-to-one name="aclObjectIdentity" fetch="EAGER">
+				<join-column name="ACL_OBJECT_IDENTITY" nullable="false"/>
+				<cascade>
+					<cascade-all />
+				</cascade>
+			</many-to-one>
+		</attributes>
+	</entity>
+	
+
+</entity-mappings>

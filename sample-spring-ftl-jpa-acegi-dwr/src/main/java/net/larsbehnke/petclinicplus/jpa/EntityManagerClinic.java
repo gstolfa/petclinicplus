@@ -83,38 +83,30 @@ public class EntityManagerClinic implements Clinic {
 		}
 	}
 	
-	public void storeOwner(Owner owner) throws DataAccessException {
-		// Consider returning the persistent object here, for exposing
-		// a newly assigned id using any persistence provider...
-		em.merge(owner);
+	public Owner storeOwner(Owner owner) throws DataAccessException {
+		return em.merge(owner);
 	}
 
-	public void storePet(Pet pet) throws DataAccessException {
-		// Consider returning the persistent object here, for exposing
-		// a newly assigned id using any persistence provider...
-		em.merge(pet);
+	public Pet storePet(Pet pet) throws DataAccessException {
+		return em.merge(pet);
 	}
 
 	
-	public void storeVisit(Visit visit) throws DataAccessException {
-		// Consider returning the persistent object here, for exposing
-		// a newly assigned id using any persistence provider...
-		em.merge(visit);
+	public Visit storeVisit(Visit visit) throws DataAccessException {
+		return em.merge(visit);
 	}
 	
 
-	public void storeVet(Vet vet) throws DataAccessException {
-		// Consider returning the persistent object here, for exposing
-		// a newly assigned id using any persistence provider...
-		em.merge(vet);
+	public Vet storeVet(Vet vet) throws DataAccessException {
+		return em.merge(vet);
 	}
 	
-	public void storePetType(PetType petType) throws DataAccessException {
-		em.merge(petType);
+	public PetType storePetType(PetType petType) throws DataAccessException {
+		return em.merge(petType);
 	}
 	
-	public void storeSpecialty(Specialty specialtiy) throws DataAccessException {
-		em.merge(specialtiy);
+	public Specialty storeSpecialty(Specialty specialtiy) throws DataAccessException {
+		return em.merge(specialtiy);
 	}
 
 	

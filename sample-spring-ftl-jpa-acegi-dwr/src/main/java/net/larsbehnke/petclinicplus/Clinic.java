@@ -15,6 +15,7 @@ import org.springframework.dao.DataAccessException;
  * @author Juergen Hoeller
  * @author Lars Behnke
  */
+@Secured({"ROLE_USER"})
 public interface Clinic {
 
 	/**
@@ -83,7 +84,7 @@ public interface Clinic {
 	 * @param owner the <code>Owner</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	void storeOwner(Owner owner) throws DataAccessException;
+	Owner storeOwner(Owner owner) throws DataAccessException;
 
 	/**
 	 * Save a <code>Pet</code> to the datastore,
@@ -91,7 +92,7 @@ public interface Clinic {
 	 * @param pet the <code>Pet</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	void storePet(Pet pet) throws DataAccessException;
+	Pet storePet(Pet pet) throws DataAccessException;
 
 	/**
 	 * Save a <code>Visit</code> to the datastore,
@@ -99,8 +100,7 @@ public interface Clinic {
 	 * @param visit the <code>Visit</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	@Secured({"ROLE_SUPERVISOR" })
-	void storeVisit(Visit visit) throws DataAccessException;
+	Visit storeVisit(Visit visit) throws DataAccessException;
 
 	/**
 	 * Save a <code>Vet</code> to the datastore,
@@ -108,7 +108,8 @@ public interface Clinic {
 	 * @param vet the <code>Vet</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	void storeVet(Vet vet) throws DataAccessException;
+	@Secured({"ACL_VET_WRITE", "ROLE_SUPERVISOR"})
+	Vet storeVet(Vet vet) throws DataAccessException;
 
 
 	/**
@@ -116,31 +117,34 @@ public interface Clinic {
 	 * @param petType The pet type to store
 	 * @throws DataAccessException
 	 */
-	void storePetType(PetType petType) throws DataAccessException ;
+	PetType storePetType(PetType petType) throws DataAccessException ;
 	
 	/**
 	 * Stores a specialty. Called on populating the database.
 	 * @param specialtiy The vet specialty to store.
 	 * @throws DataAccessException
 	 */
-	void storeSpecialty(Specialty specialtiy) throws DataAccessException ;
+	Specialty storeSpecialty(Specialty specialtiy) throws DataAccessException ;
 	
 	/**
 	 * Clears all vet specialties.
 	 * @throws DataAccessException
 	 */
+	@Secured({"ROLE_SUPERVISOR" })
 	void clearSpecialties() throws DataAccessException;
 	
 	/**
 	 * Clears all pet types.
 	 * @throws DataAccessException
 	 */
+	@Secured({"ROLE_SUPERVISOR" })
 	void clearPetTypes() throws DataAccessException;
 
 	/**
 	 * Clears  all vets.
 	 * @throws DataAccessException
 	 */
+	@Secured({"ROLE_SUPERVISOR" })
 	void clearVets() throws DataAccessException;
 
 

@@ -20,6 +20,7 @@
 				<generated-value strategy="IDENTITY" />
 			</id>
 			<transient name="new" />
+			<transient name="aclObjectIdentity" />
 		</attributes>
 	</mapped-superclass>
 
@@ -56,6 +57,9 @@
 					<join-column name="VET_ID" />
 					<inverse-join-column name="SPECIALTY_ID" />
 				</join-table>
+				<cascade>
+					<cascade-all />
+				</cascade>
 			</many-to-many>
 			<transient name="specialtiesReadOnly" />
 			<transient name="nrOfSpecialties" />
