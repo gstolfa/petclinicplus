@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Mike Keith
  * @author Rod Johnson
  * @author Lars Behnke
- * @since 22.4.2006
  */
 @Repository
 @Transactional
