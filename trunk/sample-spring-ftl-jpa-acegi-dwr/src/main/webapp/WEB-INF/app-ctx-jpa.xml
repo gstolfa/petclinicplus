@@ -124,11 +124,21 @@
 
 	<!-- 
 		Populates database with initial values. That is: named vocabulary entries etc.
+		WARNING: It is certainly not best practice to put plain text passwords into
+		this file.
 	-->
 	<bean id="dbPopulator" class="net.larsbehnke.petclinicplus.jpa.ClinicDbPopulator">
 		<property name="namedVocabularyManager" ref="namedVocabularyManager" />
 		<property name="clinic" ref="clinic" />
 		<property name="mode" value="INSERT_IF_EMPTY" />
+		<property name="adminUser" value="admin"/>
+		<property name="adminPassword" value="admin"/>
+		<property name="adminAuthorities">
+		<list>
+		  <value>ROLE_SUPERVISOR</value>
+		  <value>ROLE_USER</value>
+		</list>
+		</property>
 	</bean>
 
 

@@ -87,6 +87,7 @@ public class ClinicDbPopulator extends AbstractDbPopulator {
 		vet.setPassword("dalton");
 		vet.addSpecialty(specs[0]);
 		clinic.storeVet(vet);
+		
 		vet = new Vet();
 		vet.setFirstName("Carry");
 		vet.setLastName("Cameron");
@@ -95,6 +96,8 @@ public class ClinicDbPopulator extends AbstractDbPopulator {
 		vet.addSpecialty(specs[1]);
 		vet.addSpecialty(specs[2]);
 		clinic.storeVet(vet);
+		
+		
 
 	}
 

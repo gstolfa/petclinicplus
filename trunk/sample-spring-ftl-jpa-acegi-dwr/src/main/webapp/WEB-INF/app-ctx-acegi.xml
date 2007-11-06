@@ -2,10 +2,10 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <!--
-    Acegi Security configuration. Supported features:
-    - Web request security
-    - Service layer security (annotation driven)
-    - Domain object instance security
+	Acegi Security configuration. Supported features:
+	- Web request security
+	- Service layer security (annotation driven)
+	- Domain object instance security
 -->
 
 <beans>
@@ -13,6 +13,16 @@
 	<!-- ============================================================================================== -->
 	<!-- Security Services                                                                              -->
 	<!-- ============================================================================================== -->
+    
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:/org/acegisecurity/messages</value>
+			</list>
+		</property>
+	</bean>
 
 	<!-- 
 		Both AbstractSecurityInterceptor as well as the authentication mechanisms will use this ProviderManager 
@@ -88,6 +98,32 @@
 		This bean is optional; it isn't used by any other bean as it only listens and logs 
 	-->
 	<bean id="loggerListener" class="org.acegisecurity.event.authentication.LoggerListener" />
+
+	<!-- 
+		Auto proxy creator that identifies beans to proxy via a list of names. 
+		Checks for direct, "xxx*", and "*xxx" matches.
+		Note that AspectJ (for fine grained aspects) and Spring AOP (for coarse grained aspects) 
+		can be used together.
+	-->
+	<bean id="autoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="interceptorNames">
+			<list>
+				<value>methodSecurityInterceptor</value>
+			</list>
+		</property>
+		<property name="beanNames">
+			<list>
+				<value>clinic</value>
+			</list>
+		</property>
+
+		<!-- 
+			The proxy has already been created. We don't want a proxy to the proxy, so 
+			proxyTargetClass is "false".
+		-->
+		<property name="proxyTargetClass" value="false" />
+	</bean>
 
 
 	<!-- ============================================================================================== -->
@@ -242,41 +278,19 @@
 	</bean>
 
 	<!-- ============================================================================================== -->
-	<!-- Service Layer Security                                                                         -->
+	<!-- Service Layer Security and Domain Object Instance Security                                     -->
 	<!-- ============================================================================================== -->
 
-	<!-- 
-		Auto proxy creator that identifies beans to proxy via a list of names. 
-		Checks for direct, "xxx*", and "*xxx" matches.
-		Note that AspectJ and Spring AOP can be used together.
-	-->
-	<bean id="autoProxyCreator"
-		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
-		<property name="interceptorNames">
-			<list>
-				<value>methodSecurityInterceptor</value>
-			</list>
-		</property>
-		<property name="beanNames">
-			<list>
-				<value>clinic</value>
-			</list>
-		</property>
 
-		<!-- 
-			The proxy has already been created. We don't want a proxy to the proxy, so 
-			proxyTargetClass is "false".
-		-->
-		<property name="proxyTargetClass" value="false" />
-	</bean>
 
 	<!-- 
-		The AspectJ interceptor is named AspectJSecurityInterceptor. Unlike the AOP Alliance security
-		interceptor, which relies on the Spring application context to weave in the security interceptor via
-		proxying, the AspectJSecurityInterceptor is weaved in via the AspectJ compiler. It would not be
-		uncommon to use both types of security interceptors in the same application, with
-		AspectJSecurityInterceptor being used for domain object instance security and the AOP Alliance
-		MethodSecurityInterceptor being used for services layer security.
+		To secure MethodInvocations, one simply adds a properly configured MethodSecurityInterceptor
+		into the application context. Next the beans requiring security are chained into the interceptor. This
+		chaining is accomplished using Spring’s ProxyFactoryBean or BeanNameAutoProxyCreator (see above), as commonly
+		used by many other parts of Spring (refer to the sample application for examples). Alternatively,
+		Acegi Security provides a MethodDefinitionSourceAdvisor which may be used with Spring's
+		DefaultAdvisorAutoProxyCreator to automatically chain the security interceptor in front of any beans
+		defined against the MethodSecurityInterceptor.
 	-->
 	<bean id="methodSecurityInterceptor"
 		class="org.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor">
@@ -295,11 +309,14 @@
 		</property>
 		<property name="accessDecisionManager">
 			<bean class="org.acegisecurity.vote.AffirmativeBased">
-				<property name="allowIfAllAbstainDecisions" value="false" />
+				<property name="allowIfAllAbstainDecisions" value="true" />
 				<property name="decisionVoters">
 					<list>
 						<bean class="org.acegisecurity.vote.RoleVoter" />
 						<bean class="org.acegisecurity.vote.AuthenticatedVoter" />
+						<ref local="aclVetReadVoter" />
+						<ref local="aclVetWriteVoter" />
+						<ref local="aclVetDeleteVoter" />
 					</list>
 				</property>
 			</bean>
@@ -327,10 +344,114 @@
 	<!-- ============================================================================================== -->
 
 
-	<!-- 
-		TODO : Domain Object Instance Security, see http://raibledesigns.com/wiki/Wiki.jsp?page=AppFuseAcegiACL
-		
-	-->
+	<bean id="aclVetReadVoter" class="org.acegisecurity.vote.BasicAclEntryVoter">
+		<property name="processConfigAttribute">
+			<value>ACL_VET_READ</value>
+		</property>
+		<property name="processDomainObjectClass">
+			<value>net.larsbehnke.petclinicplus.Vet</value>
+		</property>
+		<property name="aclManager">
+			<ref bean="aclManager" />
+		</property>
+		<property name="requirePermission">
+			<list>
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION" />
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.READ" />
+			</list>
+		</property>
+	</bean>
 
+	<bean id="aclVetWriteVoter" class="org.acegisecurity.vote.BasicAclEntryVoter">
+		<property name="processConfigAttribute">
+			<value>ACL_VET_WRITE</value>
+		</property>
+		<property name="processDomainObjectClass">
+			<value>net.larsbehnke.petclinicplus.Vet</value>
+		</property>
+		<property name="aclManager">
+			<ref bean="aclManager" />
+		</property>
+		<property name="requirePermission">
+			<list>
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION" />
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.WRITE" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="aclVetDeleteVoter" class="org.acegisecurity.vote.BasicAclEntryVoter">
+		<property name="processConfigAttribute">
+			<value>ACL_VET_DELETE</value>
+		</property>
+		<property name="processDomainObjectClass">
+			<value>net.larsbehnke.petclinicplus.Vet</value>
+		</property>
+		<property name="aclManager">
+			<ref bean="aclManager" />
+		</property>
+		<property name="requirePermission">
+			<list>
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION" />
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.DELETE" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 
+		ACL permission masks used by this application 
+	-->
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION</value>
+		</property>
+	</bean>
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.READ"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.READ</value>
+		</property>
+	</bean>
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.DELETE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.DELETE</value>
+		</property>
+	</bean>
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.WRITE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.WRITE</value>
+		</property>
+	</bean>
+
+	<bean id="aclManager" class="org.acegisecurity.acl.AclProviderManager">
+		<property name="providers">
+			<list>
+				<ref bean="aclProvider" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 
+		Retrieves access control lists (ACL) entries for domain object instances from 
+		a data access object (DAO).
+	-->
+	<bean id="aclProvider" class="org.acegisecurity.acl.basic.BasicAclProvider">
+		<property name="basicAclDao" ref="aclDao" />
+	</bean>
+
+	<!--
+		Will automatically be transactional due to @Transactional (Spring annotation).
+		EntityManager will be auto-injected due to @PersistenceContext (JPA annotation).
+		PersistenceExceptions will be auto-translated due to @Repository (Spring annotation).
+		
+		An alternative approach for implementing the service would be extending 
+		JpaDaoSupport. JpaDaoSupport relies on on callbacks (just as JdbcDaoSupport)
+		and translates exceptions (so PersistenceExceptionTranslationPostProcessor
+		would not be necessary). See JpaTemplateClinic in Spring's original PetClinic.
+	-->
+	<bean id="aclDao" class="net.larsbehnke.petclinicplus.acl.EntityManagerAcl" />
 
 </beans>
