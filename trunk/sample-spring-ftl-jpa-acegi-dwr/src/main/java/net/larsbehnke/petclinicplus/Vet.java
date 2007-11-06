@@ -17,59 +17,35 @@ import org.springframework.beans.support.PropertyComparator;
  * @author Juergen Hoeller
  * @author Lars Behnke
  */
-public class Vet extends Person implements Serializable {
+public class Vet extends User implements Serializable {
 
-	private static final long serialVersionUID = -2034818079578897612L;
-	
-	private String loginName;
-	
-	private String password;
-	
-	private Set<Specialty> specialties;
+    private static final long serialVersionUID = -2034818079578897612L;
 
-	public void setSpecialtiesInternal(Set<Specialty> specialties) {
-		this.specialties = specialties;
-	}
+    private Set<Specialty> specialties;
 
-	public Set<Specialty> getSpecialtiesInternal() {
-		if (this.specialties == null) {
-			this.specialties = new HashSet<Specialty>();
-		}
-		return this.specialties;
-	}
-	
-	
+    public void setSpecialtiesInternal(Set<Specialty> specialties) {
+        this.specialties = specialties;
+    }
 
-	public List<Specialty> getSpecialtiesReadOnly() {
-		List<Specialty> sortedSpecs = new ArrayList<Specialty>(
-				getSpecialtiesInternal());
-		PropertyComparator.sort(sortedSpecs, new MutableSortDefinition("name",
-				true, true));
-		return Collections.unmodifiableList(sortedSpecs);
-	}
+    public Set<Specialty> getSpecialtiesInternal() {
+        if (this.specialties == null) {
+            this.specialties = new HashSet<Specialty>();
+        }
+        return this.specialties;
+    }
 
-	public int getNrOfSpecialties() {
-		return getSpecialtiesInternal().size();
-	}
+    public List<Specialty> getSpecialtiesReadOnly() {
+        List<Specialty> sortedSpecs = new ArrayList<Specialty>(getSpecialtiesInternal());
+        PropertyComparator.sort(sortedSpecs, new MutableSortDefinition("name", true, true));
+        return Collections.unmodifiableList(sortedSpecs);
+    }
 
-	public void addSpecialty(Specialty specialty) {
-		getSpecialtiesInternal().add(specialty);
-	}
+    public int getNrOfSpecialties() {
+        return getSpecialtiesInternal().size();
+    }
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getLoginName() {
-		return loginName;
-	}
-
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
-	}
+    public void addSpecialty(Specialty specialty) {
+        getSpecialtiesInternal().add(specialty);
+    }
 
 }

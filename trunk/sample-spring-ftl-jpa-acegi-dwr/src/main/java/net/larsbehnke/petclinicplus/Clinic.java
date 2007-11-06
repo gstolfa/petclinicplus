@@ -15,25 +15,28 @@ import org.springframework.dao.DataAccessException;
  * @author Juergen Hoeller
  * @author Lars Behnke
  */
-@Secured({"ROLE_USER"})
+
 public interface Clinic {
 
 	/**
 	 * Retrieve all <code>Vet</code>s from the datastore.
 	 * @return a <code>Collection</code> of <code>Vet</code>s
 	 */
+    @Secured({"ROLE_USER"})
 	Collection<Vet> getVets() throws DataAccessException;
 
 	/**
 	 * Retrieve all <code>PetType</code>s from the datastore.
 	 * @return a <code>Collection</code> of <code>PetType</code>s
 	 */
+    @Secured({"ROLE_USER"})
 	Collection<PetType> getPetTypes() throws DataAccessException;
 
 	/**
 	 * Retrieve all <code>Specialties</code>s from the datastore.
 	 * @return a <code>Collection</code> of <code>Specialty</code>s
 	 */
+    @Secured({"ROLE_USER"})
 	Collection<Specialty> getSpecialties() throws DataAccessException;
 	
 	/**
@@ -43,6 +46,7 @@ public interface Clinic {
 	 * @return a <code>Collection</code> of matching <code>Owner</code>s
 	 * (or an empty <code>Collection</code> if none found)
 	 */
+    @Secured({"ROLE_USER"})
 	Collection<Owner> findOwners(String lastName) throws DataAccessException;
 
 	/**
@@ -108,7 +112,7 @@ public interface Clinic {
 	 * @param vet the <code>Vet</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	@Secured({"ACL_VET_WRITE", "ROLE_SUPERVISOR"})
+	@Secured({"USER_PRIVACY_ZONE", "ROLE_SUPERVISOR"})
 	Vet storeVet(Vet vet) throws DataAccessException;
 
 

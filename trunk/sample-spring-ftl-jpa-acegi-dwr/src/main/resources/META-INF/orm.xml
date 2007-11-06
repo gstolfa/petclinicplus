@@ -43,8 +43,7 @@
 		</attributes>
 	</mapped-superclass>
 
-	<entity class="Vet">
-		<table name="VETS" />
+	<mapped-superclass class="User">
 		<attributes>
 			<basic name="loginName">
 				<column name="LOGIN_NAME" />
@@ -52,6 +51,12 @@
 			<basic name="password">
 				<column name="PASSWORD" />
 			</basic>
+		</attributes>
+	</mapped-superclass>
+	
+	<entity class="Vet">
+		<table name="VETS" />
+		<attributes>
 			<many-to-many name="specialtiesInternal" target-entity="Specialty" fetch="EAGER">
 				<join-table name="VET_SPECIALTIES">
 					<join-column name="VET_ID" />
