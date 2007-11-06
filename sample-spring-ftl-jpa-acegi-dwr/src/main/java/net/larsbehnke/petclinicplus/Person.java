@@ -32,5 +32,4 @@ public class Person extends BaseEntity implements Serializable {
 	}
 
 
-
 }

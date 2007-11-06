@@ -35,8 +35,9 @@ public abstract class EntityUtils {
 	 * @throws ObjectRetrievalFailureException
 	 *             if the entity was not found
 	 */
-	public static BaseEntity getById(Collection<? extends BaseEntity> entities, Class<? extends BaseEntity> entityClass,
-			int entityId) throws ObjectRetrievalFailureException {
+	public static BaseEntity getById(Collection<? extends BaseEntity> entities,
+			Class<? extends BaseEntity> entityClass, int entityId)
+			throws ObjectRetrievalFailureException {
 		for (BaseEntity entity : entities) {
 			if (entity.getId().intValue() == entityId
 					&& entityClass.isInstance(entity)) {
@@ -55,11 +56,13 @@ public abstract class EntityUtils {
 	 *            The list of named entities.
 	 * @return The map.
 	 */
-	public static Map<String, String> createMap(Collection<? extends NamedEntity> list) {
+	public static  Map<String, String> createMap(
+			Collection<? extends NamedEntity> list) {
 		Map<String, String> map = new HashMap<String, String>();
 		for (NamedEntity entry : list) {
 			map.put(entry.getId() + "", entry.getName());
 		}
 		return map;
 	}
+
 }

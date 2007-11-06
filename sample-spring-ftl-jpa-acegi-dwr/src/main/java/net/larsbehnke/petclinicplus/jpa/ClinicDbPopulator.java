@@ -10,6 +10,7 @@ import net.larsbehnke.petclinicplus.Vet;
 import net.larsbehnke.petclinicplus.util.namedvocabulary.NVEntry;
 
 /**
+ * Helper class for populating database with initial data.
  * @author Lars Behnke
  * 
  */
@@ -82,11 +83,15 @@ public class ClinicDbPopulator extends AbstractDbPopulator {
 		vet = new Vet();
 		vet.setFirstName("David");
 		vet.setLastName("Dalton");
+		vet.setLoginName("dalton");
+		vet.setPassword("dalton");
 		vet.addSpecialty(specs[0]);
 		clinic.storeVet(vet);
 		vet = new Vet();
 		vet.setFirstName("Carry");
 		vet.setLastName("Cameron");
+		vet.setLoginName("cameron");
+		vet.setPassword("cameron");
 		vet.addSpecialty(specs[1]);
 		vet.addSpecialty(specs[2]);
 		clinic.storeVet(vet);

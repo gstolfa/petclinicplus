@@ -61,6 +61,23 @@ public interface Clinic {
 	Pet loadPet(int id) throws DataAccessException;
 
 	/**
+	 * Retrieve a <code>Vet</code> from the datastore by id.
+	 * @param id the id to search for
+	 * @return the <code>Pet</code> if found
+	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
+	 */
+	Vet loadVet(int id) throws DataAccessException;
+
+	/**
+	 * Retrieve a <code>Vet</code> from the datastore by its login name.
+	 * @param loginName the login name to search for
+	 * @return the <code>Pet</code> if found
+	 * @throws org.springframework.dao.DataRetrievalFailureException if not found
+	 */
+	Vet loadVetByLoginName(String loginName) throws DataAccessException;
+
+	
+	/**
 	 * Save an <code>Owner</code> to the datastore,
 	 * either inserting or updating it.
 	 * @param owner the <code>Owner</code> to save
