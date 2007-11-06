@@ -1,6 +1,7 @@
 package net.larsbehnke.petclinicplus.jpa;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +15,6 @@ import net.larsbehnke.petclinicplus.Specialty;
 import net.larsbehnke.petclinicplus.Vet;
 import net.larsbehnke.petclinicplus.Visit;
 
-import org.acegisecurity.annotation.Secured;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +66,23 @@ public class EntityManagerClinic implements Clinic {
 	public Pet loadPet(int id) throws DataAccessException {
 		return em.find(Pet.class, id);
 	}
+	
+	public Vet loadVet(int id) throws DataAccessException {
+		return em.find(Vet.class, id);
+	}
 
+	@SuppressWarnings("unchecked")
+	public Vet loadVetByLoginName(String loginName) throws DataAccessException {
+		Query query = em.createQuery("SELECT vet FROM Vet vet WHERE vet.loginName = :loginName");
+		query.setParameter("loginName", loginName);
+		List<Vet> list = query.getResultList();
+		if (list.size() > 0) {
+			return list.get(0);
+		} else {
+			return null;
+		}
+	}
+	
 	public void storeOwner(Owner owner) throws DataAccessException {
 		// Consider returning the persistent object here, for exposing
 		// a newly assigned id using any persistence provider...
@@ -116,5 +132,7 @@ public class EntityManagerClinic implements Clinic {
 		Query query = em.createQuery("DELETE Vet vet");
 		query.executeUpdate();
 	}
+
+
 
 }

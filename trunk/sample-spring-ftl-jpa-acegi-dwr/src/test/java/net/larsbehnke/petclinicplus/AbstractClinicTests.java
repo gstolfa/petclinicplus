@@ -59,12 +59,12 @@ public abstract class AbstractClinicTests extends AbstractTransactionalDataSourc
 		Vet v1 = (Vet) EntityUtils.getById(vets, Vet.class, 2);
 		assertEquals("Leary", v1.getLastName());
 		assertEquals(1, v1.getNrOfSpecialties());
-		assertEquals("radiology", ((Specialty) v1.getSpecialties().get(0)).getName());
+		assertEquals("radiology", ((Specialty) v1.getSpecialtiesReadOnly().get(0)).getName());
 		Vet v2 = (Vet) EntityUtils.getById(vets, Vet.class, 3);
 		assertEquals("Douglas", v2.getLastName());
 		assertEquals(2, v2.getNrOfSpecialties());
-		assertEquals("dentistry", ((Specialty) v2.getSpecialties().get(0)).getName());
-		assertEquals("surgery", ((Specialty) v2.getSpecialties().get(1)).getName());
+		assertEquals("dentistry", ((Specialty) v2.getSpecialtiesReadOnly().get(0)).getName());
+		assertEquals("surgery", ((Specialty) v2.getSpecialtiesReadOnly().get(1)).getName());
 	}
 
 	public void testGetPetTypes() {

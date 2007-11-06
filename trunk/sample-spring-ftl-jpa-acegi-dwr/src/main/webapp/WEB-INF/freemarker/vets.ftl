@@ -12,9 +12,13 @@
 		  
 		  <#list vets as vet>
 			  <tr>
-			    <td>${vet.firstName} ${vet.lastName}</td>
 			    <td>
-			      <#list vet.specialties as specialty>
+			      <a href="<@spring.url '/editVet.htm?vetId=${vet.id}'/>">
+			        ${vet.firstName} ${vet.lastName}
+			      </a>
+			    </td>
+			    <td>
+			      <#list vet.specialtiesReadOnly as specialty>
 			        ${specialty.name}
 			      </#list> 
 			      <#if vet.nrOfSpecialties == 0>none</#if>

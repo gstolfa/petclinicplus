@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.larsbehnke</groupId>
-	<artifactId>petclinicplus</artifactId>
+	<artifactId>pcp-standard</artifactId>
 	<packaging>war</packaging>
 	<name>
-		Sample application demonstrating integration of spring mvc +
-		spring webflow + freemarker and some other frameworks.
+		Sample application demonstrating integration of Spring mvc +
+		Freemarker + AspectJ + Sitemesh + JPA (annotation driven/hibernate) + Acegi Security.
 	</name>
 	<version>0.1</version>
 	<build>
@@ -23,7 +23,7 @@
 				</includes>
 			</resource>
 		</resources>
-		<finalName>pcp</finalName>
+		<finalName>pcp-standard</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -346,19 +346,8 @@
 		</dependency>
 	</dependencies>
 	<properties>
-		<jdbc.url>
-			jdbc:mysql://localhost/pcp?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8
-		</jdbc.url>
-		<jdbc.username>root</jdbc.username>
-		<hibernate.dialect>
-			org.hibernate.dialect.MySQLInnoDBDialect
-		</hibernate.dialect>
 		<jdbc.version>5.0.5</jdbc.version>
 		<jdbc.groupId>mysql</jdbc.groupId>
-		<jdbc.password>root</jdbc.password>
-		<jdbc.driverClassName>
-			com.mysql.jdbc.Driver
-		</jdbc.driverClassName>
 		<jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
 	</properties>
 </project>

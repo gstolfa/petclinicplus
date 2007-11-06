@@ -21,20 +21,26 @@ public class Vet extends Person implements Serializable {
 
 	private static final long serialVersionUID = -2034818079578897612L;
 	
+	private String loginName;
+	
+	private String password;
+	
 	private Set<Specialty> specialties;
 
-	protected void setSpecialtiesInternal(Set<Specialty> specialties) {
+	public void setSpecialtiesInternal(Set<Specialty> specialties) {
 		this.specialties = specialties;
 	}
 
-	protected Set<Specialty> getSpecialtiesInternal() {
+	public Set<Specialty> getSpecialtiesInternal() {
 		if (this.specialties == null) {
 			this.specialties = new HashSet<Specialty>();
 		}
 		return this.specialties;
 	}
+	
+	
 
-	public List<Specialty> getSpecialties() {
+	public List<Specialty> getSpecialtiesReadOnly() {
 		List<Specialty> sortedSpecs = new ArrayList<Specialty>(
 				getSpecialtiesInternal());
 		PropertyComparator.sort(sortedSpecs, new MutableSortDefinition("name",
@@ -48,6 +54,22 @@ public class Vet extends Person implements Serializable {
 
 	public void addSpecialty(Specialty specialty) {
 		getSpecialtiesInternal().add(specialty);
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
 	}
 
 }

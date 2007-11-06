@@ -30,6 +30,7 @@
 			<props>
 				<prop key="/welcome.htm">clinicController</prop>
 				<prop key="/vets.htm">clinicController</prop>
+				<prop key="/editVet.htm">editVetForm</prop>
 				<prop key="/findOwners.htm">findOwnersForm</prop>
 				<prop key="/owner.htm">clinicController</prop>
 				<prop key="/addOwner.htm">addOwnerForm</prop>
@@ -101,7 +102,9 @@
 	</bean>
 
 
-	<!-- ========================= CONTROLLER DEFINITIONS ========================= -->
+	<!-- ========================================================================= --> 
+	<!-- CONTROLLER DEFINITIONS                                                    -->
+	<!-- ========================================================================= -->
 
 	<!-- 
 		Extracts the view name from the URL. 
@@ -141,6 +144,17 @@
 	</bean>
 
 	<!--
+		This bean is a SimpleFormController that manages the editVet use case.
+		It uses the "vetValidator" and "clinic" beans.
+	-->
+	<bean id="editVetForm" class="net.larsbehnke.petclinicplus.web.EditVetForm">
+		<property name="formView" value="vetForm" />
+		<property name="successView" value="redirect:vets.htm" />
+		<property name="validator" ref="vetValidator" />
+		<property name="clinic" ref="clinic" />
+	</bean>
+	
+	<!--
 		This bean is a SimpleFormController that manages the findOwner use case.
 		It uses the "findOwnersValidator" and "clinic" beans.
 	-->
@@ -174,12 +188,6 @@
 		<property name="clinic" ref="clinic" />
 	</bean>
 
-	<!--
-		Validator for owner forms, implementing Spring's Validator interface.
-		Could also reside in the root application context, as it is generic,
-		but is currently just used within PetClinic's web tier.
-	-->
-	<bean id="ownerValidator" class="net.larsbehnke.petclinicplus.validation.OwnerValidator" />
 
 	<!--
 		This bean is a SimpleFormController that manages the addPet use case.
@@ -203,12 +211,6 @@
 		<property name="clinic" ref="clinic" />
 	</bean>
 
-	<!--
-		Validator for pet forms, implementing Spring's Validator interface.
-		Could also reside in the root application context, as it is generic,
-		but is currently just used within PetClinic's web tier.
-	-->
-	<bean id="petValidator" class="net.larsbehnke.petclinicplus.validation.PetValidator" />
 
 	<!--
 		This bean is a SimpleFormController that manages the addVisit use case.
@@ -221,11 +223,36 @@
 		<property name="clinic" ref="clinic" />
 	</bean>
 
+	<!-- ========================================================================= --> 
+	<!-- Programmatic Validators                                                                -->
+	<!-- ========================================================================= -->
+
 	<!--
 		Validator for visit forms, implementing Spring's Validator interface.
 		Could also reside in the root application context, as it is generic,
 		but is currently just used within PetClinic's web tier.
 	-->
 	<bean id="visitValidator" class="net.larsbehnke.petclinicplus.validation.VisitValidator" />
+
+	<!--
+		Validator for pet forms, implementing Spring's Validator interface.
+		Could also reside in the root application context, as it is generic,
+		but is currently just used within PetClinic's web tier.
+	-->
+	<bean id="petValidator" class="net.larsbehnke.petclinicplus.validation.PetValidator" />
+
+	<!--
+		Validator for owner forms, implementing Spring's Validator interface.
+		Could also reside in the root application context, as it is generic,
+		but is currently just used within PetClinic's web tier.
+	-->
+	<bean id="ownerValidator" class="net.larsbehnke.petclinicplus.validation.OwnerValidator" />
+
+	<!--
+		Validator for pet forms, implementing Spring's Validator interface.
+		Could also reside in the root application context, as it is generic,
+		but is currently just used within PetClinic's web tier.
+	-->
+	<bean id="vetValidator" class="net.larsbehnke.petclinicplus.validation.VetValidator" />
 
 </beans>
