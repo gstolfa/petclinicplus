@@ -15,7 +15,7 @@
 			<p>Roles:</p>
 			<ul>
 				<#list auth.authorities as authority>
-				<li>${authority}</li>
+				<li>${authority.name}</li>
 				</#list>
 			</ul>
 		<#else>No authentication object available.</#if>

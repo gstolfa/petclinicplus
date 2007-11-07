@@ -29,4 +29,5 @@ public class Role extends NamedEntity implements Serializable, GrantedAuthority 
         return getName();
     }
 
+    
 }
