@@ -309,12 +309,14 @@
 		</property>
 		<property name="accessDecisionManager">
 			<bean class="org.acegisecurity.vote.AffirmativeBased">
-				<property name="allowIfAllAbstainDecisions" value="false" />
+				<property name="allowIfAllAbstainDecisions" value="true" />
 				<property name="decisionVoters">
 					<list>
 						<bean class="org.acegisecurity.vote.RoleVoter" />
 						<bean class="org.acegisecurity.vote.AuthenticatedVoter" />
-						<bean class="net.larsbehnke.petclinicplus.voters.SimpleUserPrivacyVoter" />
+						<ref bean="aclUserReadVoter" />
+						<ref bean="aclUserWriteVoter" />
+						<ref bean="aclUserDeleteVoter" />
 					</list>
 				</property>
 			</bean>
@@ -336,7 +338,106 @@
 		</property>
 	</bean>
 
+	<!-- ============================================================================================== -->
+	<!-- Domain Object Instance Security                                                                -->
+	<!-- ============================================================================================== -->
 
+
+	<bean id="aclUserReadVoter" class="org.acegisecurity.vote.BasicAclEntryVoter">
+		<property name="processConfigAttribute">
+			<value>ACL_USER_READ</value>
+		</property>
+		<property name="processDomainObjectClass">
+			<value>net.larsbehnke.petclinicplus.User</value>
+		</property>
+		<property name="aclManager">
+			<ref bean="aclManager" />
+		</property>
+		<property name="requirePermission">
+			<list>
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION" />
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.READ" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="aclUserWriteVoter" class="org.acegisecurity.vote.BasicAclEntryVoter">
+		<property name="processConfigAttribute">
+			<value>ACL_USER_WRITE</value>
+		</property>
+		<property name="processDomainObjectClass">
+			<value>net.larsbehnke.petclinicplus.User</value>
+		</property>
+		<property name="aclManager">
+			<ref bean="aclManager" />
+		</property>
+		<property name="requirePermission">
+			<list>
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION" />
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.WRITE" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="aclUserDeleteVoter" class="org.acegisecurity.vote.BasicAclEntryVoter">
+		<property name="processConfigAttribute">
+			<value>ACL_USER_DELETE</value>
+		</property>
+		<property name="processDomainObjectClass">
+			<value>net.larsbehnke.petclinicplus.User</value>
+		</property>
+		<property name="aclManager">
+			<ref bean="aclManager" />
+		</property>
+		<property name="requirePermission">
+			<list>
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION" />
+				<ref bean="org.acegisecurity.acl.basic.SimpleAclEntry.DELETE" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 
+		ACL permission masks used by this application 
+	-->
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.ADMINISTRATION</value>
+		</property>
+	</bean>
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.READ"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.READ</value>
+		</property>
+	</bean>
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.DELETE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.DELETE</value>
+		</property>
+	</bean>
+	<bean id="org.acegisecurity.acl.basic.SimpleAclEntry.WRITE"
+		class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField">
+			<value>org.acegisecurity.acl.basic.SimpleAclEntry.WRITE</value>
+		</property>
+	</bean>
+
+	<bean id="aclManager" class="org.acegisecurity.acl.AclProviderManager">
+		<property name="providers">
+			<list>
+				<ref bean="aclProvider" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 
+		Creates an access control lists (ACL) based on the current user.
+	-->
+	<bean id="aclProvider" class="net.larsbehnke.petclinicplus.acl.UserPrivacyAclProvider">
+	</bean>
 
 
 </beans>

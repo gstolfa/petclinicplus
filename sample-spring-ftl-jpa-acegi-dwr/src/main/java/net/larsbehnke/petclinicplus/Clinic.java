@@ -112,7 +112,7 @@ public interface Clinic {
 	 * @param vet the <code>Vet</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	@Secured({"USER_PRIVACY_ZONE", "ROLE_SUPERVISOR"})
+	@Secured({"ACL_USER_WRITE", "ROLE_SUPERVISOR"})
 	Vet storeVet(Vet vet) throws DataAccessException;
 
 

@@ -1,4 +1,5 @@
 <#import "spring.ftl" as spring />
+<#assign authz=JspTaglibs["/WEB-INF/tlds/authz.tld"]>
 
 
 <html>
@@ -13,9 +14,23 @@
 		  <#list vets as vet>
 			  <tr>
 			    <td>
-			      <a href="<@spring.url '/editVet.htm?vetId=${vet.id}'/>">
-			        ${vet.firstName} ${vet.lastName}
-			      </a>
+			    
+			       <#-- 
+			            Attribute hasPermission takes a comma separated list of integers:
+						ADMINISTRATION	1
+						READ			2
+						WRITE			4
+						CREATE			8
+						DELETE			16
+			       -->
+			       <@authz.acl domainObject=vet hasPermission='1,4'>
+			      		<a href="<@spring.url '/editVet.htm?vetId=${vet.id}'/>">
+			       </@authz.acl>
+			        	${vet.firstName} ${vet.lastName}
+			       <@authz.acl domainObject=vet hasPermission='1,4'>
+			      		</a>
+			       </@authz.acl>
+
 			    </td>
 			    <td>
 			      <#list vet.specialtiesReadOnly as specialty>
