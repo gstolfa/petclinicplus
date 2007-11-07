@@ -25,13 +25,13 @@ public class User extends BaseEntity implements UserDetails, Serializable {
 
     private Set<Role> roles;
 
-    private boolean credentialsNonExpired;
+    private boolean credentialsNonExpired = true;
 
-    private boolean accountNonLocked;
+    private boolean accountNonLocked = true;
 
-    private boolean accountNonExpired;
+    private boolean accountNonExpired = true;
 
-    private boolean enabled;
+    private boolean enabled = true;
 
     public String getFirstName() {
         return this.firstName;
