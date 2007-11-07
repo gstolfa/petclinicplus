@@ -1,8 +1,8 @@
-package net.larsbehnke.petclinicplus.acl;
+package net.larsbehnke.petclinicplus.security;
 
 import java.lang.reflect.InvocationTargetException;
 
-import net.larsbehnke.petclinicplus.User;
+import net.larsbehnke.petclinicplus.UserDataHolder;
 import net.larsbehnke.petclinicplus.util.SecurityUtils;
 
 import org.acegisecurity.Authentication;
@@ -37,7 +37,7 @@ public class UserPrivacyAclProvider implements AclProvider {
      */
     public AclEntry[] getAcls(Object domainInstance, Authentication authentication) {
 
-        User user = (User) domainInstance;
+        UserDataHolder user = (UserDataHolder) domainInstance;
         AclObjectIdentity aclOi;
         try {
             aclOi = new NamedEntityObjectIdentity(user);
@@ -47,10 +47,10 @@ public class UserPrivacyAclProvider implements AclProvider {
             throw new IllegalArgumentException(e);
         }
         int mask;
-        if (user.getLoginName() == null || authentication == null
+        if (user.getUserData() == null || user.getUserData().getUsername() == null || authentication == null
                 || authentication.getName() == null) {
             mask = SimpleAclEntry.NOTHING;
-        } else if (user.getLoginName().equals(authentication.getName())) {
+        } else if (user.getUserData().getUsername().equals(authentication.getName())) {
             mask = SimpleAclEntry.READ_WRITE_CREATE_DELETE;
         } else {
             mask = SimpleAclEntry.READ;
@@ -64,7 +64,7 @@ public class UserPrivacyAclProvider implements AclProvider {
      * {@inheritDoc}
      */
     public boolean supports(Object domainInstance) {
-        return User.class.isAssignableFrom(domainInstance.getClass());
+        return UserDataHolder.class.isAssignableFrom(domainInstance.getClass());
     }
 
 }

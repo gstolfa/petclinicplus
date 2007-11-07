@@ -34,24 +34,19 @@ public class VetValidator implements Validator {
 	public void validate(Object obj, Errors errors) {
 		Vet vet = (Vet) obj;
 
-		if (!StringUtils.hasLength(vet.getFirstName())) {
-			errors.rejectValue("firstName", "required", "required");
+		if (!StringUtils.hasLength(vet.getUserData().getFirstName())) {
+			errors.rejectValue("userData.firstName", "required", "required");
 		}
 
-		if (!StringUtils.hasLength(vet.getLastName())) {
-			errors.rejectValue("lastName", "required", "required");
+		if (!StringUtils.hasLength(vet.getUserData().getLastName())) {
+			errors.rejectValue("userData.lastName", "required", "required");
 		}
 
-		if (!StringUtils.hasLength(vet.getLoginName())) {
-			errors.rejectValue("loginName", "required", "required");
-		} else if (vet.isNew()) {
-			if (getClinic().loadVetByLoginName(vet.getLoginName()) != null) {
-				errors.rejectValue("loginName", "duplicate", "duplicate");
-			}
-		}
-
-		if (!StringUtils.hasLength(vet.getPassword())) {
-			errors.rejectValue("password", "required", "required");
+		if (!StringUtils.hasLength(vet.getUserData().getUsername())) {
+			errors.rejectValue("userData.username", "required", "required");
+		} 
+		if (!StringUtils.hasLength(vet.getUserData().getPassword())) {
+			errors.rejectValue("userData.password", "required", "required");
 		}
 
 	}

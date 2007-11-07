@@ -17,12 +17,23 @@ import org.springframework.beans.support.PropertyComparator;
  * @author Juergen Hoeller
  * @author Lars Behnke
  */
-public class Vet extends User implements Serializable {
+public class Vet extends UserDataHolder implements Serializable {
 
     private static final long serialVersionUID = -2034818079578897612L;
 
     private Set<Specialty> specialties;
+    
+    private String favoriteAnimal;
+    
+    
+    public String getFavoriteAnimal() {
+        return favoriteAnimal;
+    }
 
+    public void setFavoriteAnimal(String favoriteAnimal) {
+        this.favoriteAnimal = favoriteAnimal;
+    }
+    
     public void setSpecialtiesInternal(Set<Specialty> specialties) {
         this.specialties = specialties;
     }
@@ -47,5 +58,10 @@ public class Vet extends User implements Serializable {
     public void addSpecialty(Specialty specialty) {
         getSpecialtiesInternal().add(specialty);
     }
+
+ 
+
+
+
 
 }

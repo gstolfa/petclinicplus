@@ -34,7 +34,7 @@ public class AddOwnerForm extends AbstractClinicForm {
 		Owner owner = (Owner) command;
 		
 		/* delegate the insert to the Business layer */
-		getClinic().storeOwner(owner);
+		owner = getClinic().storeOwner(owner);
 		return new ModelAndView(getSuccessView(), "ownerId", owner.getId());
 	}
 

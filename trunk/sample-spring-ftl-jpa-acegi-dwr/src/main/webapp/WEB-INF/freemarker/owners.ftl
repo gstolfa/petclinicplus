@@ -17,7 +17,7 @@
 					<td>
 						<form method="POST" action="<@spring.url '/owner.htm'/>">
 							<input type="hidden" name="ownerId" value="${owner.id}"/>
-							<input type="submit" value="${owner.firstName} ${owner.lastName}"/>
+							<input type="submit" value="${owner.userData.firstName} ${owner.userData.lastName}"/>
         				</form>
 					</td>
 					<td>${owner.address}&nbsp;</td>

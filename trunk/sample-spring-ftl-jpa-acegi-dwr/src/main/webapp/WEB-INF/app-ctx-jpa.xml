@@ -127,17 +127,23 @@
 		WARNING: It is certainly not best practice to put plain text passwords into
 		this file.
 	-->
-	<bean id="dbPopulator" class="net.larsbehnke.petclinicplus.jpa.ClinicDbPopulator">
+	<bean id="dbPopulator" class="net.larsbehnke.petclinicplus.jpa.populator.ClinicDbPopulator">
 		<property name="namedVocabularyManager" ref="namedVocabularyManager" />
 		<property name="clinic" ref="clinic" />
 		<property name="mode" value="INSERT_IF_EMPTY" />
-		<property name="adminUser" value="admin"/>
-		<property name="adminPassword" value="admin"/>
+		<property name="userDetailsService" ref="userDetailsService" />
+		<property name="userDataReader">
+			<bean class="net.larsbehnke.petclinicplus.jpa.populator.XmlUserDataReader">
+				<property name="initialUsersFile" value="/WEB-INF/initialusers.xml"/>
+			</bean>
+		</property>
+		<property name="adminUser" value="admin" />
+		<property name="adminPassword" value="admin" />
 		<property name="adminAuthorities">
-		<list>
-		  <value>ROLE_SUPERVISOR</value>
-		  <value>ROLE_USER</value>
-		</list>
+			<list>
+				<value>ROLE_SUPERVISOR</value>
+				<value>ROLE_USER</value>
+			</list>
 		</property>
 	</bean>
 

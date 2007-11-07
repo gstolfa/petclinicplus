@@ -39,6 +39,7 @@
 				<prop key="/editPet.htm">editPetForm</prop>
 				<prop key="/addVisit.htm">addVisitForm</prop>
 				<prop key="/login.htm">authUrlFilenameViewController</prop>
+				<prop key="/administration.htm">authUrlFilenameViewController</prop>
 				<prop key="/errorAccessDenied.htm">authUrlFilenameViewController</prop>
 				<prop key="/errorDataAccess.htm">urlFilenameViewController</prop>
 			</props>

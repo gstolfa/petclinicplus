@@ -72,7 +72,8 @@ public class ClinicController extends MultiActionController implements Initializ
 	 * @return a ModelAndView to render the response
 	 */
 	public ModelAndView ownerHandler(HttpServletRequest request, HttpServletResponse response) {
-		Owner owner = this.clinic.loadOwner(ServletRequestUtils.getIntParameter(request, "ownerId", 0));
+	    int ownerId = ServletRequestUtils.getIntParameter(request, "ownerId", 0);
+		Owner owner = this.clinic.loadOwner(ownerId);
 		if (owner == null) {
 			return new ModelAndView("redirect:findOwners.htm");
 		}

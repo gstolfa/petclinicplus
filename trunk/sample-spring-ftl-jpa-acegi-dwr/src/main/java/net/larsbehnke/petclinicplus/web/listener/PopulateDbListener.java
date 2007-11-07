@@ -3,7 +3,7 @@ package net.larsbehnke.petclinicplus.web.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import net.larsbehnke.petclinicplus.jpa.DbPopulator;
+import net.larsbehnke.petclinicplus.jpa.populator.DbPopulator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

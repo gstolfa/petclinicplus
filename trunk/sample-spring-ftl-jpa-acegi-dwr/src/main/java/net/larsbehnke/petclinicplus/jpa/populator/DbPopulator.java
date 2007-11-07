@@ -1,4 +1,4 @@
-package net.larsbehnke.petclinicplus.jpa;
+package net.larsbehnke.petclinicplus.jpa.populator;
 
 public interface DbPopulator {
 

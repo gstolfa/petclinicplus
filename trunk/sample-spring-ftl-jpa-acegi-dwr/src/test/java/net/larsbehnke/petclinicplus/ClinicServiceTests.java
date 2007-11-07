@@ -68,12 +68,12 @@ public class ClinicServiceTests extends
 				jdbcTemplate.queryForInt("SELECT COUNT(0) FROM VETS"), vets
 						.size());
 		Vet v1 = (Vet) EntityUtils.getById(vets, Vet.class, 2);
-		assertEquals("Leary", v1.getLastName());
+		assertEquals("Leary", v1.getUserData().getLastName());
 		assertEquals(1, v1.getNrOfSpecialties());
 		assertEquals("radiology", ((Specialty) v1.getSpecialtiesReadOnly().get(
 				0)).getName());
 		Vet v2 = (Vet) EntityUtils.getById(vets, Vet.class, 3);
-		assertEquals("Douglas", v2.getLastName());
+		assertEquals("Douglas", v2.getUserData().getLastName());
 		assertEquals(2, v2.getNrOfSpecialties());
 		assertEquals("dentistry", ((Specialty) v2.getSpecialtiesReadOnly().get(
 				0)).getName());
@@ -104,9 +104,9 @@ public class ClinicServiceTests extends
 	@Test
 	public void testLoadOwner() {
 		Owner o1 = this.clinic.loadOwner(1);
-		assertTrue(o1.getLastName().startsWith("Franklin"));
+		assertTrue(o1.getUserData().getLastName().startsWith("Franklin"));
 		Owner o10 = this.clinic.loadOwner(10);
-		assertEquals("Carlos", o10.getFirstName());
+		assertEquals("Carlos", o10.getUserData().getFirstName());
 
 		// Check lazy loading, by ending the transaction
 		endTransaction();
@@ -121,7 +121,7 @@ public class ClinicServiceTests extends
 		Collection<Owner> owners = this.clinic.findOwners("Schultz");
 		int found = owners.size();
 		Owner owner = new Owner();
-		owner.setLastName("Schultz");
+		owner.getUserData().setLastName("Schultz");
 		this.clinic.storeOwner(owner);
 		// assertTrue(!owner.isNew());
 		owners = this.clinic.findOwners("Schultz");
@@ -131,11 +131,11 @@ public class ClinicServiceTests extends
 	@Test
 	public void testUpdateOwner() throws Exception {
 		Owner o1 = this.clinic.loadOwner(1);
-		String old = o1.getLastName();
-		o1.setLastName(old + "X");
+		String old = o1.getUserData().getLastName();
+		o1.getUserData().setLastName(old + "X");
 		this.clinic.storeOwner(o1);
 		o1 = this.clinic.loadOwner(1);
-		assertEquals(old + "X", o1.getLastName());
+		assertEquals(old + "X", o1.getUserData().getLastName());
 	}
 
 	@Test
@@ -145,12 +145,12 @@ public class ClinicServiceTests extends
 		assertTrue(p7.getName().startsWith("Samantha"));
 		assertEquals(EntityUtils.getById(types, PetType.class, 1).getId(), p7
 				.getType().getId());
-		assertEquals("Jean", p7.getOwner().getFirstName());
+		assertEquals("Jean", p7.getOwner().getUserData().getFirstName());
 		Pet p6 = this.clinic.loadPet(6);
 		assertEquals("George", p6.getName());
 		assertEquals(EntityUtils.getById(types, PetType.class, 4).getId(), p6
 				.getType().getId());
-		assertEquals("Peter", p6.getOwner().getFirstName());
+		assertEquals("Peter", p6.getOwner().getUserData().getFirstName());
 	}
 
 	@Test

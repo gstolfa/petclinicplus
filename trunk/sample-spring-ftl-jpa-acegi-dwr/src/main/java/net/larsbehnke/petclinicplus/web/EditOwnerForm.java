@@ -9,53 +9,44 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * JavaBean Form controller that is used to edit an existing <code>Owner</code>.
- * 
  * @author Ken Krebs
  */
 public class EditOwnerForm extends AbstractClinicForm {
 
-	/**
-	 * Creates and initializes the form. The command name is set. This name must
-	 * be used in the form (JSP, Freemarker page etc.) when binding the command
-	 * object.
-	 */
-	public EditOwnerForm() {
-		setCommandName("owner");
-		
-		/* need a session to hold the formBackingObject */
-		setSessionForm(true);
-		
-		/* initialize the form from the formBackingObject */
-		setBindOnNewForm(true);
-	}
+    /**
+     * Creates and initializes the form. The command name is set. This name must
+     * be used in the form (JSP, Freemarker page etc.) when binding the command
+     * object.
+     */
+    public EditOwnerForm() {
+        setCommandName("owner");
 
-	/**
-	 * Method forms a copy of an existing Owner for editing.
-	 * 
-	 * This method returns the command object that is populated with request
-	 * parameters / input field values. An alternative (yet less flexible) way
-	 * to register an command is calling <code>setCommandClass()</code> from
-	 * the controller's constructor.
-	 * 
-	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
-	 */
+        /* need a session to hold the formBackingObject */
+        setSessionForm(true);
 
-	protected Object formBackingObject(HttpServletRequest request)
-			throws ServletException {
-		// get the Owner referred to by id in the request
-		return getClinic()
-				.loadOwner(
-						ServletRequestUtils.getRequiredIntParameter(request,
-								"ownerId"));
-	}
+        /* initialize the form from the formBackingObject */
+        setBindOnNewForm(true);
+    }
 
-	/** Method updates an existing Owner. */
-	protected ModelAndView onSubmit(Object command) throws ServletException {
-		Owner owner = (Owner) command;
-		// delegate the update to the Business layer
-		getClinic().storeOwner(owner);
+    /**
+     * Method forms a copy of an existing Owner for editing. This method returns
+     * the command object that is populated with request parameters / input
+     * field values. An alternative (yet less flexible) way to register an
+     * command is calling <code>setCommandClass()</code> from the controller's
+     * constructor.
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
 
-		return new ModelAndView(getSuccessView(), "ownerId", owner.getId());
-	}
+    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+        return getClinic().loadOwner(
+                ServletRequestUtils.getRequiredIntParameter(request, "ownerId"));
+    }
+
+    /** Method updates an existing Owner. */
+    protected ModelAndView onSubmit(Object command) throws ServletException {
+        Owner owner = (Owner) command;
+        owner = getClinic().storeOwner(owner);
+        return new ModelAndView(getSuccessView(), "ownerId", owner.getId());
+    }
 
 }

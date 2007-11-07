@@ -20,7 +20,7 @@
 		    <p>
 		    <b>Last Name:</b>
 			<BR>
-		    <@spring.formInput 'owner.lastName', 'maxlength="30" size="30"' />
+		    <@spring.formInput 'owner.userData.lastName', 'maxlength="30" size="30"' />
 		    <@spring.showErrors '<br>', 'fieldError' />
 		    
 		    <input type = "submit" value="Find Owners"  />

@@ -76,21 +76,17 @@ public class FindOwnersForm extends AbstractClinicForm {
 
 		Owner owner = (Owner) command;
 
-		// find owners by last name
-		Collection<Owner> results = getClinic().findOwners(owner.getLastName());
+		Collection<Owner> results = getClinic().findOwners(owner.getUserData().getLastName());
 
 		if (results.size() < 1) {
-			// no owners found
-			errors.rejectValue("lastName", "notFound", "not found");
+			errors.rejectValue("userData.lastName", "notFound", "not found");
 			return showForm(request, response, errors);
 		}
 
 		if (results.size() > 1) {
-			// multiple owners found
 			return new ModelAndView(this.selectView, "selections", results);
 		}
 
-		// 1 owner found
 		owner = (Owner) results.iterator().next();
 		return new ModelAndView(getSuccessView(), "ownerId", owner.getId());
 	}

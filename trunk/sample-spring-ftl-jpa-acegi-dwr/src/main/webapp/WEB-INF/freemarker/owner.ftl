@@ -11,7 +11,7 @@
 	    <H2>Owner Information</H2>
 	
 	    <TABLE border="0">
-	      <TR><TD>Name</TD><TD><b>${owner.firstName} ${owner.lastName}</b></TD></TR>
+	      <TR><TD>Name</TD><TD><b>${owner.userData.firstName} ${owner.userData.lastName}</b></TD></TR>
 	      <TR><TD>Address</TD><TD>${owner.address}</TD></TR>
 	      <TR><TD>City</TD><TD>${owner.city}</TD></tr>
 	      <TR><TD>Telephone</TD><TD>${owner.telephone}</TD></TR>
@@ -48,15 +48,17 @@
 					<td valign="top">
         				<table border="1">
             				<th>Visit Date</th>
+            				<th>Vet</th>
             				<th>Description</th>
             				<#list pet.visits as visit>
             					<tr>
                 					<td>${visit.date}</td>
+                					<td>${visit.vet.userData.firstName} ${visit.vet.userData.lastName}</td>
                 					<td>${visit.description}</td>
             					</tr>
             				</#list>
 	       				</table>
-                    	<@authz.authorize ifAllGranted='ROLE_SUPERVISOR'>
+                    	<@authz.authorize ifAllGranted='ROLE_USER'>
 	                    	<a href="<@spring.url '/addVisit.htm?petId=${pet.id}'/>">Add Visit</a>
                     	</@authz.authorize>
         			</td>				

@@ -18,26 +18,26 @@
 			
 			<b>Firstname:</b>
 			<BR>
-		    <@spring.formInput 'vet.firstName', 'maxlength="30" size="30"' />
+		    <@spring.formInput 'vet.userData.firstName', 'maxlength="30" size="30"' />
 		    <@spring.showErrors '<br>', 'fieldError' />
 		
 		    <p>
 			<b>Lastname:</b>
 			<BR>
-		    <@spring.formInput 'vet.lastName', 'maxlength="30" size="30"' />
+		    <@spring.formInput 'vet.userData.lastName', 'maxlength="30" size="30"' />
 		    <@spring.showErrors '<br>', 'fieldError' />
 		
 				    <p>
 			<b>Login name:</b>
 			<BR>
-		    <@spring.formInput 'vet.loginName', 'maxlength="30" size="30"' />
+		    <@spring.formInput 'vet.userData.username', 'maxlength="30" size="30"' />
 		    <@spring.showErrors '<br>', 'fieldError' />
 		
 		
 		    <p>
 		    <b>Password:</b>
 			<BR>
-			<@spring.formInput 'vet.password', 'maxlength="30" size="30"'/> 
+			<@spring.formInput 'vet.userData.password', 'maxlength="30" size="30"'/> 
 		    <@spring.showErrors '<br>', 'fieldError' />
 		
 			<p>
