@@ -17,7 +17,7 @@ import org.springframework.beans.support.PropertyComparator;
  * @author Juergen Hoeller
  * @author Lars Behnke
  */
-public class Owner extends Person implements Serializable {
+public class Owner extends UserDataHolder implements Serializable {
 
 	private static final long serialVersionUID = 488926730692029206L;
 
@@ -29,6 +29,7 @@ public class Owner extends Person implements Serializable {
 
 	private Set<Pet> pets;
 
+	
 	public String getAddress() {
 		return this.address;
 	}
@@ -52,7 +53,7 @@ public class Owner extends Person implements Serializable {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-
+    
 	protected void setPetsInternal(Set<Pet> pets) {
 		this.pets = pets;
 	}
@@ -105,5 +106,7 @@ public class Owner extends Person implements Serializable {
 
 		return null;
 	}
+
+
 
 }

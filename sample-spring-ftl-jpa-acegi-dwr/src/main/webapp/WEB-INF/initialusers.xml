@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+  
+  <user>
+    <loginname>dalton</loginname>
+    <password>dalton</password>
+  	<firstname>Danny</firstname>
+  	<lastname>Dalton</lastname>
+  	<roles>
+  	  <role>ROLE_USER</role>
+  	</roles>
+  </user>
+
+  <user>
+    <loginname>scott</loginname>
+    <password>tiger</password>
+  	<firstname>Bruce</firstname>
+  	<lastname>Scott</lastname>
+  	<roles>
+  	  <role>ROLE_USER</role>
+  	  <role>ROLE_SUPERVISOR</role>
+  	</roles>
+  </user>
+  
+  <user>
+    <loginname>admin</loginname>
+    <password>admin</password>
+  	<firstname></firstname>
+  	<lastname></lastname>
+  	<roles>
+  	  <role>ROLE_SUPERVISOR</role>
+  	</roles>
+  </user>
+
+</users>
+
+

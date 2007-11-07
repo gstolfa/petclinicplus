@@ -22,7 +22,7 @@
 		    <TD>${visit.pet.name}</TD>
 		    <TD>${visit.pet.birthDate?string("yyyy-MM-dd")}</TD>
 		    <TD>${visit.pet.type.name}</TD>
-		    <TD>${visit.pet.owner.firstName} ${visit.pet.owner.lastName}</TD>
+		    <TD>${visit.pet.owner.userData.firstName} ${visit.pet.owner.userData.lastName}</TD>
 		  </TR>
 		</table>
 		
@@ -51,12 +51,13 @@
 		<BR>
 		<B>Previous Visits:</B>
 		<TABLE border="true">
-		  <TH>Date</TH><TH>Description</TH>
+		  <TH>Date</TH><TH>Vet</TH><TH>Description</TH>
 		   
 		  <#list visit.pet.visits as visit>
 		    <#if !visit.new>
 		        <TR>
 		           <TD>${visit.date?string('yyyy-MM-dd')}</TD>
+		           <TD>${visit.vet.userData.firstName} ${visit.vet.userData.lastName}</TD>
 		           <TD>${visit.description}</TD>
 		        </TR>
 		    </#if>

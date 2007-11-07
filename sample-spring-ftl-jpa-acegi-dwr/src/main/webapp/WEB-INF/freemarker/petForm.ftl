@@ -13,7 +13,7 @@
 		</font>
 		
 		<p>
-		<b>Owner:</b> ${pet.owner.firstName} ${pet.owner.lastName}
+		<b>Owner:</b> ${pet.owner.userData.firstName} ${pet.owner.userData.lastName}
 		<p>
 		<form method="POST">
 			

@@ -18,16 +18,21 @@
 		<p>
 		<form method="POST">
 		
+			<b>Login Name:</b>
+			<BR>
+		    <@spring.formInput 'owner.userData.username', 'maxlength="30" size="30"' />
+		    <@spring.showErrors '<br>', 'fieldError' />
 		
+		    <p>
 			<b>First Name:</b>
 			<BR>
-		    <@spring.formInput 'owner.firstName', 'maxlength="30" size="30"' />
+		    <@spring.formInput 'owner.userData.firstName', 'maxlength="30" size="30"' />
 		    <@spring.showErrors '<br>', 'fieldError' />
 		    
 		    <p>
 		    <b>Last Name:</b>
 			<BR>
-		    <@spring.formInput 'owner.lastName', 'maxlength="30" size="30"' />
+		    <@spring.formInput 'owner.userData.lastName', 'maxlength="30" size="30"' />
 		    <@spring.showErrors '<br>', 'fieldError' />
 		    
 		    <p>

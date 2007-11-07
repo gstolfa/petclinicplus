@@ -38,7 +38,7 @@ public class EntityManagerClinic implements Clinic {
 
 	@SuppressWarnings("unchecked")
 	public Collection<Vet> getVets() throws DataAccessException {
-		return em.createQuery("SELECT vet FROM Vet vet ORDER BY vet.lastName, vet.firstName").getResultList();
+		return em.createQuery("SELECT vet FROM Vet vet").getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -53,7 +53,7 @@ public class EntityManagerClinic implements Clinic {
 	
 	@SuppressWarnings("unchecked")
 	public Collection<Owner> findOwners(String lastName) throws DataAccessException {
-		Query query = em.createQuery("SELECT owner FROM Owner owner WHERE owner.lastName LIKE :lastName");
+		Query query = em.createQuery("SELECT owner FROM Owner owner WHERE owner.userData.lastName LIKE :lastName");
 		query.setParameter("lastName", lastName + "%");
 		return query.getResultList();
 	}
@@ -72,7 +72,7 @@ public class EntityManagerClinic implements Clinic {
 
 	@SuppressWarnings("unchecked")
 	public Vet loadVetByLoginName(String loginName) throws DataAccessException {
-		Query query = em.createQuery("SELECT vet FROM Vet vet WHERE vet.loginName = :loginName");
+		Query query = em.createQuery("SELECT vet FROM Vet vet WHERE vet.userData.username = :loginName");
 		query.setParameter("loginName", loginName);
 		List<Vet> list = query.getResultList();
 		if (list.size() > 0) {

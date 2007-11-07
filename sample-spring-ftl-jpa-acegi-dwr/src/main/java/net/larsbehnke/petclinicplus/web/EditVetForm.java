@@ -78,7 +78,7 @@ public class EditVetForm extends AbstractClinicForm {
 	protected void onBind(HttpServletRequest request, Object command)
 			throws ServletException {
 		Vet vet = (Vet) command;
-		log.debug("Binding vet: " + vet.getLastName());
+		log.debug("Binding vet: " + vet.getUserData().getLastName());
 	}
 
 	/** Method updates an existing Vet */

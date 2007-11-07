@@ -22,8 +22,8 @@ public class OwnerValidator implements Validator {
 	public void validate(Object obj, Errors errors) {
 		Owner owner = (Owner) obj;
 
-		ValidationUtils.rejectIfEmpty(errors, "firstName", "required", "required");
-		ValidationUtils.rejectIfEmpty(errors, "lastName", "required", "required");
+		ValidationUtils.rejectIfEmpty(errors, "userData.firstName", "required", "required");
+		ValidationUtils.rejectIfEmpty(errors, "userData.lastName", "required", "required");
 		ValidationUtils.rejectIfEmpty(errors, "address", "required", "required");
 		ValidationUtils.rejectIfEmpty(errors, "city", "required", "required");
 

@@ -30,9 +30,9 @@
     <small>
 	<P>Valid users:
 
-	<br/>username <b>admin</b>, password <b>admin</b> (supervisor)
-	<br/>username <b>user</b>, password <b>user</b> (normal user)
-	<br/>username <b>guest</b>, password <b>guest</b> (normal user, disabled)
+	<br/><b>admin</b>/<b>admin</b> (supervisor)
+	<br/><b>dalton</b>/<b>dalton</b> (normal user)
+	<br/><b>cameron</b>/<b>cameron</b> (normal user)
 
 	</small
   </body>

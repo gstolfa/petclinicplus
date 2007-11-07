@@ -26,7 +26,7 @@
 			       <@authz.acl domainObject=vet hasPermission='1,4'>
 			      		<a href="<@spring.url '/editVet.htm?vetId=${vet.id}'/>">
 			       </@authz.acl>
-			        	${vet.firstName} ${vet.lastName}
+			        	${vet.userData.firstName} ${vet.userData.lastName}
 			       <@authz.acl domainObject=vet hasPermission='1,4'>
 			      		</a>
 			       </@authz.acl>
