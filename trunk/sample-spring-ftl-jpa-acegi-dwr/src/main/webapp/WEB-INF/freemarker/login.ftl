@@ -32,7 +32,7 @@
 
 	<br/><b>admin</b>/<b>admin</b> (supervisor)
 	<br/><b>dalton</b>/<b>dalton</b> (normal user)
-	<br/><b>cameron</b>/<b>cameron</b> (normal user)
+	<br/><b>scott</b>/<b>tiger</b> (normal user + supervisor)
 
 	</small
   </body>

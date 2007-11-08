@@ -3,7 +3,8 @@ package net.larsbehnke.petclinicplus.web;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import net.larsbehnke.petclinicplus.Owner;
+import net.larsbehnke.petclinicplus.model.Owner;
+
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 

@@ -7,6 +7,9 @@ package net.larsbehnke.petclinicplus;
 
 import junit.framework.TestCase;
 
+import net.larsbehnke.petclinicplus.model.Owner;
+import net.larsbehnke.petclinicplus.model.Pet;
+
 import org.junit.Test;
 
 /**

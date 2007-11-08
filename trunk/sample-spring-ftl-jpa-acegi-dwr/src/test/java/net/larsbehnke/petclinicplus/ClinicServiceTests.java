@@ -3,6 +3,13 @@ package net.larsbehnke.petclinicplus;
 import java.util.Collection;
 import java.util.Date;
 
+import net.larsbehnke.petclinicplus.model.Clinic;
+import net.larsbehnke.petclinicplus.model.Owner;
+import net.larsbehnke.petclinicplus.model.Pet;
+import net.larsbehnke.petclinicplus.model.PetType;
+import net.larsbehnke.petclinicplus.model.Specialty;
+import net.larsbehnke.petclinicplus.model.Vet;
+import net.larsbehnke.petclinicplus.model.Visit;
 import net.larsbehnke.petclinicplus.util.EntityUtils;
 
 import org.junit.Test;

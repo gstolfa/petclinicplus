@@ -100,7 +100,6 @@
 	-->
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
-
 	<!--
 		Will automatically be transactional due to @Transactional (Spring annotation).
 		EntityManager will be auto-injected due to @PersistenceContext (JPA annotation).
@@ -113,6 +112,11 @@
 	-->
 	<bean id="clinic" class="net.larsbehnke.petclinicplus.jpa.EntityManagerClinic" />
 
+	<!--
+		A second entity manager for accessing security data.
+		The same applies as for the above entity manager.
+	-->
+	<bean id="userDetailsService" class="net.larsbehnke.petclinicplus.jpa.EntityManagerSecurity" />
 
 	<!-- 
 		Manages the named vocabulary. The default implementation makes use of the ResourceBundle
@@ -134,7 +138,7 @@
 		<property name="userDetailsService" ref="userDetailsService" />
 		<property name="userDataReader">
 			<bean class="net.larsbehnke.petclinicplus.jpa.populator.XmlUserDataReader">
-				<property name="initialUsersFile" value="/WEB-INF/initialusers.xml"/>
+				<property name="initialUsersFile" value="/WEB-INF/initialusers.xml" />
 			</bean>
 		</property>
 		<property name="adminUser" value="admin" />

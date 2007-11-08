@@ -1,5 +1,7 @@
 package net.larsbehnke.petclinicplus;
 
+import net.larsbehnke.petclinicplus.model.Clinic;
+import net.larsbehnke.petclinicplus.model.Vet;
 import net.larsbehnke.petclinicplus.util.SecurityUtils;
 
 import org.junit.Test;
