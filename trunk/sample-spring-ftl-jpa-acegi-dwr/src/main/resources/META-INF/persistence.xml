@@ -3,17 +3,31 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 	version="1.0">
 
-	<persistence-unit name="PetClinic"
+	<persistence-unit name="PetClinicPlus"
 		transaction-type="RESOURCE_LOCAL">
 
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-		<!-- Explicitly define mapping file path, else Hibernate won't find the default -->
-		<mapping-file>META-INF/orm.xml</mapping-file>
+        <!-- Generic entities -->
+        <class>net.larsbehnke.petclinicplus.model.BaseEntity</class>
+        <class>net.larsbehnke.petclinicplus.model.NamedEntity</class>
+        <class>net.larsbehnke.petclinicplus.model.User</class>
+        <class>net.larsbehnke.petclinicplus.model.UserDataHolder</class>
+        <class>net.larsbehnke.petclinicplus.model.Role</class>
 
-		<!-- Prevent annotation scanning. In this app we are purely driven by orm.xml -->
-		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <!-- Specialized entities -->
+        <class>net.larsbehnke.petclinicplus.model.Owner</class>
+        <class>net.larsbehnke.petclinicplus.model.Pet</class>
+        <class>net.larsbehnke.petclinicplus.model.PetType</class>
+        <class>net.larsbehnke.petclinicplus.model.Specialty</class>
+        <class>net.larsbehnke.petclinicplus.model.Vet</class>
+        <class>net.larsbehnke.petclinicplus.model.Visit</class>
+
+
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 	</persistence-unit>
 
 </persistence>
+
+
