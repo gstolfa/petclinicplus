@@ -6,13 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import net.larsbehnke.petclinicplus.Clinic;
-import net.larsbehnke.petclinicplus.Owner;
-import net.larsbehnke.petclinicplus.Pet;
-import net.larsbehnke.petclinicplus.PetType;
-import net.larsbehnke.petclinicplus.Specialty;
-import net.larsbehnke.petclinicplus.Vet;
-import net.larsbehnke.petclinicplus.Visit;
+import net.larsbehnke.petclinicplus.model.Clinic;
+import net.larsbehnke.petclinicplus.model.Owner;
+import net.larsbehnke.petclinicplus.model.Pet;
+import net.larsbehnke.petclinicplus.model.PetType;
+import net.larsbehnke.petclinicplus.model.Specialty;
+import net.larsbehnke.petclinicplus.model.Vet;
+import net.larsbehnke.petclinicplus.model.Visit;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;

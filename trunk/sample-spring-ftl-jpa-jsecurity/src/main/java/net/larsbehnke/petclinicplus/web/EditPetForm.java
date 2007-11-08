@@ -6,8 +6,8 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import net.larsbehnke.petclinicplus.Pet;
-import net.larsbehnke.petclinicplus.PetType;
+import net.larsbehnke.petclinicplus.model.Pet;
+import net.larsbehnke.petclinicplus.model.PetType;
 import net.larsbehnke.petclinicplus.util.EntityUtils;
 import net.larsbehnke.petclinicplus.web.editors.PetTypeEditor;
 

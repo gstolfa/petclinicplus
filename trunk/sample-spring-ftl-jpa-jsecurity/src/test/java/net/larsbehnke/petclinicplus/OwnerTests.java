@@ -5,6 +5,8 @@
  
 package net.larsbehnke.petclinicplus;
 
+import net.larsbehnke.petclinicplus.model.Owner;
+import net.larsbehnke.petclinicplus.model.Pet;
 import junit.framework.*;
 
 /**

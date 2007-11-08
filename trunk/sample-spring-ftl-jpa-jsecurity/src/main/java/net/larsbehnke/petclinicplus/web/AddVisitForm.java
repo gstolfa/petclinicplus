@@ -4,8 +4,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.larsbehnke.petclinicplus.Pet;
-import net.larsbehnke.petclinicplus.Visit;
+import net.larsbehnke.petclinicplus.model.Pet;
+import net.larsbehnke.petclinicplus.model.Visit;
+
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 

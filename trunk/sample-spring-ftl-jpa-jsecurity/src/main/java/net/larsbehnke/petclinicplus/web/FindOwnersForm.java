@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.larsbehnke.petclinicplus.Owner;
 import net.larsbehnke.petclinicplus.aspects.UsageLogAspect;
+import net.larsbehnke.petclinicplus.model.Owner;
 
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;

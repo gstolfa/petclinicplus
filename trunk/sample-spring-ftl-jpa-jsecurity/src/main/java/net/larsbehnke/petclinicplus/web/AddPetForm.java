@@ -7,9 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.larsbehnke.petclinicplus.Owner;
-import net.larsbehnke.petclinicplus.Pet;
-import net.larsbehnke.petclinicplus.PetType;
+import net.larsbehnke.petclinicplus.model.Owner;
+import net.larsbehnke.petclinicplus.model.Pet;
+import net.larsbehnke.petclinicplus.model.PetType;
 import net.larsbehnke.petclinicplus.util.EntityUtils;
 import net.larsbehnke.petclinicplus.web.editors.PetTypeEditor;
 

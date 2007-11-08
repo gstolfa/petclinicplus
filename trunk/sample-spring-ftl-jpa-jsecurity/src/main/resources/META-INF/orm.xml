@@ -11,7 +11,7 @@
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
 
-	<package>net.larsbehnke.petclinicplus</package>
+	<package>net.larsbehnke.petclinicplus.model</package>
 
 	<mapped-superclass class="BaseEntity">
 		<attributes>
