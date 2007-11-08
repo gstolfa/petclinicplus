@@ -2,8 +2,8 @@ package net.larsbehnke.petclinicplus.web.editors;
 
 import java.beans.PropertyEditorSupport;
 
-import net.larsbehnke.petclinicplus.Clinic;
-import net.larsbehnke.petclinicplus.PetType;
+import net.larsbehnke.petclinicplus.model.Clinic;
+import net.larsbehnke.petclinicplus.model.PetType;
 import net.larsbehnke.petclinicplus.util.EntityUtils;
 
 import org.springframework.util.StringUtils;

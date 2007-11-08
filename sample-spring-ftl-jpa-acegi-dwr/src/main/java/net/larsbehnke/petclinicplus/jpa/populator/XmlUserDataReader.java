@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import net.larsbehnke.petclinicplus.User;
+import net.larsbehnke.petclinicplus.model.User;
 
 import org.dom4j.Document;
 import org.dom4j.Element;

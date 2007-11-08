@@ -3,8 +3,8 @@ package net.larsbehnke.petclinicplus.jpa.populator;
 import java.util.Collection;
 import java.util.Set;
 
-import net.larsbehnke.petclinicplus.Role;
-import net.larsbehnke.petclinicplus.User;
+import net.larsbehnke.petclinicplus.model.Role;
+import net.larsbehnke.petclinicplus.model.User;
 import net.larsbehnke.petclinicplus.security.CRUDUserDetailsService;
 import net.larsbehnke.petclinicplus.util.SecurityUtils;
 import net.larsbehnke.petclinicplus.util.namedvocabulary.NamedVocabularyManager;

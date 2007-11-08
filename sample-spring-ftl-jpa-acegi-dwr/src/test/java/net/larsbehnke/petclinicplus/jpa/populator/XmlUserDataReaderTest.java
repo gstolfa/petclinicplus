@@ -2,7 +2,7 @@ package net.larsbehnke.petclinicplus.jpa.populator;
 
 import java.util.Collection;
 
-import net.larsbehnke.petclinicplus.User;
+import net.larsbehnke.petclinicplus.model.User;
 
 import org.junit.Assert;
 import org.junit.Before;

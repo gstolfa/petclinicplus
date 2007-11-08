@@ -1,6 +1,6 @@
 package net.larsbehnke.petclinicplus.security;
 
-import net.larsbehnke.petclinicplus.User;
+import net.larsbehnke.petclinicplus.model.User;
 
 import org.acegisecurity.userdetails.UserDetailsService;
 

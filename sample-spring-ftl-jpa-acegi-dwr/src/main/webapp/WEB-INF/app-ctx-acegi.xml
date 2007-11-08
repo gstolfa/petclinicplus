@@ -15,6 +15,9 @@
 	<!-- ============================================================================================== -->
 
 
+	<!-- 
+		When localizing Acegi use this base name.
+	-->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">
@@ -66,32 +69,8 @@
 	</bean>
 
 	<!-- 
-		Very simple user details servers that reads user credentials and roles from a properties file.
-		For production use this solution is not appropriate.
-		
-		<bean id="userDetailsService" class="org.acegisecurity.userdetails.memory.InMemoryDaoImpl">
-		<property name="userProperties">
-		<bean class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location" value="/WEB-INF/users.properties" />
-		</bean>
-		</property>
-		</bean>
+		An optimized cache configuration should be used instead of the default settings.
 	-->
-
-
-	<!--
-		Will automatically be transactional due to @Transactional (Spring annotation).
-		EntityManager will be auto-injected due to @PersistenceContext (JPA annotation).
-		PersistenceExceptions will be auto-translated due to @Repository (Spring annotation).
-		
-		An alternative approach for implementing the service would be extending 
-		JpaDaoSupport. JpaDaoSupport relies on on callbacks (just as JdbcDaoSupport)
-		and translates exceptions (so PersistenceExceptionTranslationPostProcessor
-		would not be necessary). See JpaTemplateClinic in Spring's original PetClinic.
-	-->
-	<bean id="userDetailsService" class="net.larsbehnke.petclinicplus.jpa.EntityManagerSecurity" />
-
-
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
 		<property name="configLocation">
 			<value>classpath:/ehcache-failsafe.xml</value>
@@ -470,9 +449,9 @@
 	</bean>
 
 	<!-- 
-		Creates an access control lists (ACL) based on the current user.
+		Creates an access control lists (ACL) based on the current user dynamically.
 	-->
-	<bean id="aclProvider" class="net.larsbehnke.petclinicplus.security.UserPrivacyAclProvider"></bean>
+	<bean id="aclProvider" class="net.larsbehnke.petclinicplus.security.UserPrivacyAclProvider"/>
 
 
 </beans>

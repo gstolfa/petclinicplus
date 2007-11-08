@@ -2,7 +2,7 @@ package net.larsbehnke.petclinicplus.security;
 
 import java.lang.reflect.InvocationTargetException;
 
-import net.larsbehnke.petclinicplus.UserDataHolder;
+import net.larsbehnke.petclinicplus.model.UserDataHolder;
 import net.larsbehnke.petclinicplus.util.SecurityUtils;
 
 import org.acegisecurity.Authentication;

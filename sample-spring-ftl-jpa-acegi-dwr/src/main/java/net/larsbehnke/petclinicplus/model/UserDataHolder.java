@@ -1,4 +1,4 @@
-package net.larsbehnke.petclinicplus;
+package net.larsbehnke.petclinicplus.model;
 
 /**
  * Parent class of various user categories, for instance vets and owner.

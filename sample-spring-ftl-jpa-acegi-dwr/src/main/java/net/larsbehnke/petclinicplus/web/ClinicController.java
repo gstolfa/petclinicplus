@@ -3,8 +3,8 @@ package net.larsbehnke.petclinicplus.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.larsbehnke.petclinicplus.Clinic;
-import net.larsbehnke.petclinicplus.Owner;
+import net.larsbehnke.petclinicplus.model.Clinic;
+import net.larsbehnke.petclinicplus.model.Owner;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.ui.ModelMap;
