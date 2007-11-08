@@ -363,7 +363,7 @@
 			<value>ACL_USER_READ</value>
 		</property>
 		<property name="processDomainObjectClass">
-			<value>net.larsbehnke.petclinicplus.User</value>
+			<value>net.larsbehnke.petclinicplus.model.User</value>
 		</property>
 		<property name="aclManager">
 			<ref bean="aclManager" />
@@ -381,7 +381,7 @@
 			<value>ACL_USER_WRITE</value>
 		</property>
 		<property name="processDomainObjectClass">
-			<value>net.larsbehnke.petclinicplus.User</value>
+			<value>net.larsbehnke.petclinicplus.model.User</value>
 		</property>
 		<property name="aclManager">
 			<ref bean="aclManager" />
@@ -399,7 +399,7 @@
 			<value>ACL_USER_DELETE</value>
 		</property>
 		<property name="processDomainObjectClass">
-			<value>net.larsbehnke.petclinicplus.User</value>
+			<value>net.larsbehnke.petclinicplus.model.User</value>
 		</property>
 		<property name="aclManager">
 			<ref bean="aclManager" />

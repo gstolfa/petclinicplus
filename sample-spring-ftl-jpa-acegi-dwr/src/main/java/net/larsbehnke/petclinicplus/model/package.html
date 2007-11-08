@@ -2,6 +2,240 @@
 <body>
 
 The classes in this package represent PetClinic's business layer.
+<p>
+The JPA configuration is located in the META-INF folder.
+<p>
+Here persistence is driven by annotations. However ORM mapping an a separate XML file is possible, too.
+The configuration would look like the below snippets:
 
+Persistence configuration (persitence.xml):
+<pre>
+&lt;persistence xmlns=&quot;http://java.sun.com/xml/ns/persistence&quot;
+	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+	xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd&quot;
+	version=&quot;1.0&quot;&gt;
+
+	&lt;persistence-unit name=&quot;PetClinic&quot;
+		transaction-type=&quot;RESOURCE_LOCAL&quot;&gt;
+
+		&lt;provider&gt;org.hibernate.ejb.HibernatePersistence&lt;/provider&gt;
+
+		&lt;!-- Explicitly define mapping file path, else Hibernate won\'t find the default --&gt;
+		&lt;mapping-file&gt;META-INF/orm.xml&lt;/mapping-file&gt;
+
+		&lt;!-- Prevent annotation scanning. In this app we are purely driven by orm.xml --&gt;
+		&lt;exclude-unlisted-classes&gt;true&lt;/exclude-unlisted-classes&gt;
+
+	&lt;/persistence-unit&gt;
+
+&lt;/persistence&gt;
+</pre>
+
+<p>
+ORM mapping (META-INF/orm.xml):
+</p>
+<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;entity-mappings xmlns=&quot;http://java.sun.com/xml/ns/persistence/orm&quot;
+	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+	xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd&quot;
+	version=&quot;1.0&quot;&gt;
+
+	&lt;persistence-unit-metadata&gt;
+		&lt;xml-mapping-metadata-complete /&gt;
+		&lt;persistence-unit-defaults&gt;
+			&lt;access&gt;PROPERTY&lt;/access&gt;
+		&lt;/persistence-unit-defaults&gt;
+	&lt;/persistence-unit-metadata&gt;
+
+	&lt;package&gt;net.larsbehnke.petclinicplus.model&lt;/package&gt;
+
+	&lt;mapped-superclass class=&quot;BaseEntity&quot;&gt;
+		&lt;attributes&gt;
+			&lt;id name=&quot;id&quot;&gt;
+				&lt;column name=&quot;ID&quot; /&gt;
+				&lt;generated-value strategy=&quot;IDENTITY&quot; /&gt;
+			&lt;/id&gt;
+			&lt;transient name=&quot;new&quot; /&gt;
+		&lt;/attributes&gt;
+	&lt;/mapped-superclass&gt;
+
+	&lt;mapped-superclass class=&quot;NamedEntity&quot;&gt;
+		&lt;attributes&gt;
+			&lt;basic name=&quot;name&quot;&gt;
+				&lt;column name=&quot;NAME&quot; /&gt;
+			&lt;/basic&gt;
+		&lt;/attributes&gt;
+	&lt;/mapped-superclass&gt;
+
+	&lt;mapped-superclass class=&quot;UserDataHolder&quot;&gt;
+		&lt;attributes&gt;
+			&lt;one-to-one name=&quot;userData&quot; target-entity=&quot;User&quot;&gt;
+				&lt;join-column name=&quot;USER_ID&quot; /&gt;
+				&lt;cascade&gt;
+					&lt;cascade-all /&gt;
+				&lt;/cascade&gt;
+			&lt;/one-to-one&gt;
+		&lt;/attributes&gt;
+	&lt;/mapped-superclass&gt;
+
+	&lt;entity class=&quot;Vet&quot;&gt;
+		&lt;table name=&quot;VETS&quot; /&gt;
+		&lt;attributes&gt;
+			&lt;basic name=&quot;favoriteAnimal&quot;&gt;
+				&lt;column name=&quot;FAV_ANIMAL&quot; /&gt;
+			&lt;/basic&gt;
+
+			&lt;many-to-many name=&quot;specialtiesInternal&quot; target-entity=&quot;Specialty&quot; fetch=&quot;EAGER&quot;&gt;
+				&lt;join-table name=&quot;VET_SPECIALTIES&quot;&gt;
+					&lt;join-column name=&quot;VET_ID&quot; /&gt;
+					&lt;inverse-join-column name=&quot;SPECIALTY_ID&quot; /&gt;
+				&lt;/join-table&gt;
+				&lt;cascade&gt;
+					&lt;cascade-all /&gt;
+				&lt;/cascade&gt;
+			&lt;/many-to-many&gt;
+			&lt;transient name=&quot;specialtiesReadOnly&quot; /&gt;
+			&lt;transient name=&quot;nrOfSpecialties&quot; /&gt;
+		&lt;/attributes&gt;
+	&lt;/entity&gt;
+
+	&lt;entity class=&quot;User&quot;&gt;
+		&lt;table name=&quot;USERS&quot;&gt;
+		&lt;/table&gt;
+		&lt;attributes&gt;
+			&lt;basic name=&quot;firstName&quot;&gt;
+				&lt;column name=&quot;FIRST_NAME&quot; /&gt;
+			&lt;/basic&gt;
+			&lt;basic name=&quot;lastName&quot;&gt;
+				&lt;column name=&quot;LAST_NAME&quot; /&gt;
+			&lt;/basic&gt;
+			&lt;basic name=&quot;loginName&quot;&gt;
+				&lt;column name=&quot;LOGIN_NAME&quot; unique=&quot;true&quot;/&gt;
+			&lt;/basic&gt;
+			&lt;basic name=&quot;password&quot;&gt;
+				&lt;column name=&quot;PASSWORD&quot; /&gt;
+			&lt;/basic&gt;
+			&lt;basic name=&quot;credentialsNonExpired&quot;&gt;
+				&lt;column name=&quot;CRED_NON_EXP&quot; /&gt;
+			&lt;/basic&gt;
+			&lt;basic name=&quot;accountNonLocked&quot;&gt;
+				&lt;column name=&quot;ACC_NON_LOCKED&quot; /&gt;
+			&lt;/basic&gt;
+			&lt;basic name=&quot;accountNonExpired&quot;&gt;
+				&lt;column name=&quot;ACC_NON_EXP&quot; /&gt;
+			&lt;/basic&gt;
+			&lt;basic name=&quot;enabled&quot;&gt;
+				&lt;column name=&quot;ENABLED&quot; /&gt;
+			&lt;/basic&gt;
+			&lt;many-to-many name=&quot;rolesInternal&quot; target-entity=&quot;Role&quot; fetch=&quot;EAGER&quot;&gt;
+				&lt;join-table name=&quot;USER_ROLES&quot;&gt;
+					&lt;join-column name=&quot;USER_ID&quot; /&gt;
+					&lt;inverse-join-column name=&quot;ROLE_ID&quot; /&gt;
+				&lt;/join-table&gt;
+				&lt;cascade&gt;
+					&lt;cascade-all /&gt;
+				&lt;/cascade&gt;
+			&lt;/many-to-many&gt;
+
+			&lt;transient name=&quot;authorities&quot; /&gt;
+			&lt;transient name=&quot;roles&quot; /&gt;
+
+		&lt;/attributes&gt;
+	&lt;/entity&gt;
+
+	&lt;entity class=&quot;Role&quot;&gt;
+		&lt;table name=&quot;ROLES&quot; /&gt;
+		&lt;attributes&gt;
+			&lt;transient name=&quot;authority&quot; /&gt;
+		&lt;/attributes&gt;
+	&lt;/entity&gt;
+
+	&lt;entity class=&quot;Specialty&quot;&gt;
+		&lt;table name=&quot;SPECIALTIES&quot; /&gt;
+	&lt;/entity&gt;
+
+	&lt;entity class=&quot;Owner&quot;&gt;
+		&lt;table name=&quot;OWNERS&quot; /&gt;
+		&lt;attributes&gt;
+			&lt;basic name=&quot;address&quot;&gt;
+				&lt;column name=&quot;ADDRESS&quot; /&gt;
+			&lt;/basic&gt;
+			&lt;basic name=&quot;city&quot;&gt;
+				&lt;column name=&quot;CITY&quot; /&gt;
+			&lt;/basic&gt;
+			&lt;basic name=&quot;telephone&quot;&gt;
+				&lt;column name=&quot;TELEPHONE&quot; /&gt;
+			&lt;/basic&gt;
+			&lt;one-to-many name=&quot;petsInternal&quot; target-entity=&quot;Pet&quot; mapped-by=&quot;owner&quot; fetch=&quot;EAGER&quot;&gt;
+				&lt;cascade&gt;
+					&lt;cascade-all /&gt;
+				&lt;/cascade&gt;
+			&lt;/one-to-many&gt;
+			&lt;transient name=&quot;pets&quot; /&gt;
+		&lt;/attributes&gt;
+	&lt;/entity&gt;
+
+	&lt;entity class=&quot;Pet&quot;&gt;
+		&lt;table name=&quot;PETS&quot; /&gt;
+		&lt;attributes&gt;
+			&lt;basic name=&quot;birthDate&quot;&gt;
+				&lt;column name=&quot;BIRTH_DATE&quot; /&gt;
+				&lt;temporal&gt;DATE&lt;/temporal&gt;
+			&lt;/basic&gt;
+			&lt;many-to-one name=&quot;owner&quot; fetch=&quot;EAGER&quot;&gt;
+				&lt;join-column name=&quot;OWNER_ID&quot; /&gt;
+				&lt;cascade&gt;
+					&lt;cascade-all /&gt;
+				&lt;/cascade&gt;
+			&lt;/many-to-one&gt;
+			&lt;many-to-one name=&quot;type&quot; fetch=&quot;EAGER&quot;&gt;
+				&lt;join-column name=&quot;TYPE_ID&quot; /&gt;
+				&lt;cascade&gt;
+					&lt;cascade-all /&gt;
+				&lt;/cascade&gt;
+			&lt;/many-to-one&gt;
+			&lt;one-to-many name=&quot;visitsInternal&quot; target-entity=&quot;Visit&quot; mapped-by=&quot;pet&quot;
+				fetch=&quot;EAGER&quot;&gt;
+				&lt;cascade&gt;
+					&lt;cascade-all /&gt;
+				&lt;/cascade&gt;
+			&lt;/one-to-many&gt;
+			&lt;transient name=&quot;visits&quot; /&gt;
+		&lt;/attributes&gt;
+	&lt;/entity&gt;
+
+	&lt;entity class=&quot;PetType&quot;&gt;
+		&lt;table name=&quot;TYPES&quot; /&gt;
+	&lt;/entity&gt;
+
+	&lt;entity class=&quot;Visit&quot;&gt;
+		&lt;table name=&quot;VISITS&quot; /&gt;
+		&lt;attributes&gt;
+			&lt;basic name=&quot;date&quot;&gt;
+				&lt;column name=&quot;VISIT_DATE&quot; /&gt;
+				&lt;temporal&gt;DATE&lt;/temporal&gt;
+			&lt;/basic&gt;
+			&lt;basic name=&quot;description&quot;&gt;
+				&lt;column name=&quot;DESCRIPTION&quot; /&gt;
+			&lt;/basic&gt;
+			&lt;many-to-one name=&quot;pet&quot; fetch=&quot;EAGER&quot;&gt;
+				&lt;join-column name=&quot;PET_ID&quot; /&gt;
+				&lt;cascade&gt;
+					&lt;cascade-all /&gt;
+				&lt;/cascade&gt;
+			&lt;/many-to-one&gt;
+			&lt;many-to-one name=&quot;vet&quot; fetch=&quot;EAGER&quot;&gt;
+				&lt;join-column name=&quot;VET_ID&quot; /&gt;
+				&lt;cascade&gt;
+					&lt;cascade-all /&gt;
+				&lt;/cascade&gt;
+			&lt;/many-to-one&gt;
+		&lt;/attributes&gt;
+	&lt;/entity&gt;
+
+&lt;/entity-mappings&gt;
+
+</pre>
 </body>
 </html>

@@ -78,8 +78,8 @@ public class XmlUserDataReader implements UserDataReader, ServletContextAware {
             file = resolveFilePath();
             doc = reader.read(file);
         } catch (Exception e) {
-           throw new IllegalArgumentException("Could not create DOM from file " + file);
-        } 
+            throw new IllegalArgumentException("Could not create DOM from file " + file);
+        }
         return doc;
     }
 
@@ -87,9 +87,12 @@ public class XmlUserDataReader implements UserDataReader, ServletContextAware {
         String loc = getInitialUsersFile();
         if (!ResourceUtils.isUrl(loc)) {
             loc = SystemPropertyUtils.resolvePlaceholders(loc);
-            loc = WebUtils.getRealPath(servletContext, loc);
+            if (servletContext != null) {
+                loc = WebUtils.getRealPath(servletContext, loc);
+                servletContext.log("Resolving file path to " + getInitialUsersFile() + ": " + loc);
+            }
         }
-        servletContext.log("Resolving file path to " + getInitialUsersFile() + ": " + loc );
+        
         return new File(loc);
     }
 
