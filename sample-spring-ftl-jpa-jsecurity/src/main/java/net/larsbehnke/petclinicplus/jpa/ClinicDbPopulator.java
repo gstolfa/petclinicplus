@@ -3,10 +3,10 @@ package net.larsbehnke.petclinicplus.jpa;
 import java.util.Collection;
 import java.util.List;
 
-import net.larsbehnke.petclinicplus.Clinic;
-import net.larsbehnke.petclinicplus.PetType;
-import net.larsbehnke.petclinicplus.Specialty;
-import net.larsbehnke.petclinicplus.Vet;
+import net.larsbehnke.petclinicplus.model.Clinic;
+import net.larsbehnke.petclinicplus.model.PetType;
+import net.larsbehnke.petclinicplus.model.Specialty;
+import net.larsbehnke.petclinicplus.model.Vet;
 import net.larsbehnke.petclinicplus.util.namedvocabulary.NVEntry;
 
 /**

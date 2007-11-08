@@ -1,6 +1,7 @@
 package net.larsbehnke.petclinicplus.validation;
 
-import net.larsbehnke.petclinicplus.Owner;
+import net.larsbehnke.petclinicplus.model.Owner;
+
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

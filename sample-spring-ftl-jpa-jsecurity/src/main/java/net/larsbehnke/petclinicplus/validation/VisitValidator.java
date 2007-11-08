@@ -1,6 +1,7 @@
 package net.larsbehnke.petclinicplus.validation;
 
-import net.larsbehnke.petclinicplus.Visit;
+import net.larsbehnke.petclinicplus.model.Visit;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;

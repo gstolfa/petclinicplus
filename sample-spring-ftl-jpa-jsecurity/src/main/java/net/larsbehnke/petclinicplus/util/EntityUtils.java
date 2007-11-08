@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.larsbehnke.petclinicplus.BaseEntity;
-import net.larsbehnke.petclinicplus.NamedEntity;
+import net.larsbehnke.petclinicplus.model.BaseEntity;
+import net.larsbehnke.petclinicplus.model.NamedEntity;
 
 import org.springframework.orm.ObjectRetrievalFailureException;
 
@@ -17,7 +17,7 @@ import org.springframework.orm.ObjectRetrievalFailureException;
  * @author Juergen Hoeller
  * @author Lars Behnke
  * @since 29.10.2003
- * @see net.larsbehnke.petclinicplus.BaseEntity
+ * @see net.larsbehnke.petclinicplus.model.BaseEntity
  */
 public abstract class EntityUtils {
 

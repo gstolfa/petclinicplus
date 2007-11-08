@@ -7,8 +7,8 @@
 	<artifactId>pcp-simple</artifactId>
 	<packaging>war</packaging>
 	<name>
-		Sample application demonstrating integration of spring mvc +
-		freemarker + aspectj + sitemesh + jpa (orm.xml/hibernate) + standard security.
+		Sample application demonstrating integration of Spring MVC +
+		Freemarker + AspectJ + Sitemesh + JPA (orm.xml/hibernate) + container managed security.
 	</name>
 	<version>0.1</version>
 	<build>

@@ -1,4 +1,4 @@
-package net.larsbehnke.petclinicplus;
+package net.larsbehnke.petclinicplus.model;
 
 /**
  * Simple JavaBean domain object with an id property.
