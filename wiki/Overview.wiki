@@ -8,6 +8,7 @@ This ongoing project aims to serve as a template for J2EE web applications. Seve
   * Hibernate/JPA
   * Acegi
   * Sitemesh
+  * DWR
 
 Petclinic plus is based on the petclinic sample application shipped with the
 Spring Framework. To a large extend the project was inspired by Matt Raibles Equinox project which is available at [https://equinox.dev.java.net/].
