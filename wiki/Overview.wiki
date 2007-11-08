@@ -21,6 +21,7 @@ The following links provided valuable information about the above frameworks and
   * [http://www.acegisecurity.org/reference.html]
   * [http://www.acegisecurity.org/petclinic-tutorial.html]
   * [http://www.opensymphony.com/sitemesh/]
+  * http://java-x.blogspot.com/2007/08/handling-security-with-ajax-dwr-and.html
   * [http://fisheye5.cenqua.com/qsearch/equinox/extras?q=*.ftl]
   * [http://fisheye5.cenqua.com/browse/equinox/pom.xml?r=1.38]
 
