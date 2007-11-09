@@ -3,6 +3,16 @@
 
 <html>
 	<head>
+	
+	    <#--
+	    	JSCalendar setup. See http://www.dynarch.com/demos/jscalendar/doc/reference.pdf
+	    	for further details.
+	    --> 	
+		<link rel="stylesheet" type="text/css" media="all" href="<@spring.url '/styles/calendar.css'/>" title="win2k-cold-1" />
+  		<script type="text/javascript" src="<@spring.url '/scripts/jscalendar/calendar_stripped.js'/>"></script>
+  		<script type="text/javascript" src="<@spring.url '/scripts/jscalendar/lang/calendar-de.js'/>"></script>
+  		<script type="text/javascript" src="<@spring.url '/scripts/jscalendar/calendar-setup_stripped.js'/>"></script>
+
 	</head>
 
 	<body>
@@ -25,8 +35,30 @@
 		    <p>
 			<b>Birth Date:</b>
 			<BR>
-		    <@spring.formInput 'pet.birthDate', 'maxlength="10" size="10"' /> (yyyy-mm-dd)
+		    <@spring.formInput 'pet.birthDate', 'maxlength="10" size="10"' /><button type="reset" id="btnDate">...</button> (yyyy-mm-dd)
 		    <@spring.showErrors '<br>', 'fieldError' />
+		
+		
+			<#--
+				Input field with a trigger button. Clicking the button activates
+				the calendar.  Note that this one needs double-click (singleClick parameter
+				is explicitly set to false).  Also demonstrates the "step" parameter
+				introduced in 0.9.6 (show all years in drop-down boxes, instead of every
+				other year as default).
+			-->
+	
+			<script type="text/javascript">
+	    		Calendar.setup({
+	        		inputField     :    "birthDate",      			// id of the input field
+	        		ifFormat       :    "%Y-%m-%d",       	        // format of the input field (With time: %d.%m.%Y %I:%M %p)
+	        		showsTime      :    false,            			// will display a time selector
+	        		button         :    "btnDate",   				// trigger for the calendar (button ID)
+	        		singleClick    :    true,           			// double-click mode
+	        		step           :    1               			// show all years in drop-down boxes (instead of every other year as default)
+	    		});
+			</script>
+		
+		
 		
 		    <p>
 		    <b>Type:</b>
@@ -41,4 +73,5 @@
 		</form>
 	</body>
 </html>
+
 

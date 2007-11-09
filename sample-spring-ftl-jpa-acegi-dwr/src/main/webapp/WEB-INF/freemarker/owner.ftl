@@ -35,7 +35,7 @@
 					<td valign="top">
 						<table border="0">
 							<tr><td>Name</td><td>${pet.name}</td></tr>
-							<tr><td>Birth Date</td><td>${pet.birthDate}</td></tr>
+							<tr><td>Birth Date</td><td>${pet.birthDate?string('yyyy-MM-dd')}</td></tr>
 							<tr><td>Type</td><td>${pet.type.name}</td></tr>
 							<tr>
 								<td>
@@ -52,7 +52,7 @@
             				<th>Description</th>
             				<#list pet.visits as visit>
             					<tr>
-                					<td>${visit.date}</td>
+                					<td>${visit.date?string('yyyy-MM-dd')}</td>
                 					<td>${visit.vet.userData.firstName} ${visit.vet.userData.lastName}</td>
                 					<td>${visit.description}</td>
             					</tr>
