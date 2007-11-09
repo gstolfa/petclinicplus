@@ -2,6 +2,7 @@ package net.larsbehnke.petclinicplus.util;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.larsbehnke.petclinicplus.model.BaseEntity;
@@ -57,7 +58,7 @@ public abstract class EntityUtils {
 	 * @return The map.
 	 */
 	public static  Map<String, String> createMap(
-			Collection<? extends NamedEntity> list) {
+			List<? extends NamedEntity> list) {
 		Map<String, String> map = new HashMap<String, String>();
 		for (NamedEntity entry : list) {
 			map.put(entry.getId() + "", entry.getName());

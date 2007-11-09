@@ -2,6 +2,7 @@ package net.larsbehnke.petclinicplus;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import net.larsbehnke.petclinicplus.model.Clinic;
 import net.larsbehnke.petclinicplus.model.Owner;
@@ -90,7 +91,7 @@ public class ClinicServiceTests extends
 
 	@Test
 	public void testGetPetTypes() {
-		Collection<PetType> petTypes = this.clinic.getPetTypes();
+		List<PetType> petTypes = this.clinic.getPetTypes();
 		assertEquals("JDBC query must show the same number of pet typess",
 				jdbcTemplate.queryForInt("SELECT COUNT(0) FROM TYPES"),
 				petTypes.size());
@@ -102,7 +103,7 @@ public class ClinicServiceTests extends
 
 	@Test
 	public void testFindOwners() {
-		Collection<Owner> owners = this.clinic.findOwners("Davis");
+	    List<Owner> owners = this.clinic.findOwners("Davis");
 		assertEquals(2, owners.size());
 		owners = this.clinic.findOwners("Daviss");
 		assertEquals(0, owners.size());
@@ -125,7 +126,7 @@ public class ClinicServiceTests extends
 
 	@Test
 	public void testInsertOwner() {
-		Collection<Owner> owners = this.clinic.findOwners("Schultz");
+	    List<Owner> owners = this.clinic.findOwners("Schultz");
 		int found = owners.size();
 		Owner owner = new Owner();
 		owner.getUserData().setLastName("Schultz");

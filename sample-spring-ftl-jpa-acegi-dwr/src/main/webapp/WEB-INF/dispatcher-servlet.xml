@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+       http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
 
-<!--
-	DispatcherServlet application context for PetClinic's web tier.
--->
-<beans>
 
 	<!-- ========================= MESSAGE SOURCE DEFINITION ========================= -->
 
@@ -28,6 +30,7 @@
 	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
 			<props>
+				<prop key="/dwr/**">dwrController</prop>
 				<prop key="/welcome.htm">clinicController</prop>
 				<prop key="/vets.htm">clinicController</prop>
 				<prop key="/editVet.htm">editVetForm</prop>
@@ -44,6 +47,7 @@
 				<prop key="/errorDataAccess.htm">urlFilenameViewController</prop>
 			</props>
 		</property>
+		<property name="alwaysUseFullPath" value="true" />
 	</bean>
 
 	<!--
@@ -103,7 +107,7 @@
 	</bean>
 
 
-	<!-- ========================================================================= --> 
+	<!-- ========================================================================= -->
 	<!-- CONTROLLER DEFINITIONS                                                    -->
 	<!-- ========================================================================= -->
 
@@ -119,6 +123,17 @@
 	-->
 	<bean id="authUrlFilenameViewController"
 		class="net.larsbehnke.petclinicplus.web.AuthUrlFilenameViewController" />
+
+
+	<!-- 
+		The DWR controller that makes ajaxFacade accessible remotely
+	-->
+	<dwr:controller id="dwrController" debug="true">
+		<dwr:config-param name="activeReverseAjaxEnabled" value="true" />
+	</dwr:controller>
+	<dwr:configuration>
+		<dwr:create type="new" javascript="JsDate" class="java.util.Date" />
+	</dwr:configuration>
 
 	<!--
 		This bean is a MultiActionController that manages general View rendering.
@@ -154,7 +169,7 @@
 		<property name="validator" ref="vetValidator" />
 		<property name="clinic" ref="clinic" />
 	</bean>
-	
+
 	<!--
 		This bean is a SimpleFormController that manages the findOwner use case.
 		It uses the "findOwnersValidator" and "clinic" beans.
@@ -224,7 +239,7 @@
 		<property name="clinic" ref="clinic" />
 	</bean>
 
-	<!-- ========================================================================= --> 
+	<!-- ========================================================================= -->
 	<!-- Programmatic Validators                                                                -->
 	<!-- ========================================================================= -->
 
@@ -255,5 +270,21 @@
 		but is currently just used within PetClinic's web tier.
 	-->
 	<bean id="vetValidator" class="net.larsbehnke.petclinicplus.validation.VetValidator" />
+
+
+	<!-- ========================================================================= -->
+	<!-- Ajax (DWR) Support                                                           -->
+	<!-- ========================================================================= -->
+
+
+	<bean id="ajaxService" class="net.larsbehnke.petclinicplus.dwr.AjaxService">
+		<dwr:remote javascript="AjaxService">
+			<dwr:include method="findOwnerNames" />
+			<dwr:include method="getOwnerName" />
+			<dwr:include method="getUserName" />
+		</dwr:remote>
+		<property name="clinic" ref="clinic" />
+	</bean>
+
 
 </beans>

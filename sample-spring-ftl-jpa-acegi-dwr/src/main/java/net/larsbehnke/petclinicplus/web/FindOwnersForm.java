@@ -1,7 +1,7 @@
 package net.larsbehnke.petclinicplus.web;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -76,7 +76,7 @@ public class FindOwnersForm extends AbstractClinicForm {
 
 		Owner owner = (Owner) command;
 
-		Collection<Owner> results = getClinic().findOwners(owner.getUserData().getLastName());
+		List<Owner> results = getClinic().findOwners(owner.getUserData().getLastName()); 
 
 		if (results.size() < 1) {
 			errors.rejectValue("userData.lastName", "notFound", "not found");

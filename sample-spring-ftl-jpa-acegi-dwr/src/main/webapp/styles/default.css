@@ -1,4 +1,4 @@
-/* Make sure all browsers define parent width */
+/* ===  Layout styles === */
 html {
 	width: 100%
 }
@@ -41,16 +41,9 @@ div#navigation {
 	text-align: right;
 }
 
-
-
 div#insert {
-	width: 120;
+	width: 120px;
 	float: right;
-	text-align: right;
-}
-
-.buttonBar {
-	height: 1.5em;
 	text-align: right;
 }
 
@@ -68,6 +61,12 @@ div#copyright p {
 	clear: both;
 }
 
+/* ===  Content styles === */
+.buttonBar {
+	height: 1.5em;
+	text-align: right;
+}
+
 .readOnly {
 	color: rgb(192, 192, 192);
 }
@@ -82,4 +81,38 @@ div#copyright p {
 	color: red;
 	font-weight: bold;
 	font-family: Arial, sans-serif;
+}
+
+/* === Styles for Type-ahead suggest box === */
+span.spanTextDropdown {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 150px;
+	z-index: 101;
+	background-color: #C0C0C0;
+	border: 1px solid #000000;
+	padding-left: 2px;
+	overflow: visible;
+	display: none;
+}
+
+span.spanMatchText {
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+span.spanNormalElement {
+	background: #C0C0C0;
+}
+
+span.spanHighElement {
+	background: #000040;
+	color: white;
+	cursor: pointer;
+}
+
+span.noMatchData {
+	font-weight: bold;
+	color: #0000FF;
 }
