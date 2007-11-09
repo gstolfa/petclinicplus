@@ -1,6 +1,5 @@
 package net.larsbehnke.petclinicplus.jpa.populator;
 
-import java.util.Collection;
 import java.util.List;
 
 import net.larsbehnke.petclinicplus.model.Clinic;
@@ -28,7 +27,7 @@ public class ClinicDbPopulator extends AbstractDbPopulator {
 
     @Override
     protected void doInsert() {
-        Collection<?> list = clinic.getSpecialties();
+        List<?> list = clinic.getSpecialties();
         if (list.size() == 0) {
             populatePetTypes();
         }

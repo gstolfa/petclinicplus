@@ -19,11 +19,30 @@
 		</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 		<link rel="stylesheet" href="${base}/styles/default.css" type="text/css"/>
+		<link rel="stylesheet" href="${base}/styles/autocomplete.css" type="text/css"/>
+		
+		<#--
+			Javascript/AJAX magic
+		-->
+		<script type="text/javascript" src="${base}/scripts/prototype/prototype.js"></script>
+		<script type="text/javascript" src="${base}/scripts/scriptaculous/scriptaculous.js" ></script>
+		<script type="text/javascript" src="${base}/scripts/autocomplete.js" ></script>
+		<script type='text/javascript' src='${base}/dwr/interface/AjaxService.js'></script>
+        <script type='text/javascript' src='${base}/dwr/engine.js'></script>
+        <script type='text/javascript' src='${base}/dwr/util.js'></script>
+
+		<#--
+			Other scripts
+		-->
+		<script type='text/javascript' src='${base}/scripts/custom.js'></script>
+	
 		${head}
 		
 	</head>
 
 	<body>
+	
+
 	
 	    <#-- 
 	      	The corresponding styles of div 'all' and 'content' align the pages
@@ -32,12 +51,14 @@
 		<div id="all">
 		<div id="content">
 
-	
 		<#if message?exists>
     		<div class="message">${message}</div>
 		</#if>
 			
-		<div id="logo">
+		<#-- 
+	      	See http://wiki.script.aculo.us/scriptaculous/show/CombinationEffectsDemo for more examples.
+	    -->
+		<div id="logo" onclick="new Effect.Fade(this);">
 			<img src="${base}/images/logo.gif" alt="Logo"/> 
 		</div>
 		<br/>
@@ -50,6 +71,7 @@
 	    <br/>
 		<hr/>
 
+  
 		<div id="copyright">
 			<p><a href="${base}/welcome.htm">Home</a></p>
 		    <p><a href="${base}/j_acegi_logout">Logout</a></p>

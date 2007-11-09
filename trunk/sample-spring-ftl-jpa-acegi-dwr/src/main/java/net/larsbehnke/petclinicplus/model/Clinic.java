@@ -1,6 +1,6 @@
 package net.larsbehnke.petclinicplus.model;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.acegisecurity.annotation.Secured;
 import org.springframework.dao.DataAccessException;
@@ -45,28 +45,39 @@ public interface Clinic {
      *         (or an empty <code>Collection</code> if none found)
      */
     @Secured( { "ROLE_USER" })
-    Collection<Owner> findOwners(String lastName) throws DataAccessException;
+    List<Owner> findOwners(String lastName) throws DataAccessException;
 
+    /**
+     * Count <code>Owner</code>s in the datastore by last name,
+     * returning the numer of all owners whose last name <i>starts</i> with the given name.
+     * @param lastName Value to search for
+     * @return a <code>Collection</code> of matching <code>Owner</code>s
+     *         (or an empty <code>Collection</code> if none found)
+     */
+    @Secured( { "ROLE_USER" })
+    Long countOwners(String lastName) throws DataAccessException;
+
+    
     /**
      * Retrieve all <code>PetType</code>s from the datastore.
      * @return a <code>Collection</code> of <code>PetType</code>s
      */
     @Secured( { "ROLE_USER" })
-    Collection<PetType> getPetTypes() throws DataAccessException;
+    List<PetType> getPetTypes() throws DataAccessException;
 
     /**
      * Retrieve all <code>Specialties</code>s from the datastore.
      * @return a <code>Collection</code> of <code>Specialty</code>s
      */
     @Secured( { "ROLE_USER" })
-    Collection<Specialty> getSpecialties() throws DataAccessException;
+    List<Specialty> getSpecialties() throws DataAccessException;
 
     /**
      * Retrieve all <code>Vet</code>s from the datastore.
      * @return a <code>Collection</code> of <code>Vet</code>s
      */
     @Secured( { "ROLE_USER" })
-    Collection<Vet> getVets() throws DataAccessException;
+    List<Vet> getVets() throws DataAccessException;
 
     /**
      * Retrieve an <code>Owner</code> from the datastore by id.
