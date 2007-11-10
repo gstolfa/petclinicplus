@@ -41,9 +41,7 @@
 	-->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>
-			/WEB-INF/app-ctx-jpa.xml /WEB-INF/app-ctx-acegi.xml
-		</param-value>
+		<param-value>/WEB-INF/app-ctx-jpa.xml /WEB-INF/app-ctx-acegi.xml</param-value>
 	</context-param>
 
 	<!-- 
@@ -58,14 +56,10 @@
 	-->
 	<filter>
 		<filter-name>Acegi Filter Chain Proxy</filter-name>
-		<filter-class>
-			org.acegisecurity.util.FilterToBeanProxy
-		</filter-class>
+		<filter-class>org.acegisecurity.util.FilterToBeanProxy</filter-class>
 		<init-param>
 			<param-name>targetClass</param-name>
-			<param-value>
-				org.acegisecurity.util.FilterChainProxy
-			</param-value>
+			<param-value>org.acegisecurity.util.FilterChainProxy</param-value>
 		</init-param>
 	</filter>
 
@@ -76,15 +70,115 @@
 		See http://www.onjava.com/pub/a/onjava/2004/09/22/sitemesh.html
 	-->
 	<filter>
-		<filter-name>Sitemesh</filter-name>
-		<filter-class>
-			com.opensymphony.module.sitemesh.filter.PageFilter
-		</filter-class>
+		<filter-name>SitemeshFilter</filter-name>
+		<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
 		<init-param>
 			<param-name>debug.pagewriter</param-name>
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
+
+	<!-- 
+		Compression filter.
+	-->
+	<filter>
+		<filter-name>GZipFilter</filter-name>
+		<filter-class>net.sf.ehcache.constructs.web.filter.GzipFilter</filter-class>
+		<init-param>
+			<param-name>exceptionsToLogDifferently</param-name>
+			<param-value>net.sf.ehcache.CacheException, java.lang.NullPointerException</param-value>
+		</init-param>
+		<init-param>
+			<param-name>exceptionsToLogDifferentlyLevel</param-name>
+			<param-value>debug</param-value>
+		</init-param>
+		<init-param>
+			<param-name>suppressStackTraces</param-name>
+			<param-value>false</param-value>
+		</init-param>
+
+
+	</filter>
+
+    <!-- 
+    	Cache filter. Uses URI + Request parameters as cache key. Consider implementing a filter that takes request attributes
+    	into account.
+	<filter>
+		<filter-name>SimplePageCachingFilter</filter-name>
+		<filter-class>net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter</filter-class>
+		<init-param>
+			<param-name>suppressStackTraces</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</filter>
+    -->
+	
+	<!-- 
+		It sets the character encoding of the request, which is often needed because 
+		most most browsers don't specify it.
+	-->
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<!-- 
+		Cache pages (request uri and request string as cache key).
+	<filter-mapping>
+		<filter-name>SimplePageCachingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	-->
+
+	<!-- 
+		Main SiteMesh filter for applying Decorators to entire Pages.
+		See http://www.onjava.com/pub/a/onjava/2004/09/22/sitemesh.html
+	-->
+	<filter>
+		<filter-name>SitemeshFilter</filter-name>
+		<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
+		<init-param>
+			<param-name>debug.pagewriter</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+
+	<!-- 
+		Control browser caching.
+		Note that filter mapping is defined via filter parameter.
+	-->
+	<filter>
+		<filter-name>BrowserCacheFilter</filter-name>
+		<filter-class>net.larsbehnke.petclinicplus.filters.BrowserCacheFilter</filter-class>
+		<init-param>
+			<param-name>include</param-name>
+			<param-value>/**/*.gif,/**/*.png,/**/*.jpg,/**/*.js,/**/*.css</param-value>
+		</init-param>
+		<init-param>
+			<param-name>exclude</param-name>
+			<param-value>/**/DynamicImage.gif</param-value>
+		</init-param>
+	</filter>
+
+
+	<!-- 
+		Compress everything.
+	-->
+	<filter-mapping>
+		<filter-name>GZipFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
 
 	<!-- 
 		If you're using SiteMesh, ensure Acegi Security filters execute before the SiteMesh filters 
@@ -102,10 +196,24 @@
 		Sitemesh filter must execute after Acegi filter. See above.
 	-->
 	<filter-mapping>
-		<filter-name>Sitemesh</filter-name>
+		<filter-name>SitemeshFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- 
+		Enable browser caching for static data.
+		An ANT style mapping is defined via filter parameter.
+	-->
+	<filter-mapping>
+		<filter-name>BrowserCacheFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
 
@@ -122,9 +230,7 @@
 		This web app specifies "petclinic.root" (see log4j.properties file).
 	-->
 	<listener>
-		<listener-class>
-			org.springframework.web.util.Log4jConfigListener
-		</listener-class>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
 
 
@@ -142,12 +248,15 @@
 		both for getBean(name) calls and (external) bean references.
 	-->
 	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
 
+	<!-- 
+		This tiny utility is triggered on appliation start and checks if database tables
+		have been filled with initial data (you should consider removing this
+		tool in real world applicaitons).
+	-->
 	<listener>
 		<listener-class>
 			net.larsbehnke.petclinicplus.web.listener.PopulateDbListener
@@ -165,9 +274,7 @@
 	-->
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
-		<servlet-class>
-			org.springframework.web.servlet.DispatcherServlet
-		</servlet-class>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 
@@ -224,7 +331,6 @@
 		<url-pattern>*.dec</url-pattern>
 	</servlet-mapping>
 
-
 	<!-- 
 		After 10 minutes an idle session will be invalidated.
 	-->
@@ -238,11 +344,12 @@
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
-	<error-page>
+	<!-- 
+		<error-page>
 		<exception-type>java.lang.Exception</exception-type>
-		<!-- Displays a stack trace -->
 		<location>/WEB-INF/jsp/uncaughtException.jsp</location>
-	</error-page>
+		</error-page>
+	-->
 
 	<!--
 		Reference to PetClinic database.
