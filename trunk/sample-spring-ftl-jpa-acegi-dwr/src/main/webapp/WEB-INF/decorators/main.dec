@@ -20,6 +20,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 		<link rel="stylesheet" href="${base}/styles/default.css" type="text/css"/>
 		<link rel="stylesheet" href="${base}/styles/autocomplete.css" type="text/css"/>
+		<link rel="stylesheet" href="${base}/styles/prototip/prototip.css" type="text/css"/>
 		
 		<#--
 			Javascript/AJAX magic
@@ -27,6 +28,7 @@
 		<script type="text/javascript" src="${base}/scripts/prototype/prototype.js"></script>
 		<script type="text/javascript" src="${base}/scripts/scriptaculous/scriptaculous.js" ></script>
 		<script type="text/javascript" src="${base}/scripts/autocomplete.js" ></script>
+		<script type="text/javascript" src="${base}/scripts/prototip/prototip.js" ></script>
 		<script type='text/javascript' src='${base}/dwr/interface/AjaxService.js'></script>
         <script type='text/javascript' src='${base}/dwr/engine.js'></script>
         <script type='text/javascript' src='${base}/dwr/util.js'></script>
@@ -37,6 +39,20 @@
 		<script type='text/javascript' src='${base}/scripts/custom.js'></script>
 	
 		${head}
+		
+		<#-- 
+			Tooltips. See http://www.nickstakenburg.com/projects/prototip/.
+		-->	
+		<script type='text/javascript'>
+			//<![CDATA[
+
+			function init() {
+				new Tip('logo', 'The Spring Framework (or Spring for short) is an open source application framework for the Java platform.<p>The tooltip was created with <i>Prototip</i>.</a>', 
+					{title:'Prototip', effect: 'appear', className: 'protoClassic' });
+			}
+			Event.observe(window, 'load', init, false);
+			//]]>
+			</script>
 		
 	</head>
 
@@ -57,9 +73,10 @@
 			
 		<#-- 
 	      	See http://wiki.script.aculo.us/scriptaculous/show/CombinationEffectsDemo for more examples.
+	      	Note that the Prototip tool tip for the this DIV is defined in the header.
 	    -->
 		<div id="logo" onclick="new Effect.Fade(this);">
-			<img src="${base}/images/logo.gif" alt="Logo"/> 
+			<img src="${base}/images/logo.gif" alt=""/> 
 		</div>
 		<br/>
 	
