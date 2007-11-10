@@ -35,7 +35,7 @@ public class FindOwnersForm extends AbstractClinicForm {
 	 * the command object.
 	 */
 	public FindOwnersForm() {
-		setCommandName("owner");
+		setCommandName("owner"); 
 
 		/* OK to start with a blank command object */
 		setCommandClass(Owner.class);

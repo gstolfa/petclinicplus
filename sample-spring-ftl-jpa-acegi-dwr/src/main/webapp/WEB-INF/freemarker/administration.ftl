@@ -24,7 +24,7 @@
 		<a href="<@spring.url '/dwr'/>">Test</a>
 		<p>Set the DWR controller's debug attribute to <i>false</i> before releasing your application!
 		</p>
-		
+
 	</body>
 	
 </html>
