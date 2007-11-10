@@ -167,6 +167,11 @@
 			<param-name>exclude</param-name>
 			<param-value>/**/DynamicImage.gif</param-value>
 		</init-param>
+		<init-param>
+			<param-name>seconds</param-name>
+			<param-value>3600</param-value>
+		</init-param>
+		
 	</filter>
 
 
