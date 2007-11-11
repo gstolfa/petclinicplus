@@ -26,6 +26,7 @@ public class BrowserCacheFilter implements Filter {
     private List<String> includePatterns;
     private List<String> excludePatterns;
     private int seconds;
+    private boolean noLocalhostCaching;
     private AntPathMatcher pathMatcher;
 
     public void destroy() {
@@ -35,11 +36,13 @@ public class BrowserCacheFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        String uri = req.getRequestURI();
-        boolean included = requestMatches(includePatterns, uri);
-        boolean excluded = requestMatches(excludePatterns, uri);
-        if (included && !excluded) {
-            res = new CacheHttpResponseWrapper(res, seconds);
+        if (!noLocalhostCaching) {
+            String uri = req.getRequestURI();
+            boolean included = requestMatches(includePatterns, uri);
+            boolean excluded = requestMatches(excludePatterns, uri);
+            if (included && !excluded) {
+                res = new CacheHttpResponseWrapper(res, seconds);
+            }
         }
         chain.doFilter(req, res);
     }
@@ -65,6 +68,7 @@ public class BrowserCacheFilter implements Filter {
         includePatterns = createPatternArray("include");
         excludePatterns = createPatternArray("exclude");
         try {
+        	noLocalhostCaching= new Boolean(cnf.getInitParameter("noLocalhostCaching")).booleanValue();
             seconds = Integer.parseInt(cnf.getInitParameter("seconds"));
         } catch (Exception e) {
             seconds = 10;

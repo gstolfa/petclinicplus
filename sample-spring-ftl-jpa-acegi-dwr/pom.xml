@@ -8,7 +8,7 @@
 		Freemarker + AspectJ + Sitemesh + JPA (annotation driven/hibernate) + Acegi Security + DWR.</name>
   <version>0.1</version>
   <scm>
-    <connection>scm:svn:https://petclinicplus.googlecode.com/svn/trunk/sample-spring-ftl-jpa-acegi-dwr</connection>
+    <connection>scm:svn:http://petclinicplus.googlecode.com/svn/trunk/sample-spring-ftl-jpa-acegi-dwr</connection>
     <developerConnection>scm:svn:https://petclinicplus.googlecode.com/svn/trunk/sample-spring-ftl-jpa-acegi-dwr</developerConnection>
     <url>http://petclinicplus.googlecode.com/svn/</url>
   </scm>
