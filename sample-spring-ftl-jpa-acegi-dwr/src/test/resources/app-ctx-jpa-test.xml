@@ -10,13 +10,11 @@
 	<!-- 
 		Configurer that replaces ${...} placeholders with values from a properties file 
 		(in this case, JDBC-related settings for the dataSource definition below) 
-		Set -D
 	-->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="/WEB-INF/jdbc.properties" />
+		<property name="location" value="file:src/main/webapp/WEB-INF/jdbc.properties" />
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-		<property name=""></property>
 	</bean>
 
 
@@ -141,7 +139,7 @@
 		<property name="userDetailsService" ref="userDetailsService" />
 		<property name="userDataReader">
 			<bean class="net.larsbehnke.petclinicplus.jpa.populator.XmlUserDataReader">
-				<property name="initialUsersFile" value="/WEB-INF/initialusers.xml" />
+				<property name="initialUsersFile" value="src/main/webapp/WEB-INF/initialusers.xml" />
 			</bean>
 		</property>
 		<property name="adminUser" value="admin" />
