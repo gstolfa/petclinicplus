@@ -164,7 +164,13 @@
 		
 	</filter>
 
-
+<!-- 
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+ -->
+ 	
 	<!-- 
 		Compress everything.
 	-->
@@ -172,8 +178,6 @@
 		<filter-name>GZipFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-
 
 	<!-- 
 		If you're using SiteMesh, ensure Acegi Security filters execute before the SiteMesh filters 
@@ -197,10 +201,7 @@
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
 
-	<filter-mapping>
-		<filter-name>CharacterEncodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+
 
 	<!-- 
 		Enable browser caching for static data.
