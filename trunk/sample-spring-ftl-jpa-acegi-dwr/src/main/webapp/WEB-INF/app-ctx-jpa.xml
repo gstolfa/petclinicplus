@@ -16,7 +16,6 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="/WEB-INF/jdbc.properties" />
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-		<property name=""></property>
 	</bean>
 
 
