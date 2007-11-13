@@ -17,8 +17,6 @@ public abstract class AbstractDbPopulator implements DbPopulator {
     public static final String MODE_INSERT_IF_EMPTY = "INSERT_IF_EMPTY";
 
     private String mode;
-    private String adminUser;
-    private String adminPassword;
     private Set<String> adminAuthorities;
     private UserDataReader userDataReader;
 
@@ -41,29 +39,12 @@ public abstract class AbstractDbPopulator implements DbPopulator {
     public void setMode(String mode) {
         this.mode = mode;
     }
-
-    public String getAdminPassword() {
-        return adminPassword;
-    }
-
-    public void setAdminPassword(String adminPassword) {
-        this.adminPassword = adminPassword;
-    }
-
     public Set<String> getAdminAuthorities() {
         return adminAuthorities;
     }
 
     public void setAdminAuthorities(Set<String> adminAuthorities) {
         this.adminAuthorities = adminAuthorities;
-    }
-
-    public String getAdminUser() {
-        return adminUser;
-    }
-
-    public void setAdminUser(String adminUser) {
-        this.adminUser = adminUser;
     }
 
     public CRUDUserDetailsService getUserDetailsService() {
@@ -85,9 +66,9 @@ public abstract class AbstractDbPopulator implements DbPopulator {
     public void populate() {
 
         String[] authArray = getAdminAuthorities().toArray(new String[] {});
-        boolean asAdmin = getAdminUser() != null;
+        boolean asAdmin = authArray.length > 0;
         if (asAdmin)
-            SecurityUtils.createSecureContext(getAdminUser(), getAdminPassword(), authArray);
+            SecurityUtils.createSecureContext("populator", "populator", authArray);
         try {
             if (MODE_CLEAN_INSERT.equalsIgnoreCase(getMode())) {
                 if (getUserDataReader() != null) {

@@ -25,8 +25,8 @@ public class BrowserCacheFilter implements Filter {
     private FilterConfig config;
     private List<String> includePatterns;
     private List<String> excludePatterns;
+    private List<String> excludeHosts;
     private int seconds;
-    private boolean noLocalhostCaching;
     private AntPathMatcher pathMatcher;
 
     public void destroy() {
@@ -36,7 +36,12 @@ public class BrowserCacheFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        if (!noLocalhostCaching) {
+        String clientAddr = req.getRemoteAddr();
+        if (log.isDebugEnabled()) {
+           log.debug("Client IP: " + clientAddr);
+        }
+        
+        if (!hostMatches (clientAddr, excludeHosts)) {
             String uri = req.getRequestURI();
             boolean included = requestMatches(includePatterns, uri);
             boolean excluded = requestMatches(excludePatterns, uri);
@@ -45,6 +50,21 @@ public class BrowserCacheFilter implements Filter {
             }
         }
         chain.doFilter(req, res);
+    }
+
+    private boolean hostMatches(String clientAddr, List<String> excludeHosts) {
+        if (clientAddr == null || excludeHosts == null) {
+            throw new IllegalArgumentException();
+        }
+        for (String string : excludeHosts) {
+            if (clientAddr.equals(string)) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Host " + clientAddr + " excluded from " + this.getClass());
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -65,33 +85,37 @@ public class BrowserCacheFilter implements Filter {
     }
 
     private void processFilterParams(FilterConfig cnf) {
-        includePatterns = createPatternArray("include");
-        excludePatterns = createPatternArray("exclude");
+        includePatterns = createList("includeUrls", true);
+        excludePatterns = createList("excludeUrls", true);
+        excludeHosts = createList("excludeHosts", false);
         try {
-        	noLocalhostCaching= new Boolean(cnf.getInitParameter("noLocalhostCaching")).booleanValue();
             seconds = Integer.parseInt(cnf.getInitParameter("seconds"));
         } catch (Exception e) {
             seconds = 10;
         }
     }
 
-    private List<String> createPatternArray(String initParam) {
+    private List<String> createList(String initParam, boolean validateAntPattern) {
         List<String> result = new ArrayList<String>();
         String includePatterns = config.getInitParameter(initParam);
         if (includePatterns != null) {
             String[] parts = includePatterns.split(",");
             for (int i = 0; i < parts.length; i++) {
-                String pattern = parts[i].trim();
-                if (pathMatcher.isPattern(pattern)) {
-                    result.add(pattern);
+                String entry = parts[i].trim();
+                if (validateAntPattern) {
+                    if (pathMatcher.isPattern(entry)) {
+                        result.add(entry);
+                    } else {
+                        log.error("Invalid ANT style pattern: " + entry + ". Ignored!");
+                    }
                 } else {
-                    log.error("Invalid ANT style pattern: " + pattern + ". Ignored!");
+                    result.add(entry);
                 }
             }
         }
         return result;
     }
-
+    
     private static class CacheHttpResponseWrapper extends HttpServletResponseWrapper {
 
         private static final int DEFAULT_LIFETIME = 3600;

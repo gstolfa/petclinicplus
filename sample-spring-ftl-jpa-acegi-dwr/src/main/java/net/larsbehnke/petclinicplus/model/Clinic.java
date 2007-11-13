@@ -86,6 +86,7 @@ public interface Clinic {
      * @throws org.springframework.dao.DataRetrievalFailureException if not
      *         found
      */
+    @Secured( { "ROLE_USER" })
     Owner loadOwner(int id) throws DataAccessException;
 
     /**
@@ -95,6 +96,7 @@ public interface Clinic {
      * @throws org.springframework.dao.DataRetrievalFailureException if not
      *         found
      */
+    @Secured( { "ROLE_USER" })
     Pet loadPet(int id) throws DataAccessException;
 
     /**
@@ -104,6 +106,7 @@ public interface Clinic {
      * @throws org.springframework.dao.DataRetrievalFailureException if not
      *         found
      */
+    @Secured( { "ROLE_USER" })
     Vet loadVet(int id) throws DataAccessException;
 
     /**
@@ -113,6 +116,7 @@ public interface Clinic {
      * @throws org.springframework.dao.DataRetrievalFailureException if not
      *         found
      */
+    @Secured( { "ROLE_USER" })
     Vet loadVetByLoginName(String loginName) throws DataAccessException;
 
     /**
@@ -121,6 +125,7 @@ public interface Clinic {
      * @param owner the <code>Owner</code> to save
      * @see BaseEntity#isNew
      */
+    @Secured( { "ROLE_USER" })
     Owner storeOwner(Owner owner) throws DataAccessException;
 
     /**
@@ -129,6 +134,7 @@ public interface Clinic {
      * @param pet the <code>Pet</code> to save
      * @see BaseEntity#isNew
      */
+    @Secured( { "ROLE_USER" })
     Pet storePet(Pet pet) throws DataAccessException;
 
     /**
@@ -136,6 +142,7 @@ public interface Clinic {
      * @param petType The pet type to store
      * @throws DataAccessException
      */
+    @Secured( { "ROLE_SUPERVISOR" })
     PetType storePetType(PetType petType) throws DataAccessException;
 
     /**
@@ -143,6 +150,7 @@ public interface Clinic {
      * @param specialtiy The vet specialty to store.
      * @throws DataAccessException
      */
+    @Secured( { "ROLE_SUPERVISOR" })
     Specialty storeSpecialty(Specialty specialtiy) throws DataAccessException;
 
     /**
@@ -151,7 +159,7 @@ public interface Clinic {
      * @param vet the <code>Vet</code> to save
      * @see BaseEntity#isNew
      */
-    @Secured( { "ACL_USER_WRITE", "ROLE_SUPERVISOR" })
+    @Secured( { "ACL_USER_WRITE", "ROLE_USER" })
     Vet storeVet(Vet vet) throws DataAccessException;
 
     /**
@@ -160,6 +168,7 @@ public interface Clinic {
      * @param visit the <code>Visit</code> to save
      * @see BaseEntity#isNew
      */
+    @Secured( { "ROLE_USER" })
     Visit storeVisit(Visit visit) throws DataAccessException;
 
 }

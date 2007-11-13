@@ -18,18 +18,20 @@
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 	</bean>
 
-
 	<!-- 
-		Local DataSource that works in any environment.
-		Note that DriverManagerDataSource does not pool; it is not intended for production. 
-		See JPetStore for an example of using Commons DBCP BasicDataSource as alternative. 
-		See Image Database for an example of using C3P0 ComboPooledDataSource as alternative.
+		Connection pooling with Apache Commons DBCP. An alternative would be C3P0 (ComboPooledDataSource).
+		A complete list of DBCP properties is documented here:
+		http://commons.apache.org/dbcp/apidocs/org/apache/commons/dbcp/BasicDataSource.html. 
 	-->
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="5"/>
+		<property name="maxActive" value="100"/>
+		<property name="minIdle" value="5"/>
+		<property name="maxIdle" value="20"/>
 	</bean>
 
 	<!-- 
@@ -50,7 +52,7 @@
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="database" value="${hibernate.jpa.db}" />
 				<property name="databasePlatform" value="${hibernate.dialect}" />
-				<property name="showSql" value="true" />
+				<property name="showSql" value="false" />
 				<property name="generateDdl" value="true" />
 			</bean>
 		</property>
@@ -130,8 +132,6 @@
 
 	<!-- 
 		Populates database with initial values. That is: named vocabulary entries etc.
-		WARNING: It is certainly not best practice to put plain text passwords into
-		this file.
 	-->
 	<bean id="dbPopulator" class="net.larsbehnke.petclinicplus.jpa.populator.ClinicDbPopulator">
 		<property name="namedVocabularyManager" ref="namedVocabularyManager" />
@@ -143,8 +143,6 @@
 				<property name="initialUsersFile" value="/WEB-INF/initialusers.xml" />
 			</bean>
 		</property>
-		<property name="adminUser" value="admin" />
-		<property name="adminPassword" value="admin" />
 		<property name="adminAuthorities">
 			<list>
 				<value>ROLE_SUPERVISOR</value>
