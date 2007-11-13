@@ -112,31 +112,6 @@
 		</init-param>
 	</filter>
     -->
-	
-	<!-- 
-		It sets the character encoding of the request, which is often needed because 
-		most most browsers don't specify it.
-	-->
-	<filter>
-		<filter-name>CharacterEncodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-		<init-param>
-			<param-name>forceEncoding</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</filter>
-
-	<!-- 
-		Cache pages (request uri and request string as cache key).
-	<filter-mapping>
-		<filter-name>SimplePageCachingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	-->
 
 	<!-- 
 		Control browser caching.
@@ -146,16 +121,16 @@
 		<filter-name>BrowserCacheFilter</filter-name>
 		<filter-class>net.larsbehnke.petclinicplus.filters.BrowserCacheFilter</filter-class>
 		<init-param>
-			<param-name>include</param-name>
+			<param-name>includeUrls</param-name>
 			<param-value>/**/*.gif,/**/*.png,/**/*.jpg,/**/*.js,/**/*.css</param-value>
 		</init-param>
 		<init-param>
-			<param-name>exclude</param-name>
+			<param-name>excludeUrls</param-name>
 			<param-value>/**/DynamicImage.gif</param-value>
 		</init-param>
 		<init-param>
-			<param-name>noLocalhostCaching</param-name>
-			<param-value>true</param-value>
+			<param-name>excludeHosts</param-name>
+			<param-value>127.0.0.1,0:0:0:0:0:0:0:1</param-value>
 		</init-param>
 		<init-param>
 			<param-name>seconds</param-name>
