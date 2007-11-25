@@ -47,7 +47,7 @@
 			//<![CDATA[
 
 			function init() {
-				new Tip('logo', 'The Spring Framework (or Spring for short) is an open source application framework for the Java platform.<p>The tooltip was created with <i>Prototip</i>.</a>', 
+				new Tip('logo', 'Click here to let the header disappear.<p>This tooltip was created with <i>Prototip</i>.</a>', 
 					{title:'Prototip', effect: 'appear', className: 'protoClassic' });
 			}
 			Event.observe(window, 'load', init, false);
