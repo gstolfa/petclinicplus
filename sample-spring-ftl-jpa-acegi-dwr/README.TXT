@@ -44,8 +44,8 @@ deployt werden muss.
 7. Projekt markieren + rechte Maustaste > Debug As > Debug on Server
 
 
-Geplante Erweiterungen
-----------------------
+TODO
+----
 
 Abfrage: Haustierhalter, die Haustiertyp A besitzen, haben ebenfalls ein Haustier vom Typ B:
 
